@@ -2,8 +2,10 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 
 format: jb-book
-root: README.md
-chapters:
-- file: docs/机器学习任务
-- file: docs/简单线性回归示例
-- file: docs/最小二乘法
+root: README
+parts:
+  - caption: 回归
+    chapters:
+    - file: docs/回归/线性回归
+    - file: docs/回归/距离和范数
+    - file: docs/回归/最小二乘法
