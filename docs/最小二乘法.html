@@ -67,8 +67,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/最小二乘法';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="最小二乘法" href="%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D.html" />
-    <link rel="prev" title="机器学习的任务" href="%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%BB%BB%E5%8A%A1.html" />
+    <link rel="prev" title="一个简单的线性回归示例" href="%E7%AE%80%E5%8D%95%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%A4%BA%E4%BE%8B.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -171,8 +170,8 @@ const thebe_selector_output = ".output, .cell_output"
         </ul>
         <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%BB%BB%E5%8A%A1.html">机器学习的任务</a></li>
+<li class="toctree-l1"><a class="reference internal" href="%E7%AE%80%E5%8D%95%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%A4%BA%E4%BE%8B.html">一个简单的线性回归示例</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">最小二乘法</a></li>
-<li class="toctree-l1"><a class="reference internal" href="%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D.html">最小二乘法</a></li>
 </ul>
 
     </div>
@@ -374,7 +373,7 @@ document.write(`
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">扩展：最小二乘法的概率解释[5][6]</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">线性回归中的最小二乘法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">举例：线性回归中的最小二乘法</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">参考文献</a></li>
 </ul>
             </nav>
@@ -586,7 +585,7 @@ $<span class="math notranslate nohighlight">\(\frac{{dR_n}}{{dy}} = \frac{{d}}{{
 <p>最大似然估计会等价于最小化残差平方和，因为最大化观测数据的联合概率就等价于最小化负对数似然函数，而负对数似然函数与残差平方和成正比。</p>
 </section>
 <section id="id7">
-<h2>线性回归中的最小二乘法<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h2>
+<h2>举例：线性回归中的最小二乘法<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h2>
 <p>在中学我们学过最简单的一元一次方程 $<span class="math notranslate nohighlight">\(y = ax + b \)</span>$，这表示的是一条直线。</p>
 <p>经典线性回归模型中，假设因变量 <span class="math notranslate nohighlight">\(Y\)</span> 与自变量 <span class="math notranslate nohighlight">\(x_1,..., x_p\)</span> 之间的关系可以表示为：</p>
 <div class="math notranslate nohighlight">
@@ -658,7 +657,7 @@ $<span class="math notranslate nohighlight">\(
 \)</span><span class="math notranslate nohighlight">\(
 || X w^T - y ||₂² = 0
 \)</span><span class="math notranslate nohighlight">\(
-因此，在这个例子中，\)</span>\underset{w}{min,} {|| X w^T - y||_2}^2$ 的具体计算结果是 0。</p>
+因此，在这个例子中，\)</span>\underset{w}{min} {|| X w^T - y||_2}^2$ 的具体计算结果是 0。</p>
 </section>
 <section id="id8">
 <h2>参考文献<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h2>
@@ -705,22 +704,13 @@ $<span class="math notranslate nohighlight">\(
                   <!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0%E4%BB%BB%E5%8A%A1.html"
+       href="%E7%AE%80%E5%8D%95%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92%E7%A4%BA%E4%BE%8B.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">机器学习的任务</p>
+        <p class="prev-next-title">一个简单的线性回归示例</p>
       </div>
-    </a>
-    <a class="right-next"
-       href="%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">最小二乘法</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -745,7 +735,7 @@ $<span class="math notranslate nohighlight">\(
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">扩展：最小二乘法的概率解释[5][6]</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">线性回归中的最小二乘法</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">举例：线性回归中的最小二乘法</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">参考文献</a></li>
 </ul>
   </nav></div>
