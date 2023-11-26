@@ -2,6 +2,7 @@
 # Learn more at https://jupyterbook.org/customize/toc.html
 
 format: jb-book
-root: docs/机器学习任务
+root: README.md
 chapters:
+- file: docs/机器学习任务
 - file: docs/最小二乘法
