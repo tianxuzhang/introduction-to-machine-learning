@@ -3,7 +3,7 @@ name: GitHub Pages
 on:
   push:
     branches:
-      - master  # 或者你想要发布书籍的分支名称
+      - main
 
 jobs:
   deploy:
