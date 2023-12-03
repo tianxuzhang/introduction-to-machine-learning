@@ -599,7 +599,7 @@ $<span class="math notranslate nohighlight">\(\frac{{dR_n}}{{dy}} = \frac{{d}}{{
 <h2>举例：线性回归中的最小二乘法<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h2>
 <p>经典线性回归模型的估计方法通常使用最小二乘法（Ordinary Least Squares，OLS）来求解参数。最小二乘法试图找到一组参数，使得残差平方和最小。通过最小二乘法，可以得到对各个参数的估计值，并进行统计推断和假设检验。</p>
 <div class="math notranslate nohighlight">
-\[\underset{w}{min\,} {|| X w^T - y||_2}^2\]</div>
+\[\underset{w}{min\,} {|| X w - y||_2}^2\]</div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">linear_model</span>
@@ -616,17 +616,18 @@ $<span class="math notranslate nohighlight">\(\frac{{dR_n}}{{dy}} = \frac{{d}}{{
 </div>
 </div>
 </div>
-<p>根据上述结果，我们有：
-$<span class="math notranslate nohighlight">\(
+<p>根据上述结果，我们有：</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 X = \begin{bmatrix}
 0 &amp; 0 \\
 1 &amp; 1 \\
 2 &amp; 2
 \end{bmatrix}
-\)</span>$</p>
+\end{split}\]</div>
 <div class="math notranslate nohighlight">
 \[\begin{split}
-w^T = \begin{bmatrix}
+w = \begin{bmatrix}
 0.5 \\
 0.5
 \end{bmatrix}
@@ -639,31 +640,33 @@ y = \begin{bmatrix}
 2
 \end{bmatrix}
 \end{split}\]</div>
-<p>首先，计算 <span class="math notranslate nohighlight">\(X w^T - y\)</span> 的结果：
-$<span class="math notranslate nohighlight">\(
+<p>首先，计算 <span class="math notranslate nohighlight">\(X w - y\)</span> 的结果：</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
 Xw - y = \begin{bmatrix}
 0 \cdot 0.5 + 0 \cdot 0.5 - 0 \\
 1 \cdot 0.5 + 1 \cdot 0.5 - 1 \\
 2 \cdot 0.5 + 2 \cdot 0.5 - 2
 \end{bmatrix}
-\)</span>$</p>
-<p>化简得到：
-$<span class="math notranslate nohighlight">\(
-X w^T - y = \begin{bmatrix} 
+\end{split}\]</div>
+<p>化简得到：</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+X w - y = \begin{bmatrix} 
 0 \\ 
 0 \\ 
 0 
 \end{bmatrix}
-\)</span>$</p>
-<p>接下来，计算残差向量的 L2 范数的平方，即<span class="math notranslate nohighlight">\( || X w^T - y ||₂²\)</span>：
+\end{split}\]</div>
+<p>接下来，计算残差向量的 L2 范数的平方，即<span class="math notranslate nohighlight">\( || X w - y ||₂²\)</span>：
 $<span class="math notranslate nohighlight">\(
-|| X w^T - y ||₂² = (0)² + (0)² + (0)²
+|| X w - y ||₂² = (0)² + (0)² + (0)²
 \)</span><span class="math notranslate nohighlight">\(
 化简得到：
 \)</span><span class="math notranslate nohighlight">\(
-|| X w^T - y ||₂² = 0
+|| X w - y ||₂² = 0
 \)</span><span class="math notranslate nohighlight">\(
-因此，在这个例子中，\)</span>\underset{w}{min} {|| X w^T - y||_2}^2$ 的具体计算结果是 0。</p>
+因此，在这个例子中，\)</span>\underset{w}{min} {|| X w - y||_2}^2$ 的具体计算结果是 0。</p>
 </section>
 <section id="id8">
 <h2>参考文献<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h2>
