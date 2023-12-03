@@ -576,21 +576,38 @@ document.write(`
 </ul>
 <p>这些性质使得范数成为一种<strong>衡量向量或矩阵大小、重要性以及相似性的度量方式</strong>。</p>
 <p>以下是几种常见的范数及其公式：</p>
-<p>L1范数（曼哈顿距离或绝对值范数）：
-对于一个n维向量x，L1范数表示为：
+<ul class="simple">
+<li><p>L1范数（曼哈顿距离或绝对值范数）：</p></li>
+</ul>
+<p>对于一个n维向量x，L1范数表示为：
 $<span class="math notranslate nohighlight">\(|x|_1 = \sum_{i=1}^{n} |x_i|\)</span>$</p>
-<p>L2范数（欧几里得范数）：
-对于一个n维向量x，L2范数表示为：
+<ul class="simple">
+<li><p>L2范数（欧几里得范数）：</p></li>
+</ul>
+<p>对于一个n维向量x，L2范数表示为：
 $<span class="math notranslate nohighlight">\(|x|_2 = \sqrt{\sum_{i=1}^{n} |x_i|^2}\)</span>$</p>
-<p>Lp范数（p范数）：
-对于一个n维向量x，Lp范数表示为：
+<ul class="simple">
+<li><p>Lp范数（p范数）：</p></li>
+</ul>
+<p>对于一个n维向量x，Lp范数表示为：
 $<span class="math notranslate nohighlight">\(|x|_p = \left(\sum_{i=1}^{n} |x_i|^p\right)^{\frac{1}{p}}\)</span>$</p>
-<p>无穷范数（最大值范数）：
-对于一个n维向量x，无穷范数表示为：
+<ul class="simple">
+<li><p>无穷范数（最大值范数）：</p></li>
+</ul>
+<p>对于一个n维向量x，无穷范数表示为：
 $<span class="math notranslate nohighlight">\(|x|_{\infty} = \max(|x_1|, |x_2|, …, |x_n|)\)</span>$</p>
-<p>矩阵Frobenius范数：
-对于一个m×n矩阵A，Frobenius范数表示为：
+<ul class="simple">
+<li><p>矩阵Frobenius范数：</p></li>
+</ul>
+<p>弗罗贝尼乌斯</p>
+<p>对于一个m×n矩阵A，Frobenius范数表示为：
 $<span class="math notranslate nohighlight">\(|A|_F = \sqrt{\sum_{i=1}^{m}\sum_{j=1}^{n} |a_{ij}|^2}\)</span>$</p>
+<ul class="simple">
+<li><p>L2,1范数（多任务学习的正则化项）：</p></li>
+</ul>
+<p>对于一个m×n的系数矩阵 <span class="math notranslate nohighlight">\(A\)</span>，L2,1范数定义为各个任务之间的L2范数的和。其表达式为：</p>
+<div class="math notranslate nohighlight">
+\[ |A|{2,1} = \sum{j=1}^{m} \sqrt{\sum_{i=1}^{n} w_{ij}^2} \]</div>
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="id4">

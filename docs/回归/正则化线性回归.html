@@ -374,10 +374,11 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">最小二乘法的问题</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lasso">LASSO回归</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">lasso回归参数选择</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">多任务lasso回归</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">岭回归</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">岭回归参数选择</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">岭回归</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">岭回归参数选择</a></li>
 </ul>
 </li>
 </ul>
@@ -496,9 +497,61 @@ document.write(`
 </div>
 </div>
 </section>
-</section>
 <section id="id4">
-<h2>岭回归<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
+<h3>多任务lasso回归<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h3>
+<p>多任务Lasso（Multi-Task Lasso）是一种用于多任务回归的正则化方法。它是对Lasso回归的扩展，可以同时处理多个相关联的目标变量。</p>
+<p>在多任务Lasso中，目标函数的表达式如下：</p>
+<p><span class="math notranslate nohighlight">\(\underset{W}{\text{minimize }} \frac{1}{2n_{samples}} ||X W - Y||F ^ 2 + \alpha ||W||{21}\)</span></p>
+<p>其中，<span class="math notranslate nohighlight">\(X\)</span> 是输入特征矩阵，<span class="math notranslate nohighlight">\(Y\)</span> 是多个目标变量的观测值矩阵，<strong><span class="math notranslate nohighlight">\(W\)</span></strong> 是模型的系数矩阵，(\alpha) 是正则化参数。</p>
+<ul class="simple">
+<li><p>第一项 <span class="math notranslate nohighlight">\(\frac{1}{2n_{samples}} ||X W - Y||F ^ 2\)</span> 衡量了模型预测值与真实观测值之间的误差。这里使用了Frobenius范数来计算误差的平方和，同时将其除以 (2n{samples}) 进行归一化，其中 (n_{samples}) 是样本数量。</p></li>
+<li><p>第二项 <span class="math notranslate nohighlight">\(\alpha ||W||_{21}\)</span> 是指系数矩阵 <span class="math notranslate nohighlight">\(W\)</span> 的 <span class="math notranslate nohighlight">\(L2,1\)</span> 范数，也称为分组Lasso范数。<span class="math notranslate nohighlight">\(L2,1\)</span> 范数将每个任务之间的系数向量视为一个分组，并对每个分组的L2范数进行惩罚。这鼓励模型选择相同或相似的特征子集来适应多个相关任务。</p></li>
+</ul>
+<p>通过调整正则化参数 <span class="math notranslate nohighlight">\(\alpha\)</span> 的大小，可以控制模型的拟合程度和稀疏性。</p>
+<p>多任务Lasso适用于在多个相关任务上进行回归建模，并且鼓励共享特征选择。它可以通过联合优化多个相关任务来提高模型的性能，并且可以识别出对所有任务都有影响的重要特征。</p>
+<p>在Scikit-learn中，可以使用MultiTaskLasso类来实现多任务Lasso回归，并进行参数估计和模型拟合。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">MultiTaskLasso</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># 生成样本数据</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># 生成5个相关联的目标变量</span>
+
+<span class="c1"># 创建MultiTaskLasso对象并进行拟合</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.1</span>  <span class="c1"># 正则化参数</span>
+<span class="n">multi_task_lasso</span> <span class="o">=</span> <span class="n">MultiTaskLasso</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+<span class="n">multi_task_lasso</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+
+<span class="c1"># 输出模型系数</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;模型系数：&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">multi_task_lasso</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>模型系数：
+[[ 0.02731864  0.08910204  0.03778079  0.00933277 -0.01963377 -0.00207699
+   0.02826692  0.00827997 -0.12920136 -0.04683641]
+ [-0.06873417 -0.0625006   0.02790663 -0.00367414  0.11322009  0.00652524
+  -0.00146783 -0.05008547 -0.02371156  0.03941871]
+ [-0.02352807 -0.08121243  0.06746598  0.02794926 -0.04672092 -0.03314402
+   0.02533989 -0.03688576  0.08089949  0.032083  ]
+ [ 0.029961   -0.03568944  0.07128624 -0.01492458  0.0525043   0.09876974
+   0.10219089 -0.01597094 -0.02868559  0.05300582]
+ [-0.03094184 -0.12592359 -0.17639916  0.00561484 -0.01498715 -0.06237257
+  -0.00310203  0.01522918  0.07753082  0.02590595]]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id5">
+<h2>岭回归<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h2>
 <p>岭回归（Ridge Regression）是一种用于解决线性回归问题的正则化方法。岭回归通过引入一个正则化项，即岭惩罚项，来解决这个问题。岭回归的目标函数由两部分组成：一个是最小化拟合残差的平方和，另一个是控制参数向量的大小的惩罚项。</p>
 <p>具体地，岭回归的目标函数可表示为：</p>
 <div class="math notranslate nohighlight">
@@ -548,8 +601,8 @@ document.write(`
 </div>
 </div>
 <p>从图中可以看出，岭回归的正则化参数变化对系数的影响是比较平滑的。另外不会变成0，所以计算量是比较大的。</p>
-<section id="id5">
-<h3>岭回归参数选择<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<section id="id6">
+<h3>岭回归参数选择<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h3>
 <p>在Ridge回归中，可以使用广义交叉验证（Generalized Cross-Validation，GCV）来选择最优的正则化参数。Sklearn库中的RidgeCV类提供了自动进行岭回归和正则化参数选择的功能。</p>
 <p>RidgeCV类使用方法类似于GridSearchCV，可以指定一组候选的 <span class="math notranslate nohighlight">\(\alpha\)</span> 参数值。通过对这些参数值进行交叉验证，RidgeCV会选择具有最佳性能的 <span class="math notranslate nohighlight">\(\alpha\)</span> 值，并将其作为Ridge模型的正则化参数。</p>
 <p>以下是一个示例：</p>
@@ -636,10 +689,11 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">最小二乘法的问题</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lasso">LASSO回归</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">lasso回归参数选择</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">多任务lasso回归</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">岭回归</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">岭回归参数选择</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">岭回归</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">岭回归参数选择</a></li>
 </ul>
 </li>
 </ul>
