@@ -1,4 +1,4 @@
-python==3.9.12
+python
 jupyterlab==3.4.4
 jupyter-book==0.15.1
 matplotlib==3.7.2
