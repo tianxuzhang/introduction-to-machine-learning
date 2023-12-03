@@ -462,9 +462,51 @@ document.write(`
 <p>岭回归（Ridge Regression）是一种用于解决线性回归问题的正则化方法。岭回归通过引入一个正则化项，即岭惩罚项，来解决这个问题。岭回归的目标函数由两部分组成：一个是最小化拟合残差的平方和，另一个是控制参数向量的大小的惩罚项。</p>
 <p>具体地，岭回归的目标函数可表示为：</p>
 <div class="math notranslate nohighlight">
-\[\underset{w}{min,} || Xw - y||_2^2 + \alpha ||w||_2^2\]</div>
+\[\underset{w}{min} || Xw - y||_2^2 + \alpha ||w||_2^2\]</div>
 <p>其中，<span class="math notranslate nohighlight">\(X\)</span> 是输入数据矩阵，<span class="math notranslate nohighlight">\(y\)</span> 是对应的观测值向量，<span class="math notranslate nohighlight">\(w\)</span> 是待估计的参数向量，<span class="math notranslate nohighlight">\(\alpha\)</span> 是一个控制正则化强度的超参数。</p>
 <p>通过引入 <span class="math notranslate nohighlight">\(\alpha\)</span> 的值，岭回归可以对参数向量进行限制，使其不会过大，从而减小过拟合的风险。较大的 <span class="math notranslate nohighlight">\(\alpha\)</span> 值会增加正则化的程度，从而更加平衡模型的复杂度和拟合残差之间的权衡。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="c1"># 生成样本数据</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+
+<span class="c1"># 初始化α值的范围</span>
+<span class="n">alphas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+
+<span class="c1"># 存储模型的系数</span>
+<span class="n">coefs</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="c1"># 创建Ridge对象，并进行系数估计</span>
+<span class="k">for</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="n">alphas</span><span class="p">:</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">coefs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+
+<span class="c1"># 绘制α值与系数路径的图表</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alphas</span><span class="p">,</span> <span class="n">coefs</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Alpha&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Coefficients&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Ridge Regression Coefficients Path&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_features</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/9e7184b6c7acd0b10ce4c7e42a19453bc786fda27678a8db841eacf1c669fb49.png" src="../../_images/9e7184b6c7acd0b10ce4c7e42a19453bc786fda27678a8db841eacf1c669fb49.png" />
+</div>
+</div>
+<p>从图中可以看出，岭回归的正则化参数变化对系数的影响是比较平滑的。另外不会变成0，所以计算量是比较大的。</p>
 </section>
 </section>
 
