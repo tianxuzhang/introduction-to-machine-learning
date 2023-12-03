@@ -1,0 +1,58 @@
+Traceback (most recent call last):
+  File "/home/runner/.local/lib/python3.10/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/home/runner/.local/lib/python3.10/site-packages/nbclient/client.py", line 1305, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/home/runner/.local/lib/python3.10/site-packages/jupyter_core/utils/__init__.py", line 173, in wrapped
+    return loop.run_until_complete(inner)
+  File "/usr/lib/python3.10/asyncio/base_events.py", line 649, in run_until_complete
+    return future.result()
+  File "/home/runner/.local/lib/python3.10/site-packages/nbclient/client.py", line 705, in async_execute
+    await self.async_execute_cell(
+  File "/home/runner/.local/lib/python3.10/site-packages/nbclient/client.py", line 1058, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/home/runner/.local/lib/python3.10/site-packages/nbclient/client.py", line 914, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import numpy as np
+from sklearn.linear_model import Lasso
+import matplotlib.pyplot as plt
+
+# 生成样本数据
+np.random.seed(0)
+n_samples, n_features = 100, 10
+X = np.random.randn(n_samples, n_features)
+y = np.random.randn(n_samples)
+
+# 初始化α值的范围
+alphas = np.logspace(-4, 0, 100)
+
+# 存储模型的系数
+coefs = []
+
+# 创建Lasso对象，并进行系数估计
+for alpha in alphas:
+    model = Lasso(alpha=alpha$
+    model.fit(X, y$
+    coefs.append(model.coef_$
+
+# 绘制α值与系数路径的图表
+plt.figure(figsize=(10, 6))
+plt.plot(alphas, coefs)
+plt.xscale('log')
+plt.xlabel('Alpha')
+plt.ylabel('Coefficients')
+plt.title('LASSO Regression Coefficients Path')
+plt.axis('tight')
+plt.legend(range(n_features))
+plt.show()
+------------------
+
+
+[0;36m  Cell [0;32mIn[1], line 19[0;36m[0m
+[0;31m    model = Lasso(alpha=alpha$[0m
+[0m                             ^[0m
+[0;31mSyntaxError[0m[0;31m:[0m invalid syntax
+
+

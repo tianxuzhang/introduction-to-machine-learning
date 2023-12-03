@@ -381,7 +381,10 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">岭回归参数选择</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">弹性网络</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">弹性网络</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">多任务弹性网络</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -424,43 +427,48 @@ document.write(`
 <p>下面用代码演示下 不同的 <span class="math notranslate nohighlight">\(\alpha\)</span> 参数对模型参数 <span class="math notranslate nohighlight">\(w\)</span> 的影响。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Lasso</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
+from sklearn.linear_model import Lasso
+import matplotlib.pyplot as plt
 
-<span class="c1"># 生成样本数据</span>
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+# 生成样本数据
+np.random.seed(0)
+n_samples, n_features = 100, 10
+X = np.random.randn(n_samples, n_features)
+y = np.random.randn(n_samples)
 
-<span class="c1"># 初始化α值的范围</span>
-<span class="n">alphas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+# 初始化α值的范围
+alphas = np.logspace(-4, 0, 100)
 
-<span class="c1"># 存储模型的系数</span>
-<span class="n">coefs</span> <span class="o">=</span> <span class="p">[]</span>
+# 存储模型的系数
+coefs = []
 
-<span class="c1"># 创建Lasso对象，并进行系数估计</span>
-<span class="k">for</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="n">alphas</span><span class="p">:</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">Lasso</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-    <span class="n">coefs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+# 创建Lasso对象，并进行系数估计
+for alpha in alphas:
+    model = Lasso(alpha=alpha$
+    model.fit(X, y$
+    coefs.append(model.coef_$
 
-<span class="c1"># 绘制α值与系数路径的图表</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alphas</span><span class="p">,</span> <span class="n">coefs</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Alpha&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Coefficients&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;LASSO Regression Coefficients Path&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_features</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+# 绘制α值与系数路径的图表
+plt.figure(figsize=(10, 6))
+plt.plot(alphas, coefs)
+plt.xscale(&#39;log&#39;)
+plt.xlabel(&#39;Alpha&#39;)
+plt.ylabel(&#39;Coefficients&#39;)
+plt.title(&#39;LASSO Regression Coefficients Path&#39;)
+plt.axis(&#39;tight&#39;)
+plt.legend(range(n_features))
+plt.show()
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/f38f0c90eb23eb16e6a4f1c59c2953b433fe18ce252c2d074a48d8ae330008e3.png" src="../../_images/f38f0c90eb23eb16e6a4f1c59c2953b433fe18ce252c2d074a48d8ae330008e3.png" />
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  Cell In[1], line 19
+    model = Lasso(alpha=alpha$
+                             ^
+SyntaxError: invalid syntax
+</pre></div>
+</div>
 </div>
 </div>
 <p>可以看到，Lasso回归最终会趋于一条直线，原因就在于好多θ值已经均为0。LASSO回归使用L1范数作为惩罚项，具有稀疏性，即可以将某些系数压缩到零。这使得LASSO回归在<strong>特征选择和变量筛选</strong>方面非常有用。</p>
@@ -491,7 +499,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.17465020215558846
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.17465020215558855
 0.1817744842195405
 </pre></div>
 </div>
@@ -503,7 +511,7 @@ document.write(`
 <p>多任务Lasso（Multi-Task Lasso）是一种用于多任务回归的正则化方法。它是对Lasso回归的扩展，可以同时处理多个相关联的目标变量。</p>
 <p>在多任务Lasso中，目标函数的表达式如下：</p>
 <p><span class="math notranslate nohighlight">\(\underset{W}{\text{minimize }} \frac{1}{2n_{samples}} ||X W - Y||F ^ 2 + \alpha ||W||{21}\)</span></p>
-<p>其中，<span class="math notranslate nohighlight">\(X\)</span> 是输入特征矩阵，<span class="math notranslate nohighlight">\(Y\)</span> 是多个目标变量的观测值矩阵，<strong><span class="math notranslate nohighlight">\(W\)</span></strong> 是模型的系数矩阵，(\alpha) 是正则化参数。</p>
+<p>其中，<span class="math notranslate nohighlight">\(X\)</span> 是输入特征矩阵，<span class="math notranslate nohighlight">\(Y\)</span> 是多个目标变量的观测值矩阵，<strong><span class="math notranslate nohighlight">\(W\)</span></strong> 是模型的系数矩阵，<span class="math notranslate nohighlight">\(\alpha\)</span> 是正则化参数。</p>
 <ul class="simple">
 <li><p>第一项 <span class="math notranslate nohighlight">\(\frac{1}{2n_{samples}} ||X W - Y||F ^ 2\)</span> 衡量了模型预测值与真实观测值之间的误差。这里使用了Frobenius范数来计算误差的平方和，同时将其除以 (2n{samples}) 进行归一化，其中 (n_{samples}) 是样本数量。</p></li>
 <li><p>第二项 <span class="math notranslate nohighlight">\(\alpha ||W||_{21}\)</span> 是指系数矩阵 <span class="math notranslate nohighlight">\(W\)</span> 的 <span class="math notranslate nohighlight">\(L2,1\)</span> 范数，也称为分组Lasso范数。<span class="math notranslate nohighlight">\(L2,1\)</span> 范数将每个任务之间的系数向量视为一个分组，并对每个分组的L2范数进行惩罚。这鼓励模型选择相同或相似的特征子集来适应多个相关任务。</p></li>
@@ -513,23 +521,23 @@ document.write(`
 <p>在Scikit-learn中，可以使用MultiTaskLasso类来实现多任务Lasso回归，并进行参数估计和模型拟合。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">MultiTaskLasso</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from sklearn.linear_model import MultiTaskLasso
+import numpy as np
 
-<span class="c1"># 生成样本数据</span>
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span><span class="p">)</span>
-<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># 生成5个相关联的目标变量</span>
+# 生成样本数据
+np.random.seed(0)
+n_samples, n_features = 100, 10
+X = np.random.randn(n_samples, n_features)
+Y = np.random.randn(n_samples, 5)  # 生成5个相关联的目标变量
 
-<span class="c1"># 创建MultiTaskLasso对象并进行拟合</span>
-<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.1</span>  <span class="c1"># 正则化参数</span>
-<span class="n">multi_task_lasso</span> <span class="o">=</span> <span class="n">MultiTaskLasso</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
-<span class="n">multi_task_lasso</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+# 创建MultiTaskLasso对象并进行拟合
+alpha = 0.1  # 正则化参数
+multi_task_lasso = MultiTaskLasso(alpha=alpha$
+multi_task_lasso.fit(X, Y)
 
-<span class="c1"># 输出模型系数</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;模型系数：&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">multi_task_lasso</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+# 输出模型系数
+print(&quot;模型系数：&quot;)
+print(multi_task_lasso.coef_)
 </pre></div>
 </div>
 </div>
@@ -562,43 +570,43 @@ document.write(`
 <p>通过引入 <span class="math notranslate nohighlight">\(\alpha\)</span> 的值，岭回归可以对参数向量进行限制，使其不会过大，从而减小过拟合的风险。较大的 <span class="math notranslate nohighlight">\(\alpha\)</span> 值会增加正则化的程度，从而更加平衡模型的复杂度和拟合残差之间的权衡。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Ridge</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>import numpy as np
+from sklearn.linear_model import Ridge
+import matplotlib.pyplot as plt
 
-<span class="c1"># 生成样本数据</span>
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+# 生成样本数据
+np.random.seed(0)
+n_samples, n_features = 100, 10
+X = np.random.randn(n_samples, n_features)
+y = np.random.randn(n_samples)
 
-<span class="c1"># 初始化α值的范围</span>
-<span class="n">alphas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">logspace</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+# 初始化α值的范围
+alphas = np.logspace(-4, 2, 100)
 
-<span class="c1"># 存储模型的系数</span>
-<span class="n">coefs</span> <span class="o">=</span> <span class="p">[]</span>
+# 存储模型的系数
+coefs = []
 
-<span class="c1"># 创建Ridge对象，并进行系数估计</span>
-<span class="k">for</span> <span class="n">alpha</span> <span class="ow">in</span> <span class="n">alphas</span><span class="p">:</span>
-    <span class="n">model</span> <span class="o">=</span> <span class="n">Ridge</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">)</span>
-    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-    <span class="n">coefs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+# 创建Ridge对象，并进行系数估计
+for alpha in alphas:
+    model = Ridge(alpha=alpha$
+    model.fit(X, y)
+    coefs.append(model.coef_)
 
-<span class="c1"># 绘制α值与系数路径的图表</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">alphas</span><span class="p">,</span> <span class="n">coefs</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xscale</span><span class="p">(</span><span class="s1">&#39;log&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Alpha&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Coefficients&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Ridge Regression Coefficients Path&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;tight&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n_features</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+# 绘制α值与系数路径的图表
+plt.figure(figsize=(10, 6))
+plt.plot(alphas, coefs)
+plt.xscale(&#39;log&#39;)
+plt.xlabel(&#39;Alpha&#39;)
+plt.ylabel(&#39;Coefficients&#39;)
+plt.title(&#39;Ridge Regression Coefficients Path&#39;)
+plt.axis(&#39;tight&#39;)
+plt.legend(range(n_features))
+plt.show()
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/9e7184b6c7acd0b10ce4c7e42a19453bc786fda27678a8db841eacf1c669fb49.png" src="../../_images/9e7184b6c7acd0b10ce4c7e42a19453bc786fda27678a8db841eacf1c669fb49.png" />
+<img alt="../../_images/1ab138f219280f1b28e99a73d7a9565fb5ef17e55c3194dbd95b0440af433dbe.png" src="../../_images/1ab138f219280f1b28e99a73d7a9565fb5ef17e55c3194dbd95b0440af433dbe.png" />
 </div>
 </div>
 <p>从图中可以看出，岭回归的正则化参数变化对系数的影响是比较平滑的。另外不会变成0，所以计算量是比较大的。</p>
@@ -636,12 +644,12 @@ document.write(`
 <p>弹性网络（Elastic Net）是一种结合了L1范数和L2范数的线性回归正则化方法。它综合了Lasso回归和岭回归的优点，并旨在克服它们各自的限制。</p>
 <p>弹性网络的目标函数表达式如下：</p>
 <div class="math notranslate nohighlight">
-\[\underset{w}{\text{minimize }} \frac{1}{2n_{samples}} ||X w - y||_2 ^ 2 + \alpha \rho ||w||_1 + \frac{\alpha(1-\rho)}{2} ||w||_2 ^ 2\]</div>
+\[\underset{w}{\text{minimize }} \frac{1}{2n_{samples}} ||X w - y||_2 ^ 2 + \alpha \rho ||w||_1 + \frac{\alpha(1-\rho$}{2} ||w||_2 ^ 2\]</div>
 <p>其中，<span class="math notranslate nohighlight">\(X\)</span> 是输入特征矩阵，<span class="math notranslate nohighlight">\(w\)</span> 是模型的系数向量，<span class="math notranslate nohighlight">\(y\)</span> 是观测值向量，<span class="math notranslate nohighlight">\(\alpha\)</span> 是正则化参数，<span class="math notranslate nohighlight">\(\rho\)</span> 是混合比例参数。</p>
 <ul class="simple">
 <li><p>第一项 <span class="math notranslate nohighlight">\(\frac{1}{2n_{samples}} ||X w - y||_2 ^ 2\)</span> 衡量了模型预测值与真实观测值之间的误差。这里使用了L2范数来计算误差的平方和，同时将其除以 <span class="math notranslate nohighlight">\(2n_{samples}\)</span> 进行归一化，其中 <span class="math notranslate nohighlight">\(n_{samples}\)</span> 是样本数量。</p></li>
 <li><p>第二项 <span class="math notranslate nohighlight">\(\alpha \rho ||w||_1\)</span> 是L1范数的惩罚项，用于促使模型的系数稀疏化，即让部分系数趋向于零。</p></li>
-<li><p>第三项 <span class="math notranslate nohighlight">\(\frac{\alpha(1-\rho)}{2} ||w||_2 ^ 2\)</span> 是L2范数的惩罚项，用于控制模型的复杂度并避免过拟合。</p></li>
+<li><p>第三项 <span class="math notranslate nohighlight">\(\frac{\alpha(1-\rho\)</span>}{2} ||w||_2 ^ 2$ 是L2范数的惩罚项，用于控制模型的复杂度并避免过拟合。</p></li>
 </ul>
 <p>通过调整正则化参数 <span class="math notranslate nohighlight">\(\alpha\)</span> 和混合比例参数 <span class="math notranslate nohighlight">\(\rho\)</span> 的大小，可以控制模型的拟合程度、稀疏性和复杂度。</p>
 <p>弹性网络适用于在存在多个相关特征和噪声的情况下进行回归建模。它可以同时进行特征选择和模型拟合，并具有较好的泛化能力。</p>
@@ -677,6 +685,65 @@ document.write(`
 </div>
 </div>
 </div>
+<section id="id8">
+<h3>多任务弹性网络<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h3>
+<p>MultiTaskElasticNet（多任务弹性网络）是一种用于多任务回归问题的正则化方法。它是对弹性网络的扩展，可以同时处理多个相关联的目标变量。</p>
+<p>MultiTaskElasticNet的目标函数表达式如下：</p>
+<p><span class="math notranslate nohighlight">\( \underset{W}{\text{minimize }} \frac{1}{2n_{samples}} ||X W - Y||{\text{Fro}}^2 + \alpha \rho ||W||{2,1} + \frac{\alpha(1-\rho)}{2} ||W||_{\text{Fro}}^2 \)</span></p>
+<p>其中，<span class="math notranslate nohighlight">\(X\)</span> 是输入特征矩阵，<span class="math notranslate nohighlight">\(X\)</span> 是模型的系数矩阵，<span class="math notranslate nohighlight">\(X\)</span> 是多个目标变量的观测值矩阵，<span class="math notranslate nohighlight">\(\alpha\)</span> 是正则化参数，<span class="math notranslate nohighlight">\(\rho\)</span> 是混合比例参数。</p>
+<ul class="simple">
+<li><p>第一项 <span class="math notranslate nohighlight">\(\frac{1}{2n_{samples}} ||X W - Y||_{\text{Fro}}^2\)</span> 衡量了模型预测值与真实观测值之间的误差。这里使用了Frobenius范数来计算误差的平方和。</p></li>
+<li><p>第二项 $\alpha \rho ||W||_{2,1}) 是L2,1范数的惩罚项，用于促使模型的系数稀疏化，并鼓励共享特征选择。L2,1范数将每个任务之间的系数向量视为一个分组，并对每个分组的L2范数进行惩罚。</p></li>
+<li><p>第三项 <span class="math notranslate nohighlight">\( \frac{\alpha(1-\rho)}{2} ||W||_{\text{Fro}}^2 \)</span> 是L2范数的惩罚项，用于控制模型的复杂度并避免过拟合。</p></li>
+</ul>
+<p>通过调整正则化参数 <span class="math notranslate nohighlight">\(\alpha\)</span> 和混合比例参数 <span class="math notranslate nohighlight">\(\rho\)</span> 的大小，可以控制模型的拟合程度、稀疏性和复杂度。</p>
+<p>MultiTaskElasticNet适用于在多个相关任务上进行回归建模，并具有特征选择和共享性。它能够联合优化多个任务，并识别对所有任务都有影响的重要特征。</p>
+<p>在Scikit-learn中，可以使用MultiTaskElasticNet类实现MultiTaskElasticNet回归。还可以使用MultiTaskElasticNetCV类通过交叉验证来选择最佳的正则化参数 <span class="math notranslate nohighlight">\(\alpha\)</span> 和混合比例参数 <span class="math notranslate nohighlight">\(\rho\)</span>。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">MultiTaskElasticNet</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># 生成样本数据</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>  <span class="c1"># 生成5个相关联的目标变量</span>
+
+<span class="c1"># 创建MultiTaskElasticNet对象并进行拟合</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.1</span>  <span class="c1"># 正则化参数</span>
+<span class="n">l1_ratio</span> <span class="o">=</span> <span class="mf">0.5</span>  <span class="c1"># 混合比例参数</span>
+<span class="n">multi_task_elastic_net</span> <span class="o">=</span> <span class="n">MultiTaskElasticNet</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">l1_ratio</span><span class="o">=</span><span class="n">l1_ratio</span><span class="p">)</span>
+<span class="n">multi_task_elastic_net</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+
+<span class="c1"># 输出模型系数</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;模型系数：&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">multi_task_elastic_net</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>模型系数：
+[[ 3.65653630e-02  1.17136527e-01  4.74313054e-02  2.05591774e-02
+  -3.24527813e-02 -4.19161111e-04  4.28008505e-02  1.30019815e-02
+  -1.58375177e-01 -7.66029840e-02]
+ [-9.87154081e-02 -8.34975867e-02  3.04842837e-02 -1.04564104e-02
+   1.50455428e-01  9.79544472e-03  2.82971846e-05 -7.81998383e-02
+  -2.96150045e-02  6.75121867e-02]
+ [-3.51624324e-02 -9.91407497e-02  7.98370551e-02  6.53653051e-02
+  -6.44810278e-02 -5.17127686e-02  3.59149154e-02 -5.67277407e-02
+   9.57923167e-02  5.81671005e-02]
+ [ 4.30300532e-02 -5.50180888e-02  8.33616595e-02 -4.06403808e-02
+   7.46272638e-02  1.42061199e-01  1.65771688e-01 -2.53404490e-02
+  -3.68656434e-02  8.23924978e-02]
+ [-4.61716368e-02 -1.58383368e-01 -2.15530720e-01  1.71890480e-02
+  -1.67099771e-02 -8.38769279e-02 -6.61479670e-03  2.48970405e-02
+   9.58536072e-02  4.81100981e-02]]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
 </section>
 </section>
 
@@ -744,7 +811,10 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">岭回归参数选择</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">弹性网络</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">弹性网络</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">多任务弹性网络</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
