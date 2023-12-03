@@ -569,8 +569,10 @@ $<span class="math notranslate nohighlight">\(\frac{{dR_n}}{{dy}} = \frac{{d}}{{
 </ul>
 <p>根据极大似然估计的思想，我们是基于观测到的样本数据信息，寻找最有可能产生这些观测数据的参数值。具体而言，我们希望找到使得样本数据出现的概率最大的参数值。也就是说，通过调整参数值来使得该概率分布与观测数据最匹配。</p>
 <p>为了实现这一目标，我们构建了一个关于参数的似然函数（likelihood function），它表示在给定参数值下观测数据出现的概率。然后，我们通过最大化似然函数来求解最有可能的参数值。以一开始的书本边长测量为例[2]，设测量误差为随机变量<span class="math notranslate nohighlight">\(\epsilon_i = |y_i - y|\)</span>，服从未知的概率分布<span class="math notranslate nohighlight">\(p(\epsilon)\)</span>，进而得到似然函数：</p>
+<p><span class="math notranslate nohighlight">\(L(y) = p(\epsilon_1) p(\epsilon_2) \cdots p(\epsilon_n) = p(y_1 - y) p(y_2 - y) \cdots p(y_n - y) = \prod_{i=1}^{n} p(\epsilon_i)\)</span>。</p>
+<p>求解过程中可以通过找到驻值点来得到极值。驻值点（stationary point）是函数在某个点上的导数为零或不存在的点。也就是说，在驻值点处，函数的导数等于零或者函数在该点的导数不存在。驻值点包括极小值点、极大值点和拐点。在极小值点和极大值点，函数在该点的导数为零。而在拐点，函数在该点的导数不存在，即函数的曲线在该点处发生弯曲。</p>
 <div class="math notranslate nohighlight">
-\[ \begin{align}\begin{aligned}L(y) = p(\epsilon_1) p(\epsilon_2) \cdots p(\epsilon_n) = p(y_1 - y) p(y_2 - y) \cdots p(y_n - y) = \prod_{i=1}^{n} p(\epsilon_i)$$。 \\求解过程中可以通过找到驻值点来得到极值。驻值点（stationary point）是函数在某个点上的导数为零或不存在的点。也就是说，在驻值点处，函数的导数等于零或者函数在该点的导数不存在。驻值点包括极小值点、极大值点和拐点。在极小值点和极大值点，函数在该点的导数为零。而在拐点，函数在该点的导数不存在，即函数的曲线在该点处发生弯曲。\\$$ \frac{d}{dy} L(y) = 0\end{aligned}\end{align} \]</div>
+\[ \frac{d}{dy} L(y) = 0\]</div>
 <p>如果最小二乘是对的，那么：</p>
 <div class="math notranslate nohighlight">
 \[\frac{d}{dy} L(y) |_{y=\bar{y}} = 0\]</div>
@@ -658,15 +660,17 @@ X w - y = \begin{bmatrix}
 0 
 \end{bmatrix}
 \end{split}\]</div>
-<p>接下来，计算残差向量的 L2 范数的平方，即<span class="math notranslate nohighlight">\( || X w - y ||₂²\)</span>：
-$<span class="math notranslate nohighlight">\(
+<p>接下来，计算残差向量的 L2 范数的平方，即<span class="math notranslate nohighlight">\( || X w - y ||₂²\)</span>：</p>
+<div class="math notranslate nohighlight">
+\[
 || X w - y ||₂² = (0)² + (0)² + (0)²
-\)</span><span class="math notranslate nohighlight">\(
-化简得到：
-\)</span><span class="math notranslate nohighlight">\(
+\]</div>
+<p>化简得到：</p>
+<div class="math notranslate nohighlight">
+\[
 || X w - y ||₂² = 0
-\)</span><span class="math notranslate nohighlight">\(
-因此，在这个例子中，\)</span>\underset{w}{min} {|| X w - y||_2}^2$ 的具体计算结果是 0。</p>
+\]</div>
+<p>因此，在这个例子中，<span class="math notranslate nohighlight">\(\underset{w}{min} {|| X w - y||_2}^2\)</span> 的具体计算结果是 0。</p>
 </section>
 <section id="id8">
 <h2>参考文献<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h2>
