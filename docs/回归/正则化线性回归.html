@@ -372,8 +372,14 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">最小二乘法的问题</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lasso">LASSO回归</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">岭回归</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lasso">LASSO回归</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">lasso回归参数选择</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">岭回归</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">岭回归参数选择</a></li>
+</ul>
+</li>
 </ul>
             </nav>
         </div>
@@ -456,14 +462,49 @@ document.write(`
 </div>
 </div>
 <p>可以看到，Lasso回归最终会趋于一条直线，原因就在于好多θ值已经均为0。LASSO回归使用L1范数作为惩罚项，具有稀疏性，即可以将某些系数压缩到零。这使得LASSO回归在<strong>特征选择和变量筛选</strong>方面非常有用。</p>
-</section>
 <section id="id3">
-<h2>岭回归<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<h3>lasso回归参数选择<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h3>
+<p>在Scikit-learn中，你可以使用LassoCV和LassoLarsCV来通过交叉验证来设置Lasso回归的alpha参数。</p>
+<ul class="simple">
+<li><p>LassoCV：基于交叉验证的Lasso回归方法。它可以自动选择最佳的 <span class="math notranslate nohighlight">\(\alpha\)</span> 值，并进行模型拟合。LassoCV利用交叉验证来评估不同 <span class="math notranslate nohighlight">\(\alpha\)</span> 值下的性能，并选择使得模型性能达到最优的alpha值。对于具有许多线性回归的高维数据集，常常使用LassoCV。</p></li>
+<li><p>LassoLarsCV：基于交叉验证的Lasso回归方法，并采用了最小角回归算法（LARS）来寻找最佳的alpha参数值。在样本数量比特征数量少得多的情况下，LassoLarsCV通常比LassoCV更快速且具有更好的性能。</p></li>
+</ul>
+<p>下面是使用LassoCV和LassoLarsCV的示例代码：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LassoCV</span><span class="p">,</span> <span class="n">LassoLarsCV</span>
+
+<span class="c1"># 使用LassoCV进行Lasso回归及alpha参数选择</span>
+<span class="n">lasso_cv</span> <span class="o">=</span> <span class="n">LassoCV</span><span class="p">(</span><span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">lasso_cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">best_alpha_lasso</span> <span class="o">=</span> <span class="n">lasso_cv</span><span class="o">.</span><span class="n">alpha_</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">best_alpha_lasso</span><span class="p">)</span>
+
+<span class="c1"># 使用LassoLarsCV进行Lasso回归及alpha参数选择</span>
+<span class="n">lasso_lars_cv</span> <span class="o">=</span> <span class="n">LassoLarsCV</span><span class="p">(</span><span class="n">cv</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">lasso_lars_cv</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">best_alpha_lassolars</span> <span class="o">=</span> <span class="n">lasso_lars_cv</span><span class="o">.</span><span class="n">alpha_</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">best_alpha_lassolars</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.17465020215558846
+0.1817744842195405
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="id4">
+<h2>岭回归<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
 <p>岭回归（Ridge Regression）是一种用于解决线性回归问题的正则化方法。岭回归通过引入一个正则化项，即岭惩罚项，来解决这个问题。岭回归的目标函数由两部分组成：一个是最小化拟合残差的平方和，另一个是控制参数向量的大小的惩罚项。</p>
 <p>具体地，岭回归的目标函数可表示为：</p>
 <div class="math notranslate nohighlight">
 \[\underset{w}{min} || Xw - y||_2^2 + \alpha ||w||_2^2\]</div>
-<p>其中，<span class="math notranslate nohighlight">\(X\)</span> 是输入数据矩阵，<span class="math notranslate nohighlight">\(y\)</span> 是对应的观测值向量，<span class="math notranslate nohighlight">\(w\)</span> 是待估计的参数向量，<span class="math notranslate nohighlight">\(\alpha\)</span> 是一个控制正则化强度的超参数。</p>
+<p>其中，<span class="math notranslate nohighlight">\(X\)</span> 是输入数据矩阵，<span class="math notranslate nohighlight">\(y\)</span> 是对应的观测值向量，<span class="math notranslate nohighlight">\(w\)</span> 是待估计的参数向量，<span class="math notranslate nohighlight">\(\alpha\)</span> 是一个控制正则化强度的超参数， <span class="math notranslate nohighlight">\(||w||_2 ^ 2\)</span> 是L2范数的平方，也被称为岭项。</p>
+<p>L2范数的正则化效果，在岭回归中表现出一个典型的”岭”形状，即在目标函数中形成一个凸形的曲线。这个曲线在系数空间中的形状类似于山脊或岭，因此得名为岭回归。</p>
 <p>通过引入 <span class="math notranslate nohighlight">\(\alpha\)</span> 的值，岭回归可以对参数向量进行限制，使其不会过大，从而减小过拟合的风险。较大的 <span class="math notranslate nohighlight">\(\alpha\)</span> 值会增加正则化的程度，从而更加平衡模型的复杂度和拟合残差之间的权衡。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -507,6 +548,34 @@ document.write(`
 </div>
 </div>
 <p>从图中可以看出，岭回归的正则化参数变化对系数的影响是比较平滑的。另外不会变成0，所以计算量是比较大的。</p>
+<section id="id5">
+<h3>岭回归参数选择<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h3>
+<p>在Ridge回归中，可以使用广义交叉验证（Generalized Cross-Validation，GCV）来选择最优的正则化参数。Sklearn库中的RidgeCV类提供了自动进行岭回归和正则化参数选择的功能。</p>
+<p>RidgeCV类使用方法类似于GridSearchCV，可以指定一组候选的 <span class="math notranslate nohighlight">\(\alpha\)</span> 参数值。通过对这些参数值进行交叉验证，RidgeCV会选择具有最佳性能的 <span class="math notranslate nohighlight">\(\alpha\)</span> 值，并将其作为Ridge模型的正则化参数。</p>
+<p>以下是一个示例：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">linear_model</span>
+
+<span class="c1"># 定义一组候选的alpha参数值</span>
+<span class="n">alphas</span> <span class="o">=</span> <span class="p">[</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">]</span>
+
+<span class="c1"># 创建RidgeCV对象并进行拟合</span>
+<span class="n">reg</span> <span class="o">=</span> <span class="n">linear_model</span><span class="o">.</span><span class="n">RidgeCV</span><span class="p">(</span><span class="n">alphas</span><span class="o">=</span><span class="n">alphas</span><span class="p">)</span>
+<span class="n">reg</span><span class="o">.</span><span class="n">fit</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+
+<span class="c1"># 输出选择的最优alpha值</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">reg</span><span class="o">.</span><span class="n">alpha_</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.1
+</pre></div>
+</div>
+</div>
+</div>
+</section>
 </section>
 </section>
 
@@ -565,8 +634,14 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">最小二乘法的问题</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lasso">LASSO回归</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">岭回归</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lasso">LASSO回归</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">lasso回归参数选择</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">岭回归</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">岭回归参数选择</a></li>
+</ul>
+</li>
 </ul>
   </nav></div>
 
