@@ -1,0 +1,733 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>距离和范数 &#8212; 机器学习入门</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/回归/距离和范数';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="最小二乘法" href="%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95.html" />
+    <link rel="prev" title="线性回归" href="%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../README.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="机器学习入门 - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="机器学习入门 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../README.html">
+                    introduction-to-machine-learning
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">回归</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.html">线性回归</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">距离和范数</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95.html">最小二乘法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="%E5%B2%AD%E5%9B%9E%E5%BD%92%E5%92%8C%E6%8B%89%E7%B4%A2%E5%9B%9E%E5%BD%92.html">岭回归和拉索回归</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/tianxuzhang/introduction-to-machine-learning" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/tianxuzhang/introduction-to-machine-learning/issues/new?title=Issue%20on%20page%20%2Fdocs/回归/距离和范数.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/docs/回归/距离和范数.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>距离和范数</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">距离和范数</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">曼哈顿距离</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#euclidean-distance">欧氏距离（Euclidean distance）</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chebyshev-distance">切比雪夫距离（Chebyshev distance）</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minkowski-distance">闵可夫斯基距离（Minkowski distance）</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">范数</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">参考</a></li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">distance</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>距离和范数<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h1>
+<p>在机器学习中我们会遇到各种各样的距离公式[1][2]。有数值向量的距离、布尔向量的距离和分布之间的距离等等。</p>
+<p><img alt="" src="../../_images/distance.png" /></p>
+<p>下面将展开详细介绍：</p>
+<section id="id2">
+<h2>曼哈顿距离<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<p>曼哈顿距离（Manhattan Distance）是由十九世纪的赫尔曼·闵可夫斯基所创词汇，是种使用在几何度量空间的几何学用语，用以标明两个点在标准坐标系上的绝对轴距总和。曼哈顿距离的命名原因是从规划为方型建筑区块的城市（如曼哈顿）间，最短的行车路径而来（忽略曼哈顿的单向车道以及只存在于3、14大道的斜向车道）。任何往东三区块、往北六区块的的路径一定最少要走九区块，没有其他捷径。对于空间中的两个点 <span class="math notranslate nohighlight">\((x_1, x_2, …, x_n)\)</span> 和 <span class="math notranslate nohighlight">\((y_1, y_2, …, y_n)\)</span>，曼哈顿距离可以表示为：</p>
+<div class="math notranslate nohighlight">
+\[d = \sum_{i=1}^{n} |x_i - y_i|\]</div>
+<p>如图红黄蓝三色距离等价。</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>曼哈顿街区</p></th>
+<th class="head"><p>曼哈顿距离</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><img alt="" src="../../_images/manhattan_block.png" /></p></td>
+<td><p><img alt="" src="../../_images/manhattan.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>曼哈顿距离又被称为出租车距离，是因为在像纽约曼哈顿区这样的地区有很多由横平竖直的街道所切成的街区（Block），出租车司机计算从一个位置到另一个位置的距离，通常直接用街区的两个坐标分别相减，再相加，这个结果就是他即将开车通过的街区数量，而完全没有必要用欧氏距离来求解——算起来超级麻烦还没有意义，毕竟谁也没办法从欧氏距离的直线上飞过去。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="n">dis</span> <span class="o">=</span> <span class="n">distance</span><span class="o">.</span><span class="n">cityblock</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">dis</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>10
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="euclidean-distance">
+<h2>欧氏距离（Euclidean distance）<a class="headerlink" href="#euclidean-distance" title="Permalink to this heading">#</a></h2>
+<p>欧几里得（希腊文：Ευκλειδης ，前330—前275），古希腊数学家，被称为“几何之父”。他最著名的著作《几何原本》是欧洲数学的基础，在书中他提出五大公设。</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>欧几里得</p></th>
+<th class="head"><p>欧氏距离</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><img alt="" src="../../_images/euclid.png" /></p></td>
+<td><p><img alt="" src="../../_images/euclidean.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>欧几里得距离（Euclidean distance）是一个用于衡量两个点之间的直线距离的度量方式。它是最常见和直观的距离定义。</p>
+<p>对于二维平面上的两个点 <span class="math notranslate nohighlight">\(A(x_1, y_1)\)</span> 和 <span class="math notranslate nohighlight">\(B(x_2, y_2)\)</span>，欧几里得距离表示为：</p>
+<div class="math notranslate nohighlight">
+\[d = \sqrt{{(x_2 - x_1)^2 + (y_2 - y_1)^2}}\]</div>
+<p>这可以通过使用勾股定理来计算两点间的直线距离。</p>
+<p>例如，如果有两个点 <span class="math notranslate nohighlight">\(A(2, 3)\)</span> 和 <span class="math notranslate nohighlight">\(B(5, 7)\)</span>，我们可以计算欧几里得距离如下：</p>
+<div class="math notranslate nohighlight">
+\[d = \sqrt{{(5 - 2)^2 + (7 - 3)^2}} = \sqrt{{9 + 16}} = \sqrt{25} = 5\]</div>
+<p>因此，点 A 和点 B 之间的欧几里得距离为 5。</p>
+<p>欧几里得距离不仅限于二维空间，在更高维度的空间中也适用。对于 n 维空间中的两个点 X <span class="math notranslate nohighlight">\((x_1, x_2, …, x_n)\)</span> 和 Y <span class="math notranslate nohighlight">\((y_1, y_2, …, y_n)\)</span>，欧几里得距离的计算方式类似，即：</p>
+<div class="math notranslate nohighlight">
+\[d(X,Y) = \sqrt{{(x_1 - y_1)^2 + (x_2 - y_2)^2 + … + (x_n - y_n)^2}} = \sqrt{\sum_{i=1}^{n}(x_i - y_i)^2}\]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">dis</span> <span class="o">=</span> <span class="n">distance</span><span class="o">.</span><span class="n">euclidean</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dis</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1.4142135623730951
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="chebyshev-distance">
+<h2>切比雪夫距离（Chebyshev distance）<a class="headerlink" href="#chebyshev-distance" title="Permalink to this heading">#</a></h2>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>切比雪夫</p></th>
+<th class="head"><p>棋盘</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><img alt="" src="../../_images/chebyshev.png" /></p></td>
+<td><p><img alt="" src="../../_images/chess.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>“当一个人来之前，田地是一片荒芜，零星的几棵庄稼也因为没有得到良好的照看而显得毫无生机。当他走的时候，留下的是肥沃的土壤、整齐的垄沟，还有一片生机勃勃的庄稼。那么这个人就值得我们去纪念和学习”[3]。切比雪夫(Pafnuty Chebyshev,1821—1894)，是俄罗斯数学家、力学家。证明了贝尔特兰公式，自然数列中素数分布的定理，大数定律的一般公式以及中心极限定理。他终身未娶，日常生活十分简朴，他的把全部积蓄都用来买书和制造机器。他最大的乐趣是与年轻人讨论数学问题。19世纪以前，俄国的数学是相当落后的，没有自己的数学家，没有大学，甚至没有一部象样的初等数学教科书。俄国数学主要是在切比雪夫的领导下，在19世纪末大体跟上了世界先进的潮流，某些领域的优势则一直保留到今日。</p>
+<p>切比雪夫距离（Chebyshev distance），也称为棋盘距离或L∞距离，是一种用于衡量两个点之间的最大绝对差异的度量方式。之所以叫棋盘距离是因为两点直接最短路径的走法类似国际象棋中的国王的走法。国际象棋是一种广泛流行的棋盘游戏，以下是其主要规则：</p>
+<ul class="simple">
+<li><p>棋盘：国际象棋棋盘是一个 <span class="math notranslate nohighlight">\(8 \times 8\)</span> 的方格网格，交替着黑色和白色方格。</p></li>
+<li><p>棋子：每个玩家开始时有16个棋子，包括国王、皇后、城堡（或车）、骑士（或马）、主教、兵（或卒）。 棋子只能在方格上移动。</p></li>
+<li><p>国王：可以在水平、垂直和对角线上移动一步。</p></li>
+</ul>
+<p>对于二维平面上的两个点 <span class="math notranslate nohighlight">\(A(x1, y1)\)</span> 和 <span class="math notranslate nohighlight">\(B(x2, y2)\)</span>，切比雪夫距离表示为：</p>
+<div class="math notranslate nohighlight">
+\[d = \max(|x2 - x1|, |y2 - y1|)\]</div>
+<p>这意味着切比雪夫距离是两个点在水平和垂直方向上绝对差异的最大值。</p>
+<p>对于 n 维空间中的两个点 <span class="math notranslate nohighlight">\((x_1, x_2, …, x_n)\)</span> 和 <span class="math notranslate nohighlight">\((y_1, y_2, …, y_n)\)</span>，切比雪夫距离的计算方式类似：</p>
+<div class="math notranslate nohighlight">
+\[d = \max(|x_1 - y_1|, |x_2 - y_2|, …, |x_n - y_n|)\]</div>
+<p>切比雪夫距离常用于度量样本之间的差异性或相似性，尤其适用于处理离散数据或在距离计算中考虑最大差异的情况。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">9</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+<span class="n">dis</span> <span class="o">=</span> <span class="n">distance</span><span class="o">.</span><span class="n">chebyshev</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">dis</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>5
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="minkowski-distance">
+<h2>闵可夫斯基距离（Minkowski distance）<a class="headerlink" href="#minkowski-distance" title="Permalink to this heading">#</a></h2>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>闵可夫斯基</p></th>
+<th class="head"><p>闵可夫斯基距离</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><img alt="" src="../../_images/minkovski.png" /></p></td>
+<td><p><img alt="" src="../../_images/minkovski-distance.png" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>赫尔曼·闵可夫斯基（Hermann Minkowski，1864－1909），出生于俄国，德国数学家，创立四维时空理论，曾经是著名物理学家爱因斯坦的老师。</p>
+<p>闵可夫斯基距离（Minkowski distance）是一种度量两个点之间距离的一般化方法，可以同时考虑欧几里得距离和曼哈顿距离。</p>
+<p>对于 n 维空间中的两个点 <span class="math notranslate nohighlight">\((x_1, x_2, …, x_n)\)</span> 和 <span class="math notranslate nohighlight">\((y_1, y_2, …, y_n)\)</span>，闵可夫斯基距离表示为：</p>
+<div class="math notranslate nohighlight">
+\[d = \left(\sum_{i=1}^{n} |x_i - y_i|^p\right)^{\frac{1}{p}}\]</div>
+<p>其中，<span class="math notranslate nohighlight">\(p\)</span> 是一个正实数。当 <span class="math notranslate nohighlight">\(p = 1\)</span> 时，闵可夫斯基距离等同于曼哈顿距离；当 <span class="math notranslate nohighlight">\(p = 2\)</span> 时，闵可夫斯基距离等同于欧几里得距离；当 <span class="math notranslate nohighlight">\(p = ∞\)</span> 时，闵可夫斯基距离退化为切比雪夫距离。</p>
+<p>通过调整 <span class="math notranslate nohighlight">\(p\)</span> 的值，我们可以在闵可夫斯基距离中加权不同维度上的差异，从而适应具体问题的需求。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">y</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
+<span class="n">dis</span> <span class="o">=</span> <span class="n">distance</span><span class="o">.</span><span class="n">minkowski</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">dis</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2.23606797749979
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id3">
+<h2>范数<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<p>以上几个距离公式被称为”范数”，因为它们满足向量或矩阵的范数定义。</p>
+<p>在数学中，范数是一种<strong>将向量或矩阵映射到非负实数</strong>的函数，并满足一些特定的性质。具体来说，一个范数必须满足以下三个条件：</p>
+<ul class="simple">
+<li><p>非负性：对于任何向量或矩阵，它们的范数始终大于等于零。</p></li>
+<li><p>齐次性：对于任何向量或矩阵和一个标量（实数或复数），乘以该标量后的范数等于原范数乘以该标量的绝对值。</p></li>
+<li><p>三角不等式：对于任何两个向量或矩阵，其范数之和小于等于这两个向量或矩阵的范数的和。</p></li>
+</ul>
+<p>这些性质使得范数成为一种<strong>衡量向量或矩阵大小、重要性以及相似性的度量方式</strong>。</p>
+<p>以下是几种常见的范数及其公式：</p>
+<p>L1范数（曼哈顿距离或绝对值范数）：
+对于一个n维向量x，L1范数表示为：
+$<span class="math notranslate nohighlight">\(|x|_1 = \sum_{i=1}^{n} |x_i|\)</span>$</p>
+<p>L2范数（欧几里得范数）：
+对于一个n维向量x，L2范数表示为：
+$<span class="math notranslate nohighlight">\(|x|_2 = \sqrt{\sum_{i=1}^{n} |x_i|^2}\)</span>$</p>
+<p>Lp范数（p范数）：
+对于一个n维向量x，Lp范数表示为：
+$<span class="math notranslate nohighlight">\(|x|_p = \left(\sum_{i=1}^{n} |x_i|^p\right)^{\frac{1}{p}}\)</span>$</p>
+<p>无穷范数（最大值范数）：
+对于一个n维向量x，无穷范数表示为：
+$<span class="math notranslate nohighlight">\(|x|_{\infty} = \max(|x_1|, |x_2|, …, |x_n|)\)</span>$</p>
+<p>矩阵Frobenius范数：
+对于一个m×n矩阵A，Frobenius范数表示为：
+$<span class="math notranslate nohighlight">\(|A|_F = \sqrt{\sum_{i=1}^{m}\sum_{j=1}^{n} |a_{ij}|^2}\)</span>$</p>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="id4">
+<h1>参考<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h1>
+<ul class="simple">
+<li><p>[1] [机器学习]常用距离定义与计算 <a class="reference external" href="https://zhuanlan.zhihu.com/p/101277851">https://zhuanlan.zhihu.com/p/101277851</a></p></li>
+<li><p>[2] 机器学习中常用的9种距离 <a class="reference external" href="https://zhuanlan.zhihu.com/p/565008179">https://zhuanlan.zhihu.com/p/565008179</a></p></li>
+<li><p>[3] 切比雪夫—–俄国的荣光 <a class="reference external" href="https://www.sohu.com/a/231493249_348129">https://www.sohu.com/a/231493249_348129</a></p></li>
+<li><p>[4] 国际象棋国王走棋方式 <a class="reference external" href="https://baijiahao.baidu.com/s?id=1662497191260390003&amp;amp;wfr=spider&amp;amp;for=pc">https://baijiahao.baidu.com/s?id=1662497191260390003&amp;wfr=spider&amp;for=pc</a></p></li>
+</ul>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./docs/回归"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">线性回归</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">最小二乘法</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">距离和范数</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">曼哈顿距离</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#euclidean-distance">欧氏距离（Euclidean distance）</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chebyshev-distance">切比雪夫距离（Chebyshev distance）</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#minkowski-distance">闵可夫斯基距离（Minkowski distance）</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">范数</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">参考</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By tianxuzhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
