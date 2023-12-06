@@ -10,3 +10,4 @@ parts:
     - file: docs/回归/距离和范数
     - file: docs/回归/最小二乘法
     - file: docs/回归/正则化线性回归
+    - file: docs/回归/贝叶斯回归
