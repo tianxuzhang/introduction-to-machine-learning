@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>&lt;no title&gt; &#8212; 机器学习入门</title>
+    <title>logistic &#8212; 机器学习入门</title>
   
   
   
@@ -62,7 +62,9 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/回归/index';</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/回归/逻辑回归';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
@@ -247,7 +249,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/tianxuzhang/introduction-to-machine-learning/issues/new?title=Issue%20on%20page%20%2Fdocs/回归/index.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/tianxuzhang/introduction-to-machine-learning/issues/new?title=Issue%20on%20page%20%2Fdocs/回归/逻辑回归.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -277,7 +279,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="../../_sources/docs/回归/index.ipynb" target="_blank"
+      <li><a href="../../_sources/docs/回归/逻辑回归.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -348,9 +350,7 @@ document.write(`
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</label>
+
 </div></div>
       
     </div>
@@ -361,19 +361,11 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1><no title></h1>
+    <h1>logistic</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="simple visible nav section-nav flex-column">
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
@@ -383,61 +375,109 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <p>回归：预测与对象相关的连续值的属性。</p>
+  <section id="logistic">
+<h1>logistic<a class="headerlink" href="#logistic" title="Permalink to this heading">#</a></h1>
+<p>逻辑回归（Logistic Regression）是一种广泛应用于分类问题的统计学习方法。它基于线性回归模型，通过一个非线性的逻辑函数（称为“sigmoid函数”或“逻辑函数”）将预测结果映射到概率值，从而对样本进行分类。</p>
+<p>在逻辑回归中，我们假设输入特征X与输出标签 <span class="math notranslate nohighlight">\(Y\)</span> 之间存在一种概率关系，并希望根据特征来预测属于某个类别的概率。逻辑回归可以处理二分类问题，也可以通过扩展为多分类问题。</p>
+<p>具体而言，逻辑回归的数学模型如下：</p>
 <ul class="simple">
-<li><p>应用：药物反应、股票价格。</p></li>
-<li><p>算法：梯度提升、最近邻、随机森林、岭回归等等。</p></li>
+<li><p>假设函数（Hypothesis Function）：</p></li>
 </ul>
-<p><img alt="" src="../../_images/sphx_glr_plot_adaboost_regression_thumb.png" /></p>
-<p>本章内容包含：</p>
+<p><span class="math notranslate nohighlight">\(hθ(x) = g(θ^T x)\)</span></p>
+<p>其中</p>
+<p><span class="math notranslate nohighlight">\(g(z) = \frac{1}{1 + e^{-z}} \)</span></p>
+<p>是逻辑函数。</p>
 <ul class="simple">
-<li><p>线性回归</p>
-<ul>
-<li><p><a class="reference external" href="https://tianxuzhang.github.io/introduction-to-machine-learning/docs/%E5%9B%9E%E5%BD%92/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.html">一元/多元线性回归</a></p></li>
-<li><p><a class="reference external" href="https://tianxuzhang.github.io/introduction-to-machine-learning/docs/%E5%9B%9E%E5%BD%92/%E8%B7%9D%E7%A6%BB%E5%92%8C%E8%8C%83%E6%95%B0.html">距离和范数</a></p></li>
-<li><p><a class="reference external" href="https://tianxuzhang.github.io/introduction-to-machine-learning/docs/%E5%9B%9E%E5%BD%92/%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95.html">最小二乘法</a></p></li>
-<li><p><a class="reference external" href="https://tianxuzhang.github.io/introduction-to-machine-learning/docs/%E5%9B%9E%E5%BD%92/%E5%A4%9A%E9%A1%B9%E5%BC%8F%E5%9B%9E%E5%BD%92.html">多项式回归</a></p></li>
+<li><p>损失函数（Loss Function）：</p></li>
 </ul>
-</li>
-<li><p><a class="reference external" href="https://tianxuzhang.github.io/introduction-to-machine-learning/docs/%E5%9B%9E%E5%BD%92/%E6%AD%A3%E5%88%99%E5%8C%96%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.html">正则化线性回归</a></p>
-<ul>
-<li><p>LASSO回归</p></li>
-<li><p>多任务LASSO回归</p></li>
-<li><p>岭回归</p></li>
-<li><p>弹性网络</p></li>
-<li><p>多任务弹性网络</p></li>
+<p>对于二分类问题，使用对数损失函数（Log Loss）：</p>
+<p><span class="math notranslate nohighlight">\( J(\theta) = -\frac{1}{m} \sum_{i=1}^{m} [y^{(i)} \log(h_\theta(x^{(i)})) + (1-y^{(i)}) \log(1 - h_\theta(x^{(i)}))] \)</span></p>
+<p>其中 <span class="math notranslate nohighlight">\(m\)</span> 是样本数量，<span class="math notranslate nohighlight">\(y\)</span>是实际标签。</p>
+<ul class="simple">
+<li><p>参数估计：</p></li>
 </ul>
-</li>
-<li><p><a class="reference external" href="https://tianxuzhang.github.io/introduction-to-machine-learning/docs/%E5%9B%9E%E5%BD%92/%E8%BF%AD%E4%BB%A3%E6%B1%82%E8%A7%A3%E6%96%B9%E6%B3%95.html">迭代求解方法</a></p>
-<ul>
-<li><p>最小角回归（LARS）</p></li>
-<li><p>LARS LASSO</p></li>
-<li><p>正交匹配追踪法（OMP）</p></li>
+<p>使用梯度下降等优化算法最小化损失函数 <span class="math notranslate nohighlight">\(J(θ)\)</span>，得到参数θ的估计值。</p>
+<ul class="simple">
+<li><p>预测：</p></li>
 </ul>
-</li>
-<li><p><a class="reference external" href="https://tianxuzhang.github.io/introduction-to-machine-learning/docs/%E5%9B%9E%E5%BD%92/%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%96%B9%E6%B3%95.html">贝叶斯方法</a></p>
-<ul>
-<li><p>贝叶斯岭回归</p></li>
-<li><p>主动相关决策理论 - ARD</p></li>
-</ul>
-</li>
-<li><p>广义线性模型</p>
-<ul>
-<li><p><a class="reference external" href="https://tianxuzhang.github.io/introduction-to-machine-learning/docs/%E5%9B%9E%E5%BD%92/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92.html">逻辑回归</a></p></li>
-<li><p>多元逻辑回归</p></li>
-<li><p>泊松回归</p></li>
-<li><p>GLM模型</p></li>
-</ul>
-</li>
-<li><p>其他</p>
-<ul>
-<li><p>随机梯度下降</p></li>
-<li><p>感知器</p></li>
-<li><p>被动攻击算法</p></li>
-<li><p>稳健回归</p></li>
-</ul>
-</li>
-</ul>
+<p>根据学习到的参数 <span class="math notranslate nohighlight">\(θ\)</span>，对新样本进行预测，即计算 <span class="math notranslate nohighlight">\(hθ(x)\)</span> 的概率值，并根据阈值进行分类。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># 生成样本数据</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>  <span class="c1"># 生成5个相关联的目标变量</span>
+
+<span class="c1"># 创建逻辑回归模型</span>
+<span class="n">logistic_reg</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+
+<span class="c1"># 拟合模型</span>
+<span class="n">logistic_reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># 输出参数估计结果</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;参数估计结果：&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">logistic_reg</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
+
+<span class="c1"># 进行预测</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">logistic_reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">14</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">logistic_reg</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="c1"># 拟合模型</span>
+<span class="ne">---&gt; </span><span class="mi">14</span> <span class="n">logistic_reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="c1"># 输出参数估计结果</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;参数估计结果：&quot;</span><span class="p">)</span>
+
+<span class="nn">File ~/.local/lib/python3.10/site-packages/sklearn/base.py:1152,</span> in <span class="ni">_fit_context.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper</span><span class="nt">(estimator, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1145</span>     <span class="n">estimator</span><span class="o">.</span><span class="n">_validate_params</span><span class="p">()</span>
+<span class="g g-Whitespace">   </span><span class="mi">1147</span> <span class="k">with</span> <span class="n">config_context</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1148</span>     <span class="n">skip_parameter_validation</span><span class="o">=</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1149</span>         <span class="n">prefer_skip_nested_validation</span> <span class="ow">or</span> <span class="n">global_skip_validation</span>
+<span class="g g-Whitespace">   </span><span class="mi">1150</span>     <span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1151</span> <span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1152</span>     <span class="k">return</span> <span class="n">fit_method</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File ~/.local/lib/python3.10/site-packages/sklearn/linear_model/_logistic.py:1216,</span> in <span class="ni">LogisticRegression.fit</span><span class="nt">(self, X, y, sample_weight)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1206</span>     <span class="n">_dtype</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">]</span>
+<span class="g g-Whitespace">   </span><span class="mi">1208</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data</span><span class="p">(</span>
+<span class="g g-Whitespace">   </span><span class="mi">1209</span>     <span class="n">X</span><span class="p">,</span>
+<span class="g g-Whitespace">   </span><span class="mi">1210</span>     <span class="n">y</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1214</span>     <span class="n">accept_large_sparse</span><span class="o">=</span><span class="n">solver</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;liblinear&quot;</span><span class="p">,</span> <span class="s2">&quot;sag&quot;</span><span class="p">,</span> <span class="s2">&quot;saga&quot;</span><span class="p">],</span>
+<span class="g g-Whitespace">   </span><span class="mi">1215</span> <span class="p">)</span>
+<span class="ne">-&gt; </span><span class="mi">1216</span> <span class="n">check_classification_targets</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1217</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1219</span> <span class="n">multi_class</span> <span class="o">=</span> <span class="n">_check_multi_class</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">multi_class</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classes_</span><span class="p">))</span>
+
+<span class="nn">File ~/.local/lib/python3.10/site-packages/sklearn/utils/multiclass.py:216,</span> in <span class="ni">check_classification_targets</span><span class="nt">(y)</span>
+<span class="g g-Whitespace">    </span><span class="mi">208</span> <span class="n">y_type</span> <span class="o">=</span> <span class="n">type_of_target</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">input_name</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">209</span> <span class="k">if</span> <span class="n">y_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span>
+<span class="g g-Whitespace">    </span><span class="mi">210</span>     <span class="s2">&quot;binary&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">211</span>     <span class="s2">&quot;multiclass&quot;</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">214</span>     <span class="s2">&quot;multilabel-sequences&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">215</span> <span class="p">]:</span>
+<span class="ne">--&gt; </span><span class="mi">216</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">217</span>         <span class="sa">f</span><span class="s2">&quot;Unknown label type: </span><span class="si">{</span><span class="n">y_type</span><span class="si">}</span><span class="s2">. Maybe you are trying to fit a &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">218</span>         <span class="s2">&quot;classifier, which expects discrete classes on a &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">219</span>         <span class="s2">&quot;regression target with continuous values.&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">220</span>     <span class="p">)</span>
+
+<span class="ne">ValueError</span>: Unknown label type: continuous. Maybe you are trying to fit a classifier, which expects discrete classes on a regression target with continuous values.
+</pre></div>
+</div>
+</div>
+</div>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -475,20 +515,6 @@ document.write(`
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="simple visible nav section-nav flex-column">
-</ul>
-
-  </nav></div>
-
-</div></div>
               
             
           </div>
