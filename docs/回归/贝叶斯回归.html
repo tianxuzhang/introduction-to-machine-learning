@@ -397,8 +397,8 @@ document.write(`
 <p>贝叶斯回归是一种基于贝叶斯统计推断的回归方法。它通过引入先验分布来表达对参数的不确定性，并利用观测数据来更新参数的后验分布。假设我们有一个训练集包含<span class="math notranslate nohighlight">\(N\)</span>个样本，每个样本由输入特征<span class="math notranslate nohighlight">\(X\)</span>和对应的输出标签<span class="math notranslate nohighlight">\(y\)</span>组成。要经过的步骤是参数建模 -&gt; 后验推断 -&gt; 参数估计和预测。</p>
 <p>优缺点：</p>
 <ul class="simple">
-<li><p>贝叶斯回归提供了全面的概率建模方式，能够量化参数的不确定性，并灵活地引入先验知识。它对小样本、高噪声数据以及需要考虑模型不确定性的情况特别有帮助。</p></li>
-<li><p>然而，贝叶斯回归也有一些挑战和限制，例如计算复杂度较高，需要进行概率推断和参数估计。</p></li>
+<li><p>贝叶斯回归引入先验知识。适用于小样本、高噪声以及需要考虑模型不确定性的数据。</p></li>
+<li><p>计算复杂度较高，需要进行概率推断和参数估计，不适用于高维数据。</p></li>
 </ul>
 <p>下面是使用Python和PyMC3库实现贝叶斯线性回归的示例代码：</p>
 <div class="cell docutils container">
@@ -570,6 +570,43 @@ The aliases was originally deprecated in NumPy 1.20; for more details and guidan
 </section>
 <section id="ard">
 <h1>主动相关决策理论 - ARD<a class="headerlink" href="#ard" title="Permalink to this heading">#</a></h1>
+<p>ARDRegression类似于贝叶斯岭回归（Bayesian Ridge Regression），但具有更强的稀疏性。这是因为ARDRegression引入了不同于贝叶斯岭回归的先验假设，即权重 <span class="math notranslate nohighlight">\(w\)</span> 的分布不再是球形的高斯分布，而是轴对齐的椭圆高斯分布。</p>
+<p>ARDRegression中的每个权重 <span class="math notranslate nohighlight">\(wi\)</span> 都有一个单独的标准差 <span class="math notranslate nohighlight">\(λ_i\)</span> 。所有 <span class="math notranslate nohighlight">\(λ_i\)</span> 的先验分布由超参数 <span class="math notranslate nohighlight">\(λ1\)</span> 、<span class="math notranslate nohighlight">\(λ2\)</span> 等确定，通常使用相同的 <span class="math notranslate nohighlight">\(\gamma\)</span> 分布。</p>
+<p>ARDRegression可以用于特征选择，因为它倾向于将不相关或弱相关的特征的权重设为0，从而实现了稀疏性。这使得模型更容易解释，并且可以提高泛化性能。</p>
+<p>不过ARD也比较慢。</p>
+<p>下面给个sklearn的例子：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_regression</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">ARDRegression</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">mean_squared_error</span>
+
+<span class="c1"># 生成随机回归数据集</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_regression</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">noise</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># 将数据集拆分为训练集和测试集</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># 创建并拟合ARDRegression模型</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">ARDRegression</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># 使用模型进行预测</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># 计算均方误差（Mean Squared Error）</span>
+<span class="n">mse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Mean Squared Error: &quot;</span><span class="p">,</span> <span class="n">mse</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Mean Squared Error:  0.010270127022996813
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 <section id="id3">
 <h1>参考<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h1>
