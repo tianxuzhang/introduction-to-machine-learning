@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>logistic &#8212; 机器学习入门</title>
+    <title>逻辑回归 &#8212; 机器学习入门</title>
   
   
   
@@ -67,6 +67,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/回归/逻辑回归';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="贝叶斯回归" href="%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%9B%9E%E5%BD%92.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -169,7 +170,7 @@ const thebe_selector_output = ".output, .cell_output"
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">回归</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.html">线性回归</a></li>
 <li class="toctree-l1"><a class="reference internal" href="%E8%B7%9D%E7%A6%BB%E5%92%8C%E8%8C%83%E6%95%B0.html">距离和范数</a></li>
 
@@ -178,6 +179,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%9B%9E%E5%BD%92.html">贝叶斯回归</a></li>
 
 
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">逻辑回归</a></li>
 </ul>
 
     </div>
@@ -350,7 +352,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -361,11 +365,21 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>logistic</h1>
+    <h1>逻辑回归</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sigmoid">sigmoid函数</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function">损失函数（Loss Function）：</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">参考</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -375,108 +389,111 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="logistic">
-<h1>logistic<a class="headerlink" href="#logistic" title="Permalink to this heading">#</a></h1>
-<p>逻辑回归（Logistic Regression）是一种广泛应用于分类问题的统计学习方法。它基于线性回归模型，通过一个非线性的逻辑函数（称为“sigmoid函数”或“逻辑函数”）将预测结果映射到概率值，从而对样本进行分类。</p>
-<p>在逻辑回归中，我们假设输入特征X与输出标签 <span class="math notranslate nohighlight">\(Y\)</span> 之间存在一种概率关系，并希望根据特征来预测属于某个类别的概率。逻辑回归可以处理二分类问题，也可以通过扩展为多分类问题。</p>
-<p>具体而言，逻辑回归的数学模型如下：</p>
-<ul class="simple">
-<li><p>假设函数（Hypothesis Function）：</p></li>
-</ul>
-<p><span class="math notranslate nohighlight">\(hθ(x) = g(θ^T x)\)</span></p>
-<p>其中</p>
-<p><span class="math notranslate nohighlight">\(g(z) = \frac{1}{1 + e^{-z}} \)</span></p>
-<p>是逻辑函数。</p>
-<ul class="simple">
-<li><p>损失函数（Loss Function）：</p></li>
-</ul>
-<p>对于二分类问题，使用对数损失函数（Log Loss）：</p>
-<p><span class="math notranslate nohighlight">\( J(\theta) = -\frac{1}{m} \sum_{i=1}^{m} [y^{(i)} \log(h_\theta(x^{(i)})) + (1-y^{(i)}) \log(1 - h_\theta(x^{(i)}))] \)</span></p>
-<p>其中 <span class="math notranslate nohighlight">\(m\)</span> 是样本数量，<span class="math notranslate nohighlight">\(y\)</span>是实际标签。</p>
-<ul class="simple">
-<li><p>参数估计：</p></li>
-</ul>
-<p>使用梯度下降等优化算法最小化损失函数 <span class="math notranslate nohighlight">\(J(θ)\)</span>，得到参数θ的估计值。</p>
-<ul class="simple">
-<li><p>预测：</p></li>
-</ul>
-<p>根据学习到的参数 <span class="math notranslate nohighlight">\(θ\)</span>，对新样本进行预测，即计算 <span class="math notranslate nohighlight">\(hθ(x)\)</span> 的概率值，并根据阈值进行分类。</p>
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>逻辑回归<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h1>
+<p>逻辑回归（Logistic Regression），虽然名字里有 “回归” 二字，但实际上是解决分类问题的一类线性模型。又被称作 logit 回归，maximum-entropy classification（MaxEnt，最大熵分类），或 log-linear classifier（对数线性分类器）。</p>
+<p>逻辑回归它基于线性回归模型，通过一个非线性的逻辑函数（称为“sigmoid函数”或“逻辑函数”）将预测结果映射到概率值，从而对样本进行分类。数学模型如下：</p>
+<p><span class="math notranslate nohighlight">\(hθ(x) = g(θ^T x)\)</span> ，其中 <span class="math notranslate nohighlight">\(g(z) = \frac{1}{1 + e^{-z}} \)</span> 是逻辑函数。</p>
+<section id="sigmoid">
+<h2>sigmoid函数<a class="headerlink" href="#sigmoid" title="Permalink to this heading">#</a></h2>
+<p>函数表达式为：</p>
+<p><span class="math notranslate nohighlight">\(
+f(x) = \frac{1}{1 + e^{-x}}
+\)</span></p>
+<p>我们用代码将这个函数绘制出来：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
-<span class="c1"># 生成样本数据</span>
-<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span><span class="p">)</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>  <span class="c1"># 生成5个相关联的目标变量</span>
+<span class="k">def</span> <span class="nf">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">x</span><span class="p">))</span>
 
-<span class="c1"># 创建逻辑回归模型</span>
-<span class="n">logistic_reg</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="c1"># 生成一系列x值</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
 
-<span class="c1"># 拟合模型</span>
-<span class="n">logistic_reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="c1"># 计算对应的sigmoid值</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">sigmoid</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
-<span class="c1"># 输出参数估计结果</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;参数估计结果：&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">logistic_reg</span><span class="o">.</span><span class="n">coef_</span><span class="p">)</span>
-
-<span class="c1"># 进行预测</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">logistic_reg</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+<span class="c1"># 绘制sigmoid函数曲线</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;sigmoid(x)&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Sigmoid Function&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ValueError</span><span class="g g-Whitespace">                                </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">14</span>
-<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">logistic_reg</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="c1"># 拟合模型</span>
-<span class="ne">---&gt; </span><span class="mi">14</span> <span class="n">logistic_reg</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">16</span> <span class="c1"># 输出参数估计结果</span>
-<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;参数估计结果：&quot;</span><span class="p">)</span>
+<img alt="../../_images/1cea051791bf318d21511e4469ab5f07be030edb08f96c4769d6ebb0da200182.png" src="../../_images/1cea051791bf318d21511e4469ab5f07be030edb08f96c4769d6ebb0da200182.png" />
+</div>
+</div>
+<p>这个函数图像看着就很对称，也很优雅。记为<span class="math notranslate nohighlight">\(f(x) = \frac{1}{1 + e^{-x}}\)</span></p>
+<p>对这个函数求导为：</p>
+<p><span class="math notranslate nohighlight">\(f’(x) = \frac{d}{dx} \left(\frac{1}{1 + e^{-x}}\right)\)</span></p>
+<p>进一步可以得到（推导略）</p>
+<p><span class="math notranslate nohighlight">\(f’(x) = 2f(x)(1 - f(x))\)</span></p>
+<p>换句话说，sigmoid函数的导数值，仅仅依靠该函数值本身的四则运算就可以计算得到，计算可谓是非常简便。</p>
+</section>
+<section id="loss-function">
+<h2>损失函数（Loss Function）：<a class="headerlink" href="#loss-function" title="Permalink to this heading">#</a></h2>
+<p>参考[1]</p>
+<p>我们知道一个样本最终的计算值在 <span class="math notranslate nohighlight">\((0,1)\)</span> 之间浮动，可以被视作概率值。并且由于sigmoid函数的单调性，我们可以认为，概率值越接近1，说明样本越接近正样本，评价质量越好</p>
+<p>因此，我们可以构造一个似然函数，它衡量了计算得分值和真实样本标签之间的差距，当样本只有一个的时候：</p>
+<p><span class="math notranslate nohighlight">\(L(w) = (p(x))^y (1-p(x))^{(1-y)}\)</span></p>
+<p>当样本有N个的时候</p>
+<p><span class="math notranslate nohighlight">\(L(w) = \prod_{i=0}^{n} (p(x_i))^y_i (1-p(x_i))^{(1-y_i)}\)</span></p>
+<p>再考虑到该函数的连乘，也未对样本的数量做归一化，应当转换成</p>
+<p><span class="math notranslate nohighlight">\(J(w) = -\frac{1}{N} \ln L(w)\)</span></p>
+<p>加上L2正则化项为：</p>
+<p><span class="math notranslate nohighlight">\(
+J(w) = -\frac{1}{N} \ln L(w) + \frac{\lambda}{2N}\sum_{j=1}^{m} w_j^2
+\)</span></p>
+<p>其中，<span class="math notranslate nohighlight">\(J(w)\)</span> 是目标函数，<span class="math notranslate nohighlight">\(w\)</span> 是模型的参数向量，<span class="math notranslate nohighlight">\(N\)</span> 是训练样本数量，<span class="math notranslate nohighlight">\(w_j\)</span> 是第 <span class="math notranslate nohighlight">\(j\)</span> 个特征的权重，<span class="math notranslate nohighlight">\(λ\)</span> 是正则化参数，<span class="math notranslate nohighlight">\(m\)</span> 是参数个数。</p>
+<p>下面演示一个逻辑回归分类的示例：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">LogisticRegression</span>
 
-<span class="nn">File ~/.local/lib/python3.10/site-packages/sklearn/base.py:1152,</span> in <span class="ni">_fit_context.&lt;locals&gt;.decorator.&lt;locals&gt;.wrapper</span><span class="nt">(estimator, *args, **kwargs)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1145</span>     <span class="n">estimator</span><span class="o">.</span><span class="n">_validate_params</span><span class="p">()</span>
-<span class="g g-Whitespace">   </span><span class="mi">1147</span> <span class="k">with</span> <span class="n">config_context</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1148</span>     <span class="n">skip_parameter_validation</span><span class="o">=</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1149</span>         <span class="n">prefer_skip_nested_validation</span> <span class="ow">or</span> <span class="n">global_skip_validation</span>
-<span class="g g-Whitespace">   </span><span class="mi">1150</span>     <span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1151</span> <span class="p">):</span>
-<span class="ne">-&gt; </span><span class="mi">1152</span>     <span class="k">return</span> <span class="n">fit_method</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="c1"># 创建一些随机数据用于训练</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">X1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">X2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randn</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">))</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">50</span><span class="p">)))</span>
 
-<span class="nn">File ~/.local/lib/python3.10/site-packages/sklearn/linear_model/_logistic.py:1216,</span> in <span class="ni">LogisticRegression.fit</span><span class="nt">(self, X, y, sample_weight)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1206</span>     <span class="n">_dtype</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">]</span>
-<span class="g g-Whitespace">   </span><span class="mi">1208</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_validate_data</span><span class="p">(</span>
-<span class="g g-Whitespace">   </span><span class="mi">1209</span>     <span class="n">X</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1210</span>     <span class="n">y</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1214</span>     <span class="n">accept_large_sparse</span><span class="o">=</span><span class="n">solver</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;liblinear&quot;</span><span class="p">,</span> <span class="s2">&quot;sag&quot;</span><span class="p">,</span> <span class="s2">&quot;saga&quot;</span><span class="p">],</span>
-<span class="g g-Whitespace">   </span><span class="mi">1215</span> <span class="p">)</span>
-<span class="ne">-&gt; </span><span class="mi">1216</span> <span class="n">check_classification_targets</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1217</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1219</span> <span class="n">multi_class</span> <span class="o">=</span> <span class="n">_check_multi_class</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">multi_class</span><span class="p">,</span> <span class="n">solver</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">classes_</span><span class="p">))</span>
+<span class="c1"># 训练逻辑回归模型</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">LogisticRegression</span><span class="p">()</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 
-<span class="nn">File ~/.local/lib/python3.10/site-packages/sklearn/utils/multiclass.py:216,</span> in <span class="ni">check_classification_targets</span><span class="nt">(y)</span>
-<span class="g g-Whitespace">    </span><span class="mi">208</span> <span class="n">y_type</span> <span class="o">=</span> <span class="n">type_of_target</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">input_name</span><span class="o">=</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">209</span> <span class="k">if</span> <span class="n">y_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span>
-<span class="g g-Whitespace">    </span><span class="mi">210</span>     <span class="s2">&quot;binary&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">211</span>     <span class="s2">&quot;multiclass&quot;</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">214</span>     <span class="s2">&quot;multilabel-sequences&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">215</span> <span class="p">]:</span>
-<span class="ne">--&gt; </span><span class="mi">216</span>     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">217</span>         <span class="sa">f</span><span class="s2">&quot;Unknown label type: </span><span class="si">{</span><span class="n">y_type</span><span class="si">}</span><span class="s2">. Maybe you are trying to fit a &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">218</span>         <span class="s2">&quot;classifier, which expects discrete classes on a &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">219</span>         <span class="s2">&quot;regression target with continuous values.&quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">220</span>     <span class="p">)</span>
+<span class="c1"># 可视化分类结果</span>
+<span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span> <span class="o">=</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span>
+<span class="n">xx</span><span class="p">,</span> <span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x_min</span><span class="p">,</span> <span class="n">x_max</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">y_min</span><span class="p">,</span> <span class="n">y_max</span><span class="p">,</span> <span class="mi">100</span><span class="p">))</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">c_</span><span class="p">[</span><span class="n">xx</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">yy</span><span class="o">.</span><span class="n">ravel</span><span class="p">()])</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">Z</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">xx</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
-<span class="ne">ValueError</span>: Unknown label type: continuous. Maybe you are trying to fit a classifier, which expects discrete classes on a regression target with continuous values.
+<span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Feature 1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Feature 2&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Logistic Regression&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="../../_images/221f706d10f3e12ec041ece68782ed6344294a1bb9245b0338d4dfeefe9debf2.png" src="../../_images/221f706d10f3e12ec041ece68782ed6344294a1bb9245b0338d4dfeefe9debf2.png" />
 </div>
+</div>
+</section>
+<section id="id2">
+<h2>参考<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<p>[1] 逻辑回归 <a class="reference external" href="https://zhuanlan.zhihu.com/p/580207932?utm_id=0">https://zhuanlan.zhihu.com/p/580207932?utm_id=0</a></p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -509,12 +526,37 @@ document.write(`
                 <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%9B%9E%E5%BD%92.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">贝叶斯回归</p>
+      </div>
+    </a>
 </div>
                 </footer>
               
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sigmoid">sigmoid函数</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loss-function">损失函数（Loss Function）：</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">参考</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>
