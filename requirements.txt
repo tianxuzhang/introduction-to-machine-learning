@@ -6,3 +6,4 @@ pandas
 scikit-learn
 scipy
 pymc3
+graphviz
