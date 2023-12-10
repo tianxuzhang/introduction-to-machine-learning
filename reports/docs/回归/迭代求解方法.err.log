@@ -16,6 +16,7 @@ Traceback (most recent call last):
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
 from sklearn.linear_model import Lars
+import numpy as np
 
 # 生成样本数据
 np.random.seed(0)
@@ -35,12 +36,12 @@ print(lars.coef_)
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mNameError[0m                                 Traceback (most recent call last)
-Cell [0;32mIn[1], line 4[0m
-[1;32m      1[0m [38;5;28;01mfrom[39;00m [38;5;21;01msklearn[39;00m[38;5;21;01m.[39;00m[38;5;21;01mlinear_model[39;00m [38;5;28;01mimport[39;00m Lars
-[1;32m      3[0m [38;5;66;03m# 生成样本数据[39;00m
-[0;32m----> 4[0m [43mnp[49m[38;5;241m.[39mrandom[38;5;241m.[39mseed([38;5;241m0[39m)
-[1;32m      5[0m n_samples, n_features [38;5;241m=[39m [38;5;241m100[39m, [38;5;241m10[39m
-[1;32m      6[0m X [38;5;241m=[39m np[38;5;241m.[39mrandom[38;5;241m.[39mrandn(n_samples, n_features)
+Cell [0;32mIn[1], line 12[0m
+[1;32m     10[0m [38;5;66;03m# 创建Lars对象并进行拟合[39;00m
+[1;32m     11[0m lars [38;5;241m=[39m Lars()
+[0;32m---> 12[0m lars[38;5;241m.[39mfit(X, [43my[49m)
+[1;32m     14[0m [38;5;66;03m# 输出模型系数[39;00m
+[1;32m     15[0m [38;5;28mprint[39m([38;5;124m"[39m[38;5;124m模型系数：[39m[38;5;124m"[39m)
 
-[0;31mNameError[0m: name 'np' is not defined
+[0;31mNameError[0m: name 'y' is not defined
 
