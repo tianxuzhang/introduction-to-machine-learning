@@ -412,8 +412,7 @@ document.write(`
 <section id="id2">
 <h2>曼哈顿距离<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
 <p>曼哈顿距离（Manhattan Distance）是由十九世纪的赫尔曼·闵可夫斯基所创词汇，是种使用在几何度量空间的几何学用语，用以标明两个点在标准坐标系上的绝对轴距总和。曼哈顿距离的命名原因是从规划为方型建筑区块的城市（如曼哈顿）间，最短的行车路径而来（忽略曼哈顿的单向车道以及只存在于3、14大道的斜向车道）。任何往东三区块、往北六区块的的路径一定最少要走九区块，没有其他捷径。对于空间中的两个点 <span class="math notranslate nohighlight">\((x_1, x_2, …, x_n)\)</span> 和 <span class="math notranslate nohighlight">\((y_1, y_2, …, y_n)\)</span>，曼哈顿距离可以表示为：</p>
-<div class="math notranslate nohighlight">
-\[d = \sum_{i=1}^{n} |x_i - y_i|\]</div>
+<p><span class="math notranslate nohighlight">\(d = \sum_{i=1}^{n} |x_i - y_i|\)</span></p>
 <p>如图红黄蓝三色距离等价。</p>
 <table class="table">
 <thead>
@@ -461,16 +460,13 @@ document.write(`
 </table>
 <p>欧几里得距离（Euclidean distance）是一个用于衡量两个点之间的直线距离的度量方式。它是最常见和直观的距离定义。</p>
 <p>对于二维平面上的两个点 <span class="math notranslate nohighlight">\(A(x_1, y_1)\)</span> 和 <span class="math notranslate nohighlight">\(B(x_2, y_2)\)</span>，欧几里得距离表示为：</p>
-<div class="math notranslate nohighlight">
-\[d = \sqrt{{(x_2 - x_1)^2 + (y_2 - y_1)^2}}\]</div>
+<p><span class="math notranslate nohighlight">\(d = \sqrt{{(x_2 - x_1)^2 + (y_2 - y_1)^2}}\)</span></p>
 <p>这可以通过使用勾股定理来计算两点间的直线距离。</p>
 <p>例如，如果有两个点 <span class="math notranslate nohighlight">\(A(2, 3)\)</span> 和 <span class="math notranslate nohighlight">\(B(5, 7)\)</span>，我们可以计算欧几里得距离如下：</p>
-<div class="math notranslate nohighlight">
-\[d = \sqrt{{(5 - 2)^2 + (7 - 3)^2}} = \sqrt{{9 + 16}} = \sqrt{25} = 5\]</div>
+<p><span class="math notranslate nohighlight">\(d = \sqrt{{(5 - 2)^2 + (7 - 3)^2}} = \sqrt{{9 + 16}} = \sqrt{25} = 5\)</span></p>
 <p>因此，点 A 和点 B 之间的欧几里得距离为 5。</p>
 <p>欧几里得距离不仅限于二维空间，在更高维度的空间中也适用。对于 n 维空间中的两个点 X <span class="math notranslate nohighlight">\((x_1, x_2, …, x_n)\)</span> 和 Y <span class="math notranslate nohighlight">\((y_1, y_2, …, y_n)\)</span>，欧几里得距离的计算方式类似，即：</p>
-<div class="math notranslate nohighlight">
-\[d(X,Y) = \sqrt{{(x_1 - y_1)^2 + (x_2 - y_2)^2 + … + (x_n - y_n)^2}} = \sqrt{\sum_{i=1}^{n}(x_i - y_i)^2}\]</div>
+<p><span class="math notranslate nohighlight">\(d(X,Y) = \sqrt{{(x_1 - y_1)^2 + (x_2 - y_2)^2 + … + (x_n - y_n)^2}} = \sqrt{\sum_{i=1}^{n}(x_i - y_i)^2}\)</span></p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
@@ -509,12 +505,10 @@ document.write(`
 <li><p>国王：可以在水平、垂直和对角线上移动一步。</p></li>
 </ul>
 <p>对于二维平面上的两个点 <span class="math notranslate nohighlight">\(A(x1, y1)\)</span> 和 <span class="math notranslate nohighlight">\(B(x2, y2)\)</span>，切比雪夫距离表示为：</p>
-<div class="math notranslate nohighlight">
-\[d = \max(|x2 - x1|, |y2 - y1|)\]</div>
+<p><span class="math notranslate nohighlight">\(d = \max(|x2 - x1|, |y2 - y1|)\)</span></p>
 <p>这意味着切比雪夫距离是两个点在水平和垂直方向上绝对差异的最大值。</p>
 <p>对于 n 维空间中的两个点 <span class="math notranslate nohighlight">\((x_1, x_2, …, x_n)\)</span> 和 <span class="math notranslate nohighlight">\((y_1, y_2, …, y_n)\)</span>，切比雪夫距离的计算方式类似：</p>
-<div class="math notranslate nohighlight">
-\[d = \max(|x_1 - y_1|, |x_2 - y_2|, …, |x_n - y_n|)\]</div>
+<p><span class="math notranslate nohighlight">\(d = \max(|x_1 - y_1|, |x_2 - y_2|, …, |x_n - y_n|)\)</span></p>
 <p>切比雪夫距离常用于度量样本之间的差异性或相似性，尤其适用于处理离散数据或在距离计算中考虑最大差异的情况。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -549,8 +543,7 @@ document.write(`
 <p>赫尔曼·闵可夫斯基（Hermann Minkowski，1864－1909），出生于俄国，德国数学家，创立四维时空理论，曾经是著名物理学家爱因斯坦的老师。</p>
 <p>闵可夫斯基距离（Minkowski distance）是一种度量两个点之间距离的一般化方法，可以同时考虑欧几里得距离和曼哈顿距离。</p>
 <p>对于 n 维空间中的两个点 <span class="math notranslate nohighlight">\((x_1, x_2, …, x_n)\)</span> 和 <span class="math notranslate nohighlight">\((y_1, y_2, …, y_n)\)</span>，闵可夫斯基距离表示为：</p>
-<div class="math notranslate nohighlight">
-\[d = \left(\sum_{i=1}^{n} |x_i - y_i|^p\right)^{\frac{1}{p}}\]</div>
+<p><span class="math notranslate nohighlight">\(d = \left(\sum_{i=1}^{n} |x_i - y_i|^p\right)^{\frac{1}{p}}\)</span></p>
 <p>其中，<span class="math notranslate nohighlight">\(p\)</span> 是一个正实数。当 <span class="math notranslate nohighlight">\(p = 1\)</span> 时，闵可夫斯基距离等同于曼哈顿距离；当 <span class="math notranslate nohighlight">\(p = 2\)</span> 时，闵可夫斯基距离等同于欧几里得距离；当 <span class="math notranslate nohighlight">\(p = ∞\)</span> 时，闵可夫斯基距离退化为切比雪夫距离。</p>
 <p>通过调整 <span class="math notranslate nohighlight">\(p\)</span> 的值，我们可以在闵可夫斯基距离中加权不同维度上的差异，从而适应具体问题的需求。</p>
 <div class="cell docutils container">
@@ -583,35 +576,34 @@ document.write(`
 <ul class="simple">
 <li><p>L1范数（曼哈顿距离或绝对值范数）：</p></li>
 </ul>
-<p>对于一个n维向量x，L1范数表示为：
-$<span class="math notranslate nohighlight">\(|x|_1 = \sum_{i=1}^{n} |x_i|\)</span>$</p>
+<p>对于一个n维向量x，L1范数表示为：</p>
+<p><span class="math notranslate nohighlight">\(|x|_1 = \sum_{i=1}^{n} |x_i|\)</span></p>
 <ul class="simple">
 <li><p>L2范数（欧几里得范数）：</p></li>
 </ul>
-<p>对于一个n维向量x，L2范数表示为：
-$<span class="math notranslate nohighlight">\(|x|_2 = \sqrt{\sum_{i=1}^{n} |x_i|^2}\)</span>$</p>
+<p>对于一个n维向量x，L2范数表示为：</p>
+<p><span class="math notranslate nohighlight">\(|x|_2 = \sqrt{\sum_{i=1}^{n} |x_i|^2}\)</span></p>
 <ul class="simple">
 <li><p>Lp范数（p范数）：</p></li>
 </ul>
-<p>对于一个n维向量x，Lp范数表示为：
-$<span class="math notranslate nohighlight">\(|x|_p = \left(\sum_{i=1}^{n} |x_i|^p\right)^{\frac{1}{p}}\)</span>$</p>
+<p>对于一个n维向量x，Lp范数表示为：</p>
+<p><span class="math notranslate nohighlight">\(|x|_p = \left(\sum_{i=1}^{n} |x_i|^p\right)^{\frac{1}{p}}\)</span></p>
 <ul class="simple">
 <li><p>无穷范数（最大值范数）：</p></li>
 </ul>
-<p>对于一个n维向量x，无穷范数表示为：
-$<span class="math notranslate nohighlight">\(|x|_{\infty} = \max(|x_1|, |x_2|, …, |x_n|)\)</span>$</p>
+<p>对于一个n维向量x，无穷范数表示为：</p>
+<p><span class="math notranslate nohighlight">\(|x|_{\infty} = \max(|x_1|, |x_2|, …, |x_n|)\)</span></p>
 <ul class="simple">
 <li><p>矩阵Frobenius范数：</p></li>
 </ul>
 <p>德国 弗罗伯尼</p>
-<p>对于一个m×n矩阵A，Frobenius范数表示为：
-$<span class="math notranslate nohighlight">\(|A|_F = \sqrt{\sum_{i=1}^{m}\sum_{j=1}^{n} |a_{ij}|^2}\)</span>$</p>
+<p>对于一个m×n矩阵A，Frobenius范数表示为：</p>
+<p><span class="math notranslate nohighlight">\(|A|_F = \sqrt{\sum_{i=1}^{m}\sum_{j=1}^{n} |a_{ij}|^2}\)</span></p>
 <ul class="simple">
 <li><p>L2,1范数（多任务学习的正则化项）：</p></li>
 </ul>
 <p>对于一个m×n的系数矩阵 <span class="math notranslate nohighlight">\(A\)</span>，L2,1范数定义为各个任务之间的L2范数的和。其表达式为：</p>
-<div class="math notranslate nohighlight">
-\[ |A|{2,1} = \sum{j=1}^{m} \sqrt{\sum_{i=1}^{n} w_{ij}^2} \]</div>
+<p><span class="math notranslate nohighlight">\( |A|_{2,1} = \sum{j=1}^{m} \sqrt{\sum_{i=1}^{n} w_{ij}^2} \)</span></p>
 </section>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="id4">
