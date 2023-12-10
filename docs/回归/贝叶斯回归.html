@@ -178,9 +178,9 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95.html">最小二乘法</a></li>
 <li class="toctree-l1"><a class="reference internal" href="%E6%AD%A3%E5%88%99%E5%8C%96%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.html">正则化线性回归</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">贝叶斯回归</a></li>
-
-
 <li class="toctree-l1"><a class="reference internal" href="%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92.html">逻辑回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="%E9%9A%8F%E6%9C%BA%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D.html">随机梯度下降</a></li>
+<li class="toctree-l1"><a class="reference internal" href="%E6%84%9F%E7%9F%A5%E5%99%A8.html">感知器</a></li>
 </ul>
 
     </div>
@@ -376,14 +376,10 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">贝叶斯回归</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">贝叶斯岭回归</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ard">主动相关决策理论 - ARD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">参考</a></li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ard">主动相关决策理论 - ARD</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">参考</a></li>
-</ul>
-
             </nav>
         </div>
     </div>
@@ -394,7 +390,7 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section id="id1">
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
 <h1>贝叶斯回归<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h1>
 <p>贝叶斯回归是一种基于贝叶斯统计推断的回归方法。它通过引入先验分布来表达对参数的不确定性，并利用观测数据来更新参数的后验分布。假设我们有一个训练集包含<span class="math notranslate nohighlight">\(N\)</span>个样本，每个样本由输入特征<span class="math notranslate nohighlight">\(X\)</span>和对应的输出标签<span class="math notranslate nohighlight">\(y\)</span>组成。要经过的步骤是参数建模 -&gt; 后验推断 -&gt; 参数估计和预测。</p>
 <p>优缺点：</p>
@@ -569,9 +565,8 @@ The aliases was originally deprecated in NumPy 1.20; for more details and guidan
 </div>
 </div>
 </section>
-</section>
 <section id="ard">
-<h1>主动相关决策理论 - ARD<a class="headerlink" href="#ard" title="Permalink to this heading">#</a></h1>
+<h2>主动相关决策理论 - ARD<a class="headerlink" href="#ard" title="Permalink to this heading">#</a></h2>
 <p>ARDRegression类似于贝叶斯岭回归（Bayesian Ridge Regression），但具有更强的稀疏性。这是因为ARDRegression引入了不同于贝叶斯岭回归的先验假设，即权重 <span class="math notranslate nohighlight">\(w\)</span> 的分布不再是球形的高斯分布，而是轴对齐的椭圆高斯分布。</p>
 <p>ARDRegression中的每个权重 <span class="math notranslate nohighlight">\(wi\)</span> 都有一个单独的标准差 <span class="math notranslate nohighlight">\(λ_i\)</span> 。所有 <span class="math notranslate nohighlight">\(λ_i\)</span> 的先验分布由超参数 <span class="math notranslate nohighlight">\(λ1\)</span> 、<span class="math notranslate nohighlight">\(λ2\)</span> 等确定，通常使用相同的 <span class="math notranslate nohighlight">\(\gamma\)</span> 分布。</p>
 <p>ARDRegression可以用于特征选择，因为它倾向于将不相关或弱相关的特征的权重设为0，从而实现了稀疏性。这使得模型更容易解释，并且可以提高泛化性能。</p>
@@ -611,10 +606,11 @@ The aliases was originally deprecated in NumPy 1.20; for more details and guidan
 </div>
 </section>
 <section id="id3">
-<h1>参考<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h1>
+<h2>参考<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p>贝叶斯回归：使用 PyMC3 实现贝叶斯回归 <a class="reference external" href="https://baijiahao.baidu.com/s?id=1745363357212714786&amp;amp;wfr=spider&amp;amp;for=pc">https://baijiahao.baidu.com/s?id=1745363357212714786&amp;wfr=spider&amp;for=pc</a></p></li>
 </ul>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -680,14 +676,10 @@ The aliases was originally deprecated in NumPy 1.20; for more details and guidan
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">贝叶斯回归</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">贝叶斯岭回归</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ard">主动相关决策理论 - ARD</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">参考</a></li>
 </ul>
-</li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#ard">主动相关决策理论 - ARD</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">参考</a></li>
-</ul>
-
   </nav></div>
 
 </div></div>

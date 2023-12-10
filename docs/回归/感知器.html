@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>&lt;no title&gt; &#8212; 机器学习入门</title>
+    <title>感知器 &#8212; 机器学习入门</title>
   
   
   
@@ -62,9 +62,12 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/回归/index';</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/回归/感知器';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="随机梯度下降" href="%E9%9A%8F%E6%9C%BA%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -167,7 +170,7 @@ const thebe_selector_output = ".output, .cell_output"
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">回归</span></p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.html">线性回归</a></li>
 <li class="toctree-l1"><a class="reference internal" href="%E8%B7%9D%E7%A6%BB%E5%92%8C%E8%8C%83%E6%95%B0.html">距离和范数</a></li>
 
@@ -176,7 +179,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%9B%9E%E5%BD%92.html">贝叶斯回归</a></li>
 <li class="toctree-l1"><a class="reference internal" href="%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92.html">逻辑回归</a></li>
 <li class="toctree-l1"><a class="reference internal" href="%E9%9A%8F%E6%9C%BA%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D.html">随机梯度下降</a></li>
-<li class="toctree-l1"><a class="reference internal" href="%E6%84%9F%E7%9F%A5%E5%99%A8.html">感知器</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">感知器</a></li>
 </ul>
 
     </div>
@@ -248,7 +251,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/tianxuzhang/introduction-to-machine-learning/issues/new?title=Issue%20on%20page%20%2Fdocs/回归/index.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/tianxuzhang/introduction-to-machine-learning/issues/new?title=Issue%20on%20page%20%2Fdocs/回归/感知器.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -278,7 +281,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="../../_sources/docs/回归/index.ipynb" target="_blank"
+      <li><a href="../../_sources/docs/回归/感知器.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -349,9 +352,7 @@ document.write(`
   </button>
 `);
 </script>
-<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="fa-solid fa-list"></span>
-</label>
+
 </div></div>
       
     </div>
@@ -362,19 +363,11 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1><no title></h1>
+    <h1>感知器</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
-            <div>
-                <h2> Contents </h2>
-            </div>
-            <nav aria-label="Page">
-                <ul class="simple visible nav section-nav flex-column">
-</ul>
-
-            </nav>
         </div>
     </div>
 </div>
@@ -384,61 +377,115 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <p>回归：预测与对象相关的连续值的属性。</p>
-<ul class="simple">
-<li><p>应用：药物反应、股票价格。</p></li>
-<li><p>算法：梯度提升、最近邻、随机森林、岭回归等等。</p></li>
-</ul>
-<p><img alt="" src="../../_images/sphx_glr_plot_adaboost_regression_thumb.png" /></p>
-<p>本章内容包含：</p>
-<ul class="simple">
-<li><p>线性回归</p>
-<ul>
-<li><p><a class="reference external" href="https://tianxuzhang.github.io/introduction-to-machine-learning/docs/%E5%9B%9E%E5%BD%92/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.html">一元/多元线性回归</a></p></li>
-<li><p><a class="reference external" href="https://tianxuzhang.github.io/introduction-to-machine-learning/docs/%E5%9B%9E%E5%BD%92/%E8%B7%9D%E7%A6%BB%E5%92%8C%E8%8C%83%E6%95%B0.html">距离和范数</a></p></li>
-<li><p><a class="reference external" href="https://tianxuzhang.github.io/introduction-to-machine-learning/docs/%E5%9B%9E%E5%BD%92/%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95.html">最小二乘法</a></p></li>
-<li><p><a class="reference external" href="https://tianxuzhang.github.io/introduction-to-machine-learning/docs/%E5%9B%9E%E5%BD%92/%E5%A4%9A%E9%A1%B9%E5%BC%8F%E5%9B%9E%E5%BD%92.html">多项式回归</a></p></li>
-</ul>
-</li>
-<li><p><a class="reference external" href="https://tianxuzhang.github.io/introduction-to-machine-learning/docs/%E5%9B%9E%E5%BD%92/%E6%AD%A3%E5%88%99%E5%8C%96%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.html">正则化线性回归</a></p>
-<ul>
-<li><p>LASSO回归</p></li>
-<li><p>多任务LASSO回归</p></li>
-<li><p>岭回归</p></li>
-<li><p>弹性网络</p></li>
-<li><p>多任务弹性网络</p></li>
-</ul>
-</li>
-<li><p><a class="reference external" href="https://tianxuzhang.github.io/introduction-to-machine-learning/docs/%E5%9B%9E%E5%BD%92/%E8%BF%AD%E4%BB%A3%E6%B1%82%E8%A7%A3%E6%96%B9%E6%B3%95.html">迭代求解方法</a></p>
-<ul>
-<li><p>最小角回归（LARS）</p></li>
-<li><p>LARS LASSO</p></li>
-<li><p>正交匹配追踪法（OMP）</p></li>
-</ul>
-</li>
-<li><p><a class="reference external" href="https://tianxuzhang.github.io/introduction-to-machine-learning/docs/%E5%9B%9E%E5%BD%92/%E8%B4%9D%E5%8F%B6%E6%96%AF%E6%96%B9%E6%B3%95.html">贝叶斯方法</a></p>
-<ul>
-<li><p>贝叶斯岭回归</p></li>
-<li><p>主动相关决策理论（ARD）</p></li>
-</ul>
-</li>
-<li><p>广义线性模型</p>
-<ul>
-<li><p><a class="reference external" href="https://tianxuzhang.github.io/introduction-to-machine-learning/docs/%E5%9B%9E%E5%BD%92/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92.html">逻辑回归</a></p></li>
-<li><p>多元逻辑回归</p></li>
-<li><p>泊松回归</p></li>
-<li><p>GLM模型</p></li>
-</ul>
-</li>
-<li><p>其他</p>
-<ul>
-<li><p>随机梯度下降</p></li>
-<li><p>感知器</p></li>
-<li><p>被动攻击算法</p></li>
-<li><p>稳健回归</p></li>
-</ul>
-</li>
-</ul>
+  <section id="id1">
+<h1>感知器<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h1>
+<p>感知器（Perceptron）是Frank Rosenblatt在1957年就职于康奈尔航空实验室（Cornell Aeronautical Laboratory）时所发明的一种人工神经网络。感知器是一种最简单的神经网络模型。</p>
+<p>假设我们有一个输入特征向量 <span class="math notranslate nohighlight">\(x\)</span>，包含 <span class="math notranslate nohighlight">\(n\)</span> 个特征值 <span class="math notranslate nohighlight">\(（x1, x2, …, xn）\)</span>，以及对应的权重向量 <span class="math notranslate nohighlight">\(w（w1, w2, …, wn）\)</span> 和偏置 <span class="math notranslate nohighlight">\(b\)</span>。</p>
+<p>感知器的数学表达如下：</p>
+<p><span class="math notranslate nohighlight">\(
+z = w · x + b \\
+\hat{y} = sign(z)
+\)</span></p>
+<p>其中，<span class="math notranslate nohighlight">\(z\)</span> 代表加权输入（加权特征和偏置的总和），<span class="math notranslate nohighlight">\(sign()\)</span>是符号函数，根据<span class="math notranslate nohighlight">\(z\)</span> 的正负返回1或-1，<span class="math notranslate nohighlight">\(\hat{y}\)</span> 是感知器的预测输出。</p>
+<p>感知器的训练目标是根据训练数据调整权重和偏置，使得感知器能够正确分类样本。训练过程中，我们通过与真实标签y进行比较并计算误差来更新权重和偏置。</p>
+<p>感知器的更新规则如下：</p>
+<p><span class="math notranslate nohighlight">\(
+w_{new} = w_{old} + η * (y - \hat{y}) * x \\
+b_{new} = b_{old} + η * (y - \hat{y})
+\)</span></p>
+<p>其中，<span class="math notranslate nohighlight">\(η\)</span> 是学习率，控制每次更新的步长大小。</p>
+<p>通过反复迭代上述更新过程，感知器可以逐渐调整权重和偏置，以找到一个能够正确分类训练数据的超平面（线性决策边界）。</p>
+<p>需要注意的是，感知器算法只适用于线性可分的数据。对于线性不可分的数据集，感知器算法将无法收敛。</p>
+<p>感知器可用于分类和回归。</p>
+<p>下面是用感知器对鸢尾花分类的示例：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">Perceptron</span>
+<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">StandardScaler</span>
+<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_iris</span>
+
+<span class="c1"># 加载Iris数据集</span>
+<span class="n">iris</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">()</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span>
+
+<span class="c1"># 数据预处理：特征缩放</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">StandardScaler</span><span class="p">()</span>
+<span class="n">X_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+
+<span class="c1"># 划分训练集和测试集</span>
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># 创建感知器模型</span>
+<span class="n">perceptron</span> <span class="o">=</span> <span class="n">Perceptron</span><span class="p">()</span>
+
+<span class="c1"># 在训练集上拟合模型</span>
+<span class="n">perceptron</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+
+<span class="c1"># 在测试集上进行预测</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">perceptron</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+
+<span class="c1"># 计算准确率</span>
+<span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;准确率:&quot;</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>准确率: 0.9666666666666667
+</pre></div>
+</div>
+</div>
+</div>
+<p>下面手写一个感知器进行回归</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># 定义训练数据</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">]])</span>  <span class="c1"># 输入特征</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">])</span>           <span class="c1"># 目标值</span>
+
+<span class="c1"># 定义感知器模型</span>
+<span class="k">class</span> <span class="nc">Perceptron</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="kc">None</span>   <span class="c1"># 权重</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="kc">None</span>   <span class="c1"># 偏置</span>
+
+    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.01</span><span class="p">):</span>
+        <span class="n">n_samples</span><span class="p">,</span> <span class="n">n_features</span> <span class="o">=</span> <span class="n">X</span><span class="o">.</span><span class="n">shape</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_features</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_samples</span><span class="p">):</span>
+                <span class="n">y_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+                <span class="n">error</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">y_pred</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">w</span> <span class="o">+=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">error</span> <span class="o">*</span> <span class="n">X</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">b</span> <span class="o">+=</span> <span class="n">learning_rate</span> <span class="o">*</span> <span class="n">error</span>
+
+    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">w</span><span class="p">)</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">b</span>
+
+<span class="c1"># 创建感知器对象并拟合数据</span>
+<span class="n">perceptron</span> <span class="o">=</span> <span class="n">Perceptron</span><span class="p">()</span>
+<span class="n">perceptron</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+
+<span class="c1"># 进行预测</span>
+<span class="n">x_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">]])</span>  <span class="c1"># 预测新的输入样本</span>
+<span class="n">y_pred</span> <span class="o">=</span> <span class="n">perceptron</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">x_test</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;预测结果：&quot;</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>预测结果： [11.716452   13.58681458]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -470,26 +517,21 @@ document.write(`
                 <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="%E9%9A%8F%E6%9C%BA%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">随机梯度下降</p>
+      </div>
+    </a>
 </div>
                 </footer>
               
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Contents
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="simple visible nav section-nav flex-column">
-</ul>
-
-  </nav></div>
-
-</div></div>
               
             
           </div>
