@@ -12,3 +12,5 @@ parts:
     - file: docs/回归/正则化线性回归
     - file: docs/回归/贝叶斯回归
     - file: docs/回归/逻辑回归
+    - file: docs/回归/随机梯度下降
+    - file: docs/回归/感知器
