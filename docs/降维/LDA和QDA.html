@@ -405,19 +405,27 @@ document.write(`
 <li><p>先找到类的中心，来代表一个类的核心特征</p></li>
 <li><p>再计算类内样本的差异性，尽可能小</p></li>
 <li><p>然后计算类间样本的差异性，尽可能大</p></li>
-<li><p>最后，求目标函数让得到投影向量</p></li>
+<li><p>最后，求目标函数得到投影向量</p></li>
 </ol>
 <p>那么，换成数学表达就是：</p>
-<ul class="simple">
-<li><p>均值向量</p></li>
-</ul>
-<p>对于每个类别 <span class="math notranslate nohighlight">\(i\)</span>，计算该类别所有样本特征向量的平均值。这个平均值被称为类别内均值向量 <span class="math notranslate nohighlight">\(\mu_i\)</span>。
-公式：<span class="math notranslate nohighlight">\(\mu_i = \frac{1}{N_i} \sum_{x \in i} x\)</span>，其中 <span class="math notranslate nohighlight">\(x\)</span> 属于类别 <span class="math notranslate nohighlight">\(i\)</span>，<span class="math notranslate nohighlight">\(N_i\)</span> 是类别 <span class="math notranslate nohighlight">\(i\)</span> 的样本数量。</p>
-<ul class="simple">
-<li><p>协方差矩阵</p></li>
-<li><p>散度矩阵</p></li>
-<li><p>解广义特征值</p></li>
-</ul>
+<ol class="arabic simple">
+<li><p>均值向量：对于每个类别 <span class="math notranslate nohighlight">\(i\)</span>，计算该类别所有样本特征向量的平均值。这个平均值被称为类别内均值向量 <span class="math notranslate nohighlight">\(\mu_i\)</span>。</p></li>
+</ol>
+<p>公式：<span class="math notranslate nohighlight">\(\mu_i = \frac{1}{N_i} \sum_{x \in i} x\)</span>，其中 <span class="math notranslate nohighlight">\(x\)</span> 属于类别 <span class="math notranslate nohighlight">\(i\)</span>，<span class="math notranslate nohighlight">\(N_i\)</span> 是类别 <span class="math notranslate nohighlight">\(i\)</span> 的样本数量。</p>
+<ol class="arabic simple" start="2">
+<li><p>协方差矩阵：对于每个类别 <span class="math notranslate nohighlight">\(i\)</span>，计算该类别内样本与其类别内均值向量之间的协方差矩阵。协方差矩阵衡量了同一类别内样本之间的差异程度。</p></li>
+</ol>
+<p>公式：<span class="math notranslate nohighlight">\(S_i = \frac{1}{N_i - C} \sum_{x \in i}(x - \mu_i)(x - \mu_i)^T\)</span>，其中 <span class="math notranslate nohighlight">\(C\)</span> 是类别数量。</p>
+<ol class="arabic simple" start="3">
+<li><p>散度矩阵：计算不同类别之间的差异程度。通过计算每个类别均值向量 <span class="math notranslate nohighlight">\(\mu_i\)</span> 与总体均值向量 <span class="math notranslate nohighlight">\(\mu\)</span> 之间的协方差矩阵，可以得到类间散度矩阵 <span class="math notranslate nohighlight">\(S_b\)</span>。</p></li>
+</ol>
+<p>公式：<span class="math notranslate nohighlight">\(S_b = \frac{1}{C-1} \sum_{i=1}^{C} N_i (\mu_i - \mu)(\mu_i - \mu)^T\)</span>，其中 <span class="math notranslate nohighlight">\(\mu\)</span> 是总体均值向量。</p>
+<ol class="arabic simple" start="4">
+<li><p>解广义特征值：LDA的目标是找到一个投影向量 <span class="math notranslate nohighlight">\(w\)</span>，使得投影后的数据能够最大化同类样本之间的差异并最小化不同类样本之间的差异。
+这可以通过求解广义特征值问题来实现。</p></li>
+</ol>
+<p>广义特征值问题的目标函数为：<span class="math notranslate nohighlight">\(J(w) = \frac{w^T S_b w}{w^T S_w w}\)</span>，
+其中 <span class="math notranslate nohighlight">\(S_b\)</span> 是类间散度矩阵，<span class="math notranslate nohighlight">\(S_w\)</span> 是类别内散度矩阵。</p>
 <p>通过求解这个特征值问题，我们可以得到最佳的投影向量 <span class="math notranslate nohighlight">\(w\)</span>，用于将高维数据映射到低维空间，并实现优秀的分类效果。</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -590,7 +598,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2265/3074259613.py:16: MatplotlibDeprecationWarning: The register_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps.register(name)`` instead.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2262/3074259613.py:16: MatplotlibDeprecationWarning: The register_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps.register(name)`` instead.
   plt.cm.register_cmap(cmap=cmap)
 </pre></div>
 </div>
