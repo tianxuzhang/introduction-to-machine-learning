@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>被动攻击算法 &#8212; 机器学习入门</title>
+    <title>矩阵 &#8212; 机器学习入门</title>
   
   
   
@@ -64,11 +64,9 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/回归/被动攻击算法';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/降维/线性代数';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="稳健回归" href="%E7%A8%B3%E5%81%A5%E5%9B%9E%E5%BD%92.html" />
-    <link rel="prev" title="感知器" href="%E6%84%9F%E7%9F%A5%E5%99%A8.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -171,19 +169,19 @@ const thebe_selector_output = ".output, .cell_output"
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">回归</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.html">线性回归</a></li>
-<li class="toctree-l1"><a class="reference internal" href="%E8%B7%9D%E7%A6%BB%E5%92%8C%E8%8C%83%E6%95%B0.html">距离和范数</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.html">线性回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E8%B7%9D%E7%A6%BB%E5%92%8C%E8%8C%83%E6%95%B0.html">距离和范数</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95.html">最小二乘法</a></li>
-<li class="toctree-l1"><a class="reference internal" href="%E6%AD%A3%E5%88%99%E5%8C%96%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.html">正则化线性回归</a></li>
-<li class="toctree-l1"><a class="reference internal" href="%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%9B%9E%E5%BD%92.html">贝叶斯回归</a></li>
-<li class="toctree-l1"><a class="reference internal" href="%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92.html">逻辑回归</a></li>
-<li class="toctree-l1"><a class="reference internal" href="%E9%9A%8F%E6%9C%BA%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D.html">随机梯度下降</a></li>
-<li class="toctree-l1"><a class="reference internal" href="%E6%84%9F%E7%9F%A5%E5%99%A8.html">感知器</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">被动攻击算法</a></li>
-<li class="toctree-l1"><a class="reference internal" href="%E7%A8%B3%E5%81%A5%E5%9B%9E%E5%BD%92.html">稳健回归</a></li>
-<li class="toctree-l1"><a class="reference internal" href="%E5%88%86%E4%BD%8D%E6%95%B0%E5%9B%9E%E5%BD%92.html">分位数回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95.html">最小二乘法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E6%AD%A3%E5%88%99%E5%8C%96%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.html">正则化线性回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%9B%9E%E5%BD%92.html">贝叶斯回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92.html">逻辑回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E9%9A%8F%E6%9C%BA%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D.html">随机梯度下降</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E6%84%9F%E7%9F%A5%E5%99%A8.html">感知器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E8%A2%AB%E5%8A%A8%E6%94%BB%E5%87%BB%E7%AE%97%E6%B3%95.html">被动攻击算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E7%A8%B3%E5%81%A5%E5%9B%9E%E5%BD%92.html">稳健回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E5%88%86%E4%BD%8D%E6%95%B0%E5%9B%9E%E5%BD%92.html">分位数回归</a></li>
 </ul>
 
     </div>
@@ -255,7 +253,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/tianxuzhang/introduction-to-machine-learning/issues/new?title=Issue%20on%20page%20%2Fdocs/回归/被动攻击算法.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/tianxuzhang/introduction-to-machine-learning/issues/new?title=Issue%20on%20page%20%2Fdocs/降维/线性代数.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -285,7 +283,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="../../_sources/docs/回归/被动攻击算法.ipynb" target="_blank"
+      <li><a href="../../_sources/docs/降维/线性代数.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -356,7 +354,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -367,11 +367,19 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>被动攻击算法</h1>
+    <h1>矩阵</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gram">Gram矩阵</a></li>
+</ul>
+            </nav>
         </div>
     </div>
 </div>
@@ -382,124 +390,67 @@ document.write(`
                 <article class="bd-article" role="main">
                   
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
-<h1>被动攻击算法<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h1>
-<p>被动攻击算法（Passive Aggressive Algorithm）由Crammer等人于2006年提出，是一种在线学习算法。思路是在每次训练样本的输入上进行预测，并根据预测结果与真实标签之间的差异来调整模型的参数。其主要思想是在遇到错误预测时采取被动的反应，通过适当的更新规则来修正模型，以尽可能减小损失。</p>
-<p>对于二分类问题，被动攻击算法的步骤如下：</p>
-<hr class="docutils" />
+<h1>矩阵<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h1>
+<section id="gram">
+<h2>Gram矩阵<a class="headerlink" href="#gram" title="Permalink to this heading">#</a></h2>
+<p>矩阵 A 与其转置矩阵 <span class="math notranslate nohighlight">\(A^T\)</span> 的乘积 <span class="math notranslate nohighlight">\(AA^T\)</span> 被称为 “Gram矩阵”（Gram matrix）或者 “自协方差矩阵”（auto-covariance matrix）。</p>
+<p><span class="math notranslate nohighlight">\(AA^T\)</span></p>
+<p>Gram矩阵在线性代数中具有一些重要的应用和性质。</p>
 <ul class="simple">
-<li><p>初始化权重向量和偏置为零向量或随机值。</p></li>
-<li><p>对于每个训练样本 <span class="math notranslate nohighlight">\((x, y)\)</span>，其中 <span class="math notranslate nohighlight">\(x\)</span> 是输入特征向量，<span class="math notranslate nohighlight">\(y\)</span> 是目标标签，值是1或-1：</p>
-<ul>
-<li><p>预测输出：<span class="math notranslate nohighlight">\(\hat{y} = w · x + b\)</span></p></li>
-<li><p>计算损失：<span class="math notranslate nohighlight">\(loss = max(0, 1 - y · \hat{y})\)</span></p>
-<ul>
-<li><p>若预测结果与真实标签一致，即 <span class="math notranslate nohighlight">\(y · \hat{y} &gt;= 1\)</span>，表示预测正确，损失为0；否则，损失大于0，需要进行调整。</p></li>
+<li><p>正定性检验：如果一个方阵 <span class="math notranslate nohighlight">\(A\)</span> 满足 <span class="math notranslate nohighlight">\(AA^T\)</span> 是正定矩阵（positive definite），则 A 被称为正定矩阵。正定矩阵在优化问题、统计学和机器学习等领域中经常用到。</p></li>
+<li><p>协方差矩阵：当 <span class="math notranslate nohighlight">\(A\)</span> 表示一个数据集的特征矩阵时，<span class="math notranslate nohighlight">\(AA^T\)</span> 的结果是该数据集的协方差矩阵。协方差矩阵被广泛应用于统计学、信号处理和机器学习中，用于衡量不同维度之间的变量相关性。</p></li>
+<li><p>特征值分解：对于一个对称矩阵 <span class="math notranslate nohighlight">\(A\)</span>，<span class="math notranslate nohighlight">\(AA^T\)</span> 的特征值分解可以提供关于矩阵 <span class="math notranslate nohighlight">\(A\)</span> 特征向量和特征值的信息。特征值分解在谱聚类、主成分分析（PCA）等降维技术中发挥重要作用。</p></li>
+<li><p>奇异值分解：奇异值分解（Singular Value Decomposition, SVD）是一种将矩阵分解为三个矩阵乘积的方法。在 SVD 中，<span class="math notranslate nohighlight">\(AA^T\)</span> 的特征值分解用于计算矩阵 <span class="math notranslate nohighlight">\(A\)</span> 的奇异值分解。</p></li>
 </ul>
-</li>
-<li><p>如果损失大于0，执行以下更新步骤：</p>
-<ul>
-<li><p><span class="math notranslate nohighlight">\(η\)</span>是学习率，控制每次更新的步长大小。</p></li>
-<li><p>更新权重和偏置：<span class="math notranslate nohighlight">\(w = w + η * y * x，b = b + η * y\)</span></p></li>
-<li><p>这里的学习率<span class="math notranslate nohighlight">\(η\)</span>通常较小，可以控制每次更新的幅度。</p></li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>重复步骤2，直到达到指定的迭代次数或训练误差满足预设条件。</p></li>
-</ul>
-<hr class="docutils" />
-<p>被动攻击算法可用于分类和回归。在被动攻击算法的回归变体中，我们使用不同的损失函数和参数更新规则：</p>
-<hr class="docutils" />
-<ul class="simple">
-<li><p>初始化权重向量<span class="math notranslate nohighlight">\(w\)</span>和偏置<span class="math notranslate nohighlight">\(b\)</span>为零向量或随机值。</p></li>
-<li><p>对于每个训练样本<span class="math notranslate nohighlight">\((x, y)\)</span>，其中<span class="math notranslate nohighlight">\(x\)</span>是输入特征向量，<span class="math notranslate nohighlight">\(y\)</span>是目标值：</p>
-<ul>
-<li><p>预测输出：<span class="math notranslate nohighlight">\( \hat{y} = w \cdot x + b\)</span></p></li>
-<li><p>计算损失：<span class="math notranslate nohighlight">\(loss = \max(0, |y - \hat{y}| - \varepsilon) \)</span></p></li>
-<li><p>如果loss &gt; 0，执行以下更新步骤：</p>
-<ul>
-<li><p><span class="math notranslate nohighlight">\(η\)</span> 是学习率，控制每次更新的步长大小。</p></li>
-<li><p>如果<span class="math notranslate nohighlight">\(y &gt; \hat{y}\)</span>，表示预测值低于目标值，则更新公式为：</p>
-<ul>
-<li><p><span class="math notranslate nohighlight">\(w = w + η * (y - \hat{y}) * x\)</span></p></li>
-<li><p><span class="math notranslate nohighlight">\(b = b + η * (y - \hat{y})\)</span></p></li>
-</ul>
-</li>
-<li><p>如果y &lt; \hat{y}，表示预测值高于目标值，则更新公式为：</p>
-<ul>
-<li><p><span class="math notranslate nohighlight">\(w = w - η * (\hat{y} - y) * x\)</span></p></li>
-<li><p><span class="math notranslate nohighlight">\(b = b - η * (\hat{y} - y)\)</span></p></li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<hr class="docutils" />
-<p>被动攻击算法适用于在线学习和增量学习场景，可以逐步地调整模型以适应新的训练样本。由于其简单性和高效性，被动攻击算法在处理大规模数据集或实时数据流方面具有优势，并在文本分类、情感分析等任务中得到广泛应用。</p>
-<p>在Scikit-learn库中，被动攻击算法（Passive Aggressive Algorithm）有两个主要的实现：PassiveAggressiveRegressor用于回归问题，PassiveAggressiveClassifier用于分类问题。下面是针对这两个问题的示例代码：</p>
-<p>回归问题的示例：</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">PassiveAggressiveRegressor</span>
-
-<span class="c1"># 创建模型对象</span>
-<span class="n">regressor</span> <span class="o">=</span> <span class="n">PassiveAggressiveRegressor</span><span class="p">()</span>
-
-<span class="c1"># 拟合数据</span>
-<span class="n">X_train</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">]]</span>  <span class="c1"># 输入特征</span>
-<span class="n">y_train</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">10</span><span class="p">]</span>           <span class="c1"># 目标值</span>
-<span class="n">regressor</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-
-<span class="c1"># 预测新样本</span>
-<span class="n">X_test</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">6</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">]]</span>  <span class="c1"># 新样本输入特征</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">regressor</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;预测结果：&quot;</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>预测结果： [11.85000009 13.80000009]
-</pre></div>
-</div>
-</div>
-</div>
-<p>分类问题的示例：</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.linear_model</span> <span class="kn">import</span> <span class="n">PassiveAggressiveClassifier</span>
-<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_classification</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
-
-<span class="c1"># 创建模拟数据集</span>
-<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_classification</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-
-<span class="c1"># 划分训练集和测试集</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-
-<span class="c1"># 创建模型对象</span>
-<span class="n">classifier</span> <span class="o">=</span> <span class="n">PassiveAggressiveClassifier</span><span class="p">()</span>
-
-<span class="c1"># 拟合数据</span>
-<span class="n">classifier</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-
-<span class="c1"># 预测测试集</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">classifier</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-
-<span class="c1"># 计算准确率</span>
-<span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;准确率：&quot;</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>准确率： 1.0
-</pre></div>
-</div>
-</div>
-</div>
+<p>让我们通过一个简单的例子来说明矩阵 <span class="math notranslate nohighlight">\(A\)</span> 与其转置矩阵 <span class="math notranslate nohighlight">\(A^T\)</span> 的乘积。</p>
+<p>假设有以下矩阵 <span class="math notranslate nohighlight">\(A\)</span>：</p>
+<p><span class="math notranslate nohighlight">\(
+A = \begin{bmatrix}
+1 &amp; 2 &amp; 3 \\
+4 &amp; 5 &amp; 6 \\
+\end{bmatrix}
+\)</span></p>
+<p>将其转置得到 <span class="math notranslate nohighlight">\(A^T\)</span>：</p>
+<p><span class="math notranslate nohighlight">\(
+A^T = \begin{bmatrix}
+1 &amp; 4 \\
+2 &amp; 5 \\
+3 &amp; 6 \\
+\end{bmatrix}
+\)</span></p>
+<p>现在，我们可以计算 <span class="math notranslate nohighlight">\(A\)</span> 和 <span class="math notranslate nohighlight">\(A^T\)</span> 的乘积 <span class="math notranslate nohighlight">\(AA^T\)</span>：</p>
+<p><span class="math notranslate nohighlight">\(
+AA^T = \begin{bmatrix}
+1 &amp; 2 &amp; 3 \\
+4 &amp; 5 &amp; 6 \\
+\end{bmatrix} \begin{bmatrix}
+1 &amp; 4 \\
+2 &amp; 5 \\
+3 &amp; 6 \\
+\end{bmatrix}
+\)</span></p>
+<p>执行矩阵乘法运算，我们得到：</p>
+<p><span class="math notranslate nohighlight">\(
+AA^T = \begin{bmatrix}
+1 * 1 + 2 * 2 + 3 * 3 &amp; 1 * 4 + 2 * 5 + 3 * 6 \\
+4 * 1 + 5 * 2 + 6 * 3 &amp; 4 * 4 + 5 * 5 + 6 * 6 \\
+\end{bmatrix}
+\)</span></p>
+<p>简化计算，我们得到：</p>
+<p><span class="math notranslate nohighlight">\(
+AA^T = \begin{bmatrix}
+14 &amp; 32 \\
+32 &amp; 77 \\
+\end{bmatrix}
+\)</span></p>
+<p>因此，在这个例子中，矩阵 A 与其转置矩阵 A^T 的乘积为：</p>
+<p><span class="math notranslate nohighlight">\(
+AA^T = \begin{bmatrix}
+14 &amp; 32 \\
+32 &amp; 77 \\
+\end{bmatrix}
+\)</span></p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -515,7 +466,7 @@ document.write(`
         },
         kernelOptions: {
             name: "python3",
-            path: "./docs/回归"
+            path: "./docs/降维"
         },
         predefinedOutput: true
     }
@@ -532,30 +483,26 @@ document.write(`
                 <footer class="prev-next-footer">
                   
 <div class="prev-next-area">
-    <a class="left-prev"
-       href="%E6%84%9F%E7%9F%A5%E5%99%A8.html"
-       title="previous page">
-      <i class="fa-solid fa-angle-left"></i>
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">感知器</p>
-      </div>
-    </a>
-    <a class="right-next"
-       href="%E7%A8%B3%E5%81%A5%E5%9B%9E%E5%BD%92.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">稳健回归</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gram">Gram矩阵</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
               
             
           </div>

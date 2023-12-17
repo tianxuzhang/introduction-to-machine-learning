@@ -378,6 +378,8 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lda">线性判别分析（LDA）</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qda">QDA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lda-vs-qda">LDA vs QDA</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">参考</a></li>
 </ul>
             </nav>
@@ -398,7 +400,10 @@ document.write(`
 <p>LDA的思想是[1]：最大化类间均值，最小化类内方差。意思就是将数据投影在低维度上，并且投影后同种类别数据的投影点尽可能的接近，不同类别数据的投影点的中心点尽可能的远。</p>
 <p>假设我们有两类数据 分别为红色和蓝色，如下图所示，这些数据特征是二维的，我们希望将这些数据投影到一维的一条直线，让每一种类别数据的投影点尽可能的接近，而红色和蓝色数据中心之间的距离尽可能的大。从图中可以看出，右图的投影方式将红色和蓝色全部区分开了。
 <img alt="" src="../../_images/lda.png" /></p>
-<p>LDA的数学公式：</p>
+<p>对于2分类，就是让公式最大化</p>
+<p><span class="math notranslate nohighlight">\(\ \frac{(\bar{x_1} - \bar{x_2})^2}{s_1^2 + s_2^2}\)</span></p>
+<p><img alt="" src="../../_images/lda2.png" /></p>
+<p>对于多分类，LDA的数学表达为[4]：</p>
 <p>LDA首先是为了分类服务的，因此只要找到一个投影方向ω，使得投影后的样本尽可能按照原始类别分开。</p>
 <p>逻辑上我们可能得实现思路是：</p>
 <ol class="arabic simple">
@@ -407,7 +412,7 @@ document.write(`
 <li><p>然后计算类间样本的差异性，尽可能大</p></li>
 <li><p>最后，求目标函数得到投影向量</p></li>
 </ol>
-<p>那么，换成数学表达就是：</p>
+<p>那么，换成数学表达为：</p>
 <ol class="arabic simple">
 <li><p>均值向量：对于每个类别 <span class="math notranslate nohighlight">\(i\)</span>，计算该类别所有样本特征向量的平均值。这个平均值被称为类别内均值向量 <span class="math notranslate nohighlight">\(\mu_i\)</span>。</p></li>
 </ol>
@@ -427,6 +432,49 @@ document.write(`
 <p>广义特征值问题的目标函数为：<span class="math notranslate nohighlight">\(J(w) = \frac{w^T S_b w}{w^T S_w w}\)</span>，
 其中 <span class="math notranslate nohighlight">\(S_b\)</span> 是类间散度矩阵，<span class="math notranslate nohighlight">\(S_w\)</span> 是类别内散度矩阵。</p>
 <p>通过求解这个特征值问题，我们可以得到最佳的投影向量 <span class="math notranslate nohighlight">\(w\)</span>，用于将高维数据映射到低维空间，并实现优秀的分类效果。</p>
+<p>下面通过一个demo演示下sklearn中LDA的使用：</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">sklearn.discriminant_analysis</span> <span class="kn">import</span> <span class="n">LinearDiscriminantAnalysis</span>
+
+<span class="c1"># 生成两个类别的样本数据</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">X1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">cov</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">Y1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>  <span class="c1"># 类别标签为0</span>
+
+<span class="n">X2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">multivariate_normal</span><span class="p">(</span><span class="n">mean</span><span class="o">=</span><span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span> <span class="n">cov</span><span class="o">=</span><span class="p">[[</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.2</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">0.2</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="n">size</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">Y2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>  <span class="c1"># 类别标签为1</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">X1</span><span class="p">,</span> <span class="n">X2</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">Y1</span><span class="p">,</span> <span class="n">Y2</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="c1"># 使用sklearn中的LDA进行分类</span>
+<span class="n">lda</span> <span class="o">=</span> <span class="n">LinearDiscriminantAnalysis</span><span class="p">(</span><span class="n">n_components</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">X_lda</span> <span class="o">=</span> <span class="n">lda</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+
+<span class="c1"># 可视化分类结果</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X_lda</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">X_lda</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">c</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;coolwarm&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;LD1&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/c7da87c445173dccfdb6f3309062cb73efeeb4f1f432ff82fe8ea21670bade32.png" src="../../_images/c7da87c445173dccfdb6f3309062cb73efeeb4f1f432ff82fe8ea21670bade32.png" />
+</div>
+</div>
+</section>
+<section id="qda">
+<h2>QDA<a class="headerlink" href="#qda" title="Permalink to this heading">#</a></h2>
+<p>通常情况下类有不同的协方差，此时 QDA 往往比 LDA 表现得更好。QDA 不是学习直线，而是学习曲线。因此，它也非常适合于一类由非线性决策边界最好分离的情况。</p>
+<p>参考[3]书中的Fig 7. 两个类具有相等的协方差(变量 1 和变量 2 之间的关系对两个类来说是相同的)和不等的协方差的例子。</p>
+<p><img alt="" src="../../_images/qda.png" /></p>
+</section>
+<section id="lda-vs-qda">
+<h2>LDA vs QDA<a class="headerlink" href="#lda-vs-qda" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="nn">mpl</span>
@@ -598,7 +646,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2262/3074259613.py:16: MatplotlibDeprecationWarning: The register_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps.register(name)`` instead.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2329/3074259613.py:16: MatplotlibDeprecationWarning: The register_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps.register(name)`` instead.
   plt.cm.register_cmap(cmap=cmap)
 </pre></div>
 </div>
@@ -613,6 +661,8 @@ document.write(`
 <ul class="simple">
 <li><p>[1] 线性判别分析LDA原理总结 <a class="reference external" href="https://www.cnblogs.com/pinard/p/6244265.html">https://www.cnblogs.com/pinard/p/6244265.html</a></p></li>
 <li><p>[2] 线性判别分析(LDA)详解 <a class="reference external" href="https://blog.csdn.net/weixin_55073640/article/details/124763816">https://blog.csdn.net/weixin_55073640/article/details/124763816</a></p></li>
+<li><p>[3] 《Machine Learning with R, tidyverse, and mlr》 一书的第五章—— 判别分析(discriminant analysis) <a class="reference external" href="https://cloud.tencent.com/developer/article/2009699">https://cloud.tencent.com/developer/article/2009699</a></p></li>
+<li><p>[4] LDA和QDA的推导 <a class="reference external" href="https://zhuanlan.zhihu.com/p/140070299">https://zhuanlan.zhihu.com/p/140070299</a></p></li>
 </ul>
 </section>
 </section>
@@ -663,6 +713,8 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lda">线性判别分析（LDA）</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qda">QDA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lda-vs-qda">LDA vs QDA</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">参考</a></li>
 </ul>
   </nav></div>
