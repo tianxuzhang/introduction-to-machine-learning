@@ -378,6 +378,9 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gram">Gram矩阵</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">广义特征值问题</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">非奇异矩阵</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">拉格朗日乘子法</a></li>
 </ul>
             </nav>
         </div>
@@ -451,6 +454,51 @@ AA^T = \begin{bmatrix}
 \end{bmatrix}
 \)</span></p>
 </section>
+<section id="id2">
+<h2>广义特征值问题<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<p>广义特征值问题（Generalized Eigenvalue Problem）是指在求解形如 <span class="math notranslate nohighlight">\(Ax = λBx\)</span> 的特征值问题中，矩阵 <span class="math notranslate nohighlight">\(A\)</span> 和 <span class="math notranslate nohighlight">\(B\)</span> 不一定是方阵，且矩阵 <span class="math notranslate nohighlight">\(A\)</span> 和 <span class="math notranslate nohighlight">\(B\)</span> 可能不对称。这个问题的解决方案是找到一个向量 <span class="math notranslate nohighlight">\(x\)</span> 和一个标量 <span class="math notranslate nohighlight">\(λ\)</span>，使得等式成立。</p>
+<p>广义特征值问题可以通过广义瑞利商（Generalized Rayleigh quotient）来表示和求解。广义瑞利商是一种用于计算广义特征值的函数。</p>
+<p>给定两个非零向量 <span class="math notranslate nohighlight">\(x\)</span> 和 <span class="math notranslate nohighlight">\(y\)</span>，并且矩阵 <span class="math notranslate nohighlight">\(B\)</span> 是非奇异矩阵，则广义瑞利商定义为：</p>
+<p><span class="math notranslate nohighlight">\(
+R(x, y) = \frac{x^T A y}{x^T B y}
+\)</span></p>
+<p>其中，<span class="math notranslate nohighlight">\(A\)</span> 和 <span class="math notranslate nohighlight">\(B\)</span> 是两个相关联的矩阵。</p>
+<p>要解决广义特征值问题，我们需要找到一个向量 <span class="math notranslate nohighlight">\(x\)</span> 和一个标量 <span class="math notranslate nohighlight">\(λ\)</span>，使得它们满足：</p>
+<p><span class="math notranslate nohighlight">\(Ax = λBx\)</span></p>
+<p>或者，根据广义瑞利商的定义，我们可以将其表示为：</p>
+<p><span class="math notranslate nohighlight">\(R(x, y) = \frac{x^T A x}{x^T B x} = λ\)</span></p>
+<p>通过求解广义瑞利商的最大值或最小值，我们可以找到最大或最小的特征值 <span class="math notranslate nohighlight">\(λ\)</span>，以及对应的特征向量 <span class="math notranslate nohighlight">\(x\)</span>。</p>
+</section>
+<section id="id3">
+<h2>非奇异矩阵<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<p>在线性代数中，一个矩阵被称为非奇异矩阵（non-singular matrix），也被称为可逆矩阵（invertible matrix）或满秩矩阵（full-rank matrix）。非奇异矩阵具有以下特点：</p>
+<ul class="simple">
+<li><p>行列式非零：一个矩阵 <span class="math notranslate nohighlight">\(A\)</span> 如果其行列式（Determinant）不等于零，则矩阵<span class="math notranslate nohighlight">\(A\)</span>是非奇异的。行列式为零意味着矩阵的行或列之间存在线性相关关系，无法求逆。</p></li>
+<li><p>可逆性：非奇异矩阵是可逆的，即存在一个逆矩阵（Inverse Matrix）B，使得 <span class="math notranslate nohighlight">\(AB = BA = I\)</span>，其中 <span class="math notranslate nohighlight">\(I\)</span> 是单位矩阵。逆矩阵用来撤销矩阵的效果，可以还原回原始数据。</p></li>
+<li><p>满秩性：非奇异矩阵是满秩的，即其行向量或列向量的个数与矩阵维度相同，并且线性无关。满秩矩阵的行向量和列向量构成了整个向量空间，不会存在多余的冗余信息。</p></li>
+</ul>
+<p>非奇异矩阵在线性代数和相关领域中具有重要作用和应用。它们具有良好的性质，并且可以用于求解线性方程组、计算矩阵的逆、寻找矩阵特征值等。</p>
+<p>相反，奇异矩阵（singular matrix）是指行列式为零的矩阵。奇异矩阵不可逆，无法求解逆矩阵，也无法撤销其作用。</p>
+</section>
+<section id="id4">
+<h2>拉格朗日乘子法<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
+<p>拉格朗日乘子法（Lagrange Multiplier Method）发生在18世纪。当时，数学家们对于优化问题和约束条件的研究正处于蓬勃发展的阶段。</p>
+<p>在这个时期，人们开始思考如何找到一个函数的最大值或最小值，并受到了经济学和物理学等领域的启发。然而，他们发现，在实际问题中，通常会存在一些限制条件，这使得求解最优解变得更加复杂。</p>
+<p>正是在这样的背景下，拉格朗日乘子法应运而生。当时的数学家拉格朗日（Joseph-Louis Lagrange）成为该方法的奠基人。</p>
+<p>拉格朗日将约束条件与目标函数结合起来，形成一个新的函数，称为拉格朗日函数。这个函数考虑了目标函数和约束条件之间的关系。拉格朗日乘子的作用是平衡目标函数和约束条件对最优解的影响。</p>
+<p>通过对拉格朗日函数进行求导，并令导数等于零，拉格朗日乘子法提供了一种寻找满足约束条件的最优解的方法。这些导数方程形成了一组方程，可以通过求解它们来获得最优解。</p>
+<p>拉格朗日乘子法在当时引起了广泛的关注，并随后被推广应用于处理不等式约束和更复杂的优化问题。</p>
+<hr class="docutils" />
+<p>假设我们有一个优化问题，目标函数为 <span class="math notranslate nohighlight">\(f(\mathbf{x})\)</span>，约束条件为 <span class="math notranslate nohighlight">\(g(\mathbf{x}) = 0\)</span>。使用拉格朗日乘子法，我们可以构建一个拉格朗日函数：</p>
+<p><span class="math notranslate nohighlight">\(L(\mathbf{x}, \lambda) = f(\mathbf{x}) + \lambda g(\mathbf{x})\)</span></p>
+<p>其中，<span class="math notranslate nohighlight">\(\lambda\)</span> 是拉格朗日乘子。我们的目标是在满足约束条件的前提下，最大化或最小化拉格朗日函数 <span class="math notranslate nohighlight">\(L(\mathbf{x}, \lambda)\)</span>。</p>
+<p>要求解该问题，我们需要同时考虑目标函数和约束条件的梯度。首先，我们计算拉格朗日函数的梯度：</p>
+<p><span class="math notranslate nohighlight">\(\nabla L(\mathbf{x}, \lambda) = \nabla f(\mathbf{x}) + \lambda \nabla g(\mathbf{x})\)</span></p>
+<p>然后，我们将梯度等于零，并加上约束条件：</p>
+<p><span class="math notranslate nohighlight">\(\nabla L(\mathbf{x}, \lambda) = \mathbf{0}\)</span></p>
+<p><span class="math notranslate nohighlight">\(g(\mathbf{x}) = 0\)</span></p>
+<p>这样就形成了一组方程，我们可以通过求解这个方程组来找到最优解。具体求解方法可能涉及到数值优化算法，如牛顿法、梯度下降法等。</p>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -499,6 +547,9 @@ AA^T = \begin{bmatrix}
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gram">Gram矩阵</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">广义特征值问题</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">非奇异矩阵</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">拉格朗日乘子法</a></li>
 </ul>
   </nav></div>
 

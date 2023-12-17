@@ -377,10 +377,14 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lda">线性判别分析（LDA）</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lda">线性判别分析（LDA）</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">LDA的数学表达</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">拉格朗日乘子法最大化目标函数</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qda">QDA</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lda-vs-qda">LDA vs QDA</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">参考</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">参考</a></li>
 </ul>
             </nav>
         </div>
@@ -403,6 +407,8 @@ document.write(`
 <p>对于2分类，就是让公式最大化</p>
 <p><span class="math notranslate nohighlight">\(\ \frac{(\bar{x_1} - \bar{x_2})^2}{s_1^2 + s_2^2}\)</span></p>
 <p><img alt="" src="../../_images/lda2.png" /></p>
+<section id="id1">
+<h3>LDA的数学表达<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h3>
 <p>对于多分类，LDA的数学表达为[4]：</p>
 <p>LDA首先是为了分类服务的，因此只要找到一个投影方向ω，使得投影后的样本尽可能按照原始类别分开。</p>
 <p>逻辑上我们可能得实现思路是：</p>
@@ -413,6 +419,7 @@ document.write(`
 <li><p>最后，求目标函数得到投影向量</p></li>
 </ol>
 <p>那么，换成数学表达为：</p>
+<hr class="docutils" />
 <ol class="arabic simple">
 <li><p>均值向量：对于每个类别 <span class="math notranslate nohighlight">\(i\)</span>，计算该类别所有样本特征向量的平均值。这个平均值被称为类别内均值向量 <span class="math notranslate nohighlight">\(\mu_i\)</span>。</p></li>
 </ol>
@@ -420,18 +427,38 @@ document.write(`
 <ol class="arabic simple" start="2">
 <li><p>协方差矩阵：对于每个类别 <span class="math notranslate nohighlight">\(i\)</span>，计算该类别内样本与其类别内均值向量之间的协方差矩阵。协方差矩阵衡量了同一类别内样本之间的差异程度。</p></li>
 </ol>
-<p>公式：<span class="math notranslate nohighlight">\(S_i = \frac{1}{N_i - C} \sum_{x \in i}(x - \mu_i)(x - \mu_i)^T\)</span>，其中 <span class="math notranslate nohighlight">\(C\)</span> 是类别数量。</p>
+<p>公式：<span class="math notranslate nohighlight">\(S_w = \frac{1}{N_i - C} \sum_{x \in i}(x - \mu_i)(x - \mu_i)^T\)</span>，其中 <span class="math notranslate nohighlight">\(C\)</span> 是类别数量。</p>
 <ol class="arabic simple" start="3">
 <li><p>散度矩阵：计算不同类别之间的差异程度。通过计算每个类别均值向量 <span class="math notranslate nohighlight">\(\mu_i\)</span> 与总体均值向量 <span class="math notranslate nohighlight">\(\mu\)</span> 之间的协方差矩阵，可以得到类间散度矩阵 <span class="math notranslate nohighlight">\(S_b\)</span>。</p></li>
 </ol>
 <p>公式：<span class="math notranslate nohighlight">\(S_b = \frac{1}{C-1} \sum_{i=1}^{C} N_i (\mu_i - \mu)(\mu_i - \mu)^T\)</span>，其中 <span class="math notranslate nohighlight">\(\mu\)</span> 是总体均值向量。</p>
 <ol class="arabic simple" start="4">
 <li><p>解广义特征值：LDA的目标是找到一个投影向量 <span class="math notranslate nohighlight">\(w\)</span>，使得投影后的数据能够最大化同类样本之间的差异并最小化不同类样本之间的差异。
-这可以通过求解广义特征值问题来实现。</p></li>
+这可以通过求解广义特征值问题来实现。我们分别定义“类内散度矩阵<span class="math notranslate nohighlight">\(S_w\)</span>”和“类间散度矩阵<span class="math notranslate nohighlight">\(S_b\)</span>”，可将最大化目标转变为<span class="math notranslate nohighlight">\(J\)</span>函数，即<span class="math notranslate nohighlight">\(S_b\)</span>与<span class="math notranslate nohighlight">\(S_w\)</span>的“广义瑞利商”：</p></li>
 </ol>
 <p>广义特征值问题的目标函数为：<span class="math notranslate nohighlight">\(J(w) = \frac{w^T S_b w}{w^T S_w w}\)</span>，
 其中 <span class="math notranslate nohighlight">\(S_b\)</span> 是类间散度矩阵，<span class="math notranslate nohighlight">\(S_w\)</span> 是类别内散度矩阵。</p>
-<p>通过求解这个特征值问题，我们可以得到最佳的投影向量 <span class="math notranslate nohighlight">\(w\)</span>，用于将高维数据映射到低维空间，并实现优秀的分类效果。</p>
+<hr class="docutils" />
+</section>
+<section id="id2">
+<h3>拉格朗日乘子法最大化目标函数<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h3>
+<p>下面推导下怎么求解这个目标函数：</p>
+<hr class="docutils" />
+<p>我们需要使用拉格朗日乘子法来最大化目标函数，令分母为1，目标函数就转变为一个带约束条件 <span class="math notranslate nohighlight">\(w^T S_w w = 1\)</span>的优化问题。那么就可以用拉格朗日乘子法求解。</p>
+<p>首先，我们定义拉格朗日函数：</p>
+<p><span class="math notranslate nohighlight">\(L(w, \lambda) = w^T S_b w - \lambda (w^T S_w w - 1)\)</span></p>
+<p>其中，<span class="math notranslate nohighlight">\(\lambda\)</span> 是拉格朗日乘子。我们需要对 <span class="math notranslate nohighlight">\(L(w, \lambda)\)</span> 求解极大值。</p>
+<p>对 <span class="math notranslate nohighlight">\(L(w, \lambda)\)</span> 分别对 <span class="math notranslate nohighlight">\(w\)</span> 和 <span class="math notranslate nohighlight">\(\lambda\)</span> 求偏导，并令其等于零，得到：</p>
+<p><span class="math notranslate nohighlight">\(\frac{\partial L(w, \lambda)}{\partial w} = 2S_b w - 2\lambda S_w w = 0\)</span></p>
+<p><span class="math notranslate nohighlight">\(\frac{\partial L(w, \lambda)}{\partial \lambda} = w^T S_w w - 1 = 0\)</span></p>
+<p>根据第一个方程可得：</p>
+<p><span class="math notranslate nohighlight">\(S_b w = \lambda S_w w\)</span></p>
+<p>最终，我们得到了 <span class="math notranslate nohighlight">\(S_bw = \lambda S_ww\)</span> 的形式。</p>
+<hr class="docutils" />
+<p>这个推导过程是通过最大化目标函数并应用拉格朗日乘子法得到的。它将权重向量 <span class="math notranslate nohighlight">\(w\)</span> 与类间散度矩阵 <span class="math notranslate nohighlight">\(S_b\)</span> 和类内散度矩阵 <span class="math notranslate nohighlight">\(S_w\)</span> 相关联，其中 <span class="math notranslate nohighlight">\(\lambda\)</span> 是一个常数。</p>
+<p><span class="math notranslate nohighlight">\(S_bw = \lambda S_ww\)</span></p>
+<p>我们可以发现：<span class="math notranslate nohighlight">\(w\)</span>的闭式解是 <span class="math notranslate nohighlight">\(S_w^{-1}S_b\)</span> 的特征向量组成的矩阵，同时我们可以知道最多有<span class="math notranslate nohighlight">\(C-1\)</span>个特征值。</p>
+<p>若将W视为一个投影矩阵，则多分类LDA会将样本投影到最多<span class="math notranslate nohighlight">\(C-1\)</span>维的空间中，因此，可通过这个投影来减少样本点的维数，且投影过程中使用了类别信息，所以LDA也是一种经典的监督降维算法。</p>
 <p>下面通过一个demo演示下sklearn中LDA的使用：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -467,11 +494,13 @@ document.write(`
 </div>
 </div>
 </section>
+</section>
 <section id="qda">
 <h2>QDA<a class="headerlink" href="#qda" title="Permalink to this heading">#</a></h2>
 <p>通常情况下类有不同的协方差，此时 QDA 往往比 LDA 表现得更好。QDA 不是学习直线，而是学习曲线。因此，它也非常适合于一类由非线性决策边界最好分离的情况。</p>
 <p>参考[3]书中的Fig 7. 两个类具有相等的协方差(变量 1 和变量 2 之间的关系对两个类来说是相同的)和不等的协方差的例子。</p>
 <p><img alt="" src="../../_images/qda.png" /></p>
+<p>推导略，看懂了再补上~~~</p>
 </section>
 <section id="lda-vs-qda">
 <h2>LDA vs QDA<a class="headerlink" href="#lda-vs-qda" title="Permalink to this heading">#</a></h2>
@@ -646,7 +675,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2329/3074259613.py:16: MatplotlibDeprecationWarning: The register_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps.register(name)`` instead.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2403/3074259613.py:16: MatplotlibDeprecationWarning: The register_cmap function was deprecated in Matplotlib 3.7 and will be removed two minor releases later. Use ``matplotlib.colormaps.register(name)`` instead.
   plt.cm.register_cmap(cmap=cmap)
 </pre></div>
 </div>
@@ -656,8 +685,8 @@ document.write(`
 <p>线性判别分析和二次判别分析是两个经典的分类器。它们可以很容易计算得到闭式解（即解析解）。</p>
 <p>以上这些图像展示了线性判别分析以及二次判别分析的决策边界。其中，最后一行表明了线性判别分析只能学习线性边界， 而二次判别分析则可以学习二次边界</p>
 </section>
-<section id="id1">
-<h2>参考<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<section id="id3">
+<h2>参考<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p>[1] 线性判别分析LDA原理总结 <a class="reference external" href="https://www.cnblogs.com/pinard/p/6244265.html">https://www.cnblogs.com/pinard/p/6244265.html</a></p></li>
 <li><p>[2] 线性判别分析(LDA)详解 <a class="reference external" href="https://blog.csdn.net/weixin_55073640/article/details/124763816">https://blog.csdn.net/weixin_55073640/article/details/124763816</a></p></li>
@@ -712,10 +741,14 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lda">线性判别分析（LDA）</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lda">线性判别分析（LDA）</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">LDA的数学表达</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">拉格朗日乘子法最大化目标函数</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#qda">QDA</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#lda-vs-qda">LDA vs QDA</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">参考</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">参考</a></li>
 </ul>
   </nav></div>
 
