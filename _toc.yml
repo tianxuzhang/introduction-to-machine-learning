@@ -17,3 +17,6 @@ parts:
     - file: docs/回归/被动攻击算法
     - file: docs/回归/稳健回归
     - file: docs/回归/分位数回归
+    - file: docs/降维/线性代数
+    - file: docs/降维/LDA和QDA
+
