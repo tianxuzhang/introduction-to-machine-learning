@@ -1,0 +1,679 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>决策树 &#8212; 机器学习入门</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
+    <link rel="stylesheet" href="../../_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/clipboard.min.js"></script>
+    <script src="../../_static/copybutton.js"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'docs/分类/决策树';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="LDA和QDA" href="../%E9%99%8D%E7%BB%B4/LDA%E5%92%8CQDA.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+
+<a class="navbar-brand logo" href="../../README.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="机器学习入门 - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="机器学习入门 - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../README.html">
+                    introduction-to-machine-learning
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">回归</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.html">线性回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E8%B7%9D%E7%A6%BB%E5%92%8C%E8%8C%83%E6%95%B0.html">距离和范数</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E6%9C%80%E5%B0%8F%E4%BA%8C%E4%B9%98%E6%B3%95.html">最小二乘法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E6%AD%A3%E5%88%99%E5%8C%96%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.html">正则化线性回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%9B%9E%E5%BD%92.html">贝叶斯回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E9%80%BB%E8%BE%91%E5%9B%9E%E5%BD%92.html">逻辑回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E9%9A%8F%E6%9C%BA%E6%A2%AF%E5%BA%A6%E4%B8%8B%E9%99%8D.html">随机梯度下降</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E6%84%9F%E7%9F%A5%E5%99%A8.html">感知器</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E8%A2%AB%E5%8A%A8%E6%94%BB%E5%87%BB%E7%AE%97%E6%B3%95.html">被动攻击算法</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E7%A8%B3%E5%81%A5%E5%9B%9E%E5%BD%92.html">稳健回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E5%88%86%E4%BD%8D%E6%95%B0%E5%9B%9E%E5%BD%92.html">分位数回归</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E9%99%8D%E7%BB%B4/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0.html">矩阵</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../%E9%99%8D%E7%BB%B4/LDA%E5%92%8CQDA.html">LDA和QDA</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">决策树</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/tianxuzhang/introduction-to-machine-learning" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/tianxuzhang/introduction-to-machine-learning/issues/new?title=Issue%20on%20page%20%2Fdocs/分类/决策树.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/docs/分类/决策树.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>决策树</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">决策树算法流程</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">常见决策树算法</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3-iterative-dichotomiser-3">ID3（Iterative Dichotomiser 3）</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c4-5">C4.5</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cart-classification-and-regression-trees">CART（Classification and Regression Trees）</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chaid-chi-squared-automatic-interaction-detection">CHAID（Chi-squared Automatic Interaction Detection）</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mars-multivariate-adaptive-regression-splines">MARS（Multivariate Adaptive Regression Splines）</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#random-forest">Random Forest（随机森林）</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gbdt-gradient-boosting-decision-trees">GBDT（Gradient Boosting Decision Trees）</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xgboost-extreme-gradient-boosting">XGBoost（eXtreme Gradient Boosting）</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="id1">
+<h1>决策树<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h1>
+<p>假设我们有一个数据集包含鸢尾花的特征（萼片长度、萼片宽度、花瓣长度和花瓣宽度）以及对应的类别（Setosa、Versicolor、Virginica）。最简单的决策树就是个if-else-then的分支。例如对鸢尾花数据分类可以这样做。</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="n">features</span><span class="p">):</span>
+    <span class="c1"># 决策树的判定条件和结果</span>
+    <span class="k">if</span> <span class="n">features</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">2.45</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;setosa&#39;</span>
+    <span class="k">elif</span> <span class="n">features</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">1.75</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">features</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">4.95</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">features</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">1.65</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s1">&#39;versicolor&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s1">&#39;virginica&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">features</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mf">1.55</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s1">&#39;virginica&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s1">&#39;versicolor&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;virginica&#39;</span>
+
+<span class="c1"># 测试样例</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">5.1</span><span class="p">,</span> <span class="mf">3.5</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">],</span>
+                   <span class="p">[</span><span class="mf">6.3</span><span class="p">,</span> <span class="mf">2.9</span><span class="p">,</span> <span class="mf">5.6</span><span class="p">,</span> <span class="mf">1.8</span><span class="p">],</span>
+                   <span class="p">[</span><span class="mf">4.9</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">]])</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X_test</span><span class="p">)):</span>
+    <span class="n">prediction</span> <span class="o">=</span> <span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Sample&quot;</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;prediction:&quot;</span><span class="p">,</span> <span class="n">prediction</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Sample 1 prediction: setosa
+Sample 2 prediction: virginica
+Sample 3 prediction: setosa
+</pre></div>
+</div>
+</div>
+</div>
+<section id="id2">
+<h2>决策树算法流程<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<p>将这个经验法则通过数学和算法的方式来自动化处理，就衍生了很多决策树算法。以鸢尾花分类为例，这些算法基本上是这样的过程：</p>
+<ul class="simple">
+<li><p>特征选择：从训练数据集中选择最优特征作为当前节点的划分特征。通常使用某种准则（如信息增益、基尼指数或信息增益比）来评估特征的重要性。</p></li>
+</ul>
+<p><img alt="" src="../../_images/dicision-tree-label.png" /></p>
+<p><img alt="" src="../../_images/dicision-tree-feature.png" /></p>
+<ul class="simple">
+<li><p>树节点划分：根据选择的特征将训练数据集划分成子集。对于分类问题，每个子集对应于一个特征值或特征值范围；对于回归问题，则根据特征的阈值进行划分。</p></li>
+</ul>
+<p><img alt="" src="../../_images/dicision-tree.png" /></p>
+<ul class="simple">
+<li><p>递归构建子树：对每个子集递归地应用上述步骤，构建决策树的子树。如果子集中的样本属于同一类别（或具有相似的回归值），则停止划分。</p></li>
+</ul>
+<p>第一层</p>
+<p>根节点：被分成17份，8是%2F9否，总体的信息熵为：</p>
+<p><span class="math notranslate nohighlight">\(
+H_0 = - p(是) * log_2(p(是)) - p(否) * log_2(p(否))
+           = - 0.471 * log2(0.471) - 0.529 * log2(0.529)
+           ≈ 0.998
+\)</span></p>
+<p>第二层</p>
+<p>清晰：被分成9份，7是/2否，它的信息熵为：</p>
+<p><span class="math notranslate nohighlight">\(H_1 = - 7 / 9 * log2(7 / 9) - 2 / 9 * log2(2 / 9) = 0.764\)</span></p>
+<p>稍糊：被分成5份，1是/4否，它的信息熵为：</p>
+<p><span class="math notranslate nohighlight">\(H_2 = - 1 / 5 * log2(4 / 5) - 1 / 5 * log2(4 / 5) = 0.722\)</span></p>
+<p>模糊：被分成3份，0是/3否，它的信息熵为：</p>
+<p><span class="math notranslate nohighlight">\(H_3 = 0\)</span></p>
+<p>假设我们选取纹理为分类依据，把它作为根节点，那么第二层的加权信息熵可以定义为：</p>
+<p><span class="math notranslate nohighlight">\(H’ = 9/17 * H_1 + 5/17 * H_2 + 3/17 * H_3 \)</span></p>
+<p>因为<span class="math notranslate nohighlight">\(H’&lt; H\)</span>，也就是随着决策的进行，其不确定度要减小才行，决策肯定是一个由不确定到确定状态的转变。</p>
+<ul class="simple">
+<li><p>剪枝：对生成的决策树进行剪枝操作，以减小过拟合风险。剪枝方法可以是预剪枝（在构建树时提前停止划分）或后剪枝（在完整构建树之后剪掉部分叶节点）。</p></li>
+<li><p>终止条件：根据停止条件，确定是否继续构建子树。常见的停止条件包括达到最大深度、样本数量不足或没有更多特征可用。</p></li>
+<li><p>输出决策树：得到最终的决策树模型，可以将其用于预测新的输入数据。</p></li>
+</ul>
+<p>对于集成学习算法（如随机森林和GBDT），会有一些额外步骤：</p>
+<ul class="simple">
+<li><p>集成学习：对多个决策树进行集成。对于随机森林，每个决策树通过自助采样从原始训练数据集中获得；对于GBDT，每个决策树都是基于前一棵树的残差进行训练。</p></li>
+<li><p>预测结果：对于分类问题，通过投票或多数表决来确定最终的类别；对于回归问题，则取平均或加权平均作为最终的预测值。</p></li>
+</ul>
+</section>
+<section id="id3">
+<h2>常见决策树算法<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<p>信息熵（information entropy）是信息论的基本概念。描述信息源各可能事件发生的不确定性。20世纪40年代，香农（C.E.Shannon）借鉴了热力学的概念，把信息中排除了冗余后的平均信息量称为“信息熵”，并给出了计算信息熵的数学表达式。信息熵的提出解决了对信息的量化度量问题[1]。</p>
+<p>设有一个分类问题的训练数据集S，其中包含C个类别。对于每个类别c，假设样本属于该类别的概率为p©。则数据集S的信息熵定义如下：</p>
+<p><span class="math notranslate nohighlight">\(
+H = \text{Entropy}(S) = -\sum_{c=1}^{C} p(c) \log_{2}(p(c))
+\)</span></p>
+<p>其中，对数函数可以选择任意基数（通常选择2作为基数），p©表示样本属于类别c的概率。</p>
+<p>以下是计算信息熵的简单示例：</p>
+<p><span class="math notranslate nohighlight">\(S = \{ A, A, A, B, B, C \} \)</span></p>
+<p><span class="math notranslate nohighlight">\(
+p(A) = 3/6 = 0.5 \\
+p(B) = 2/6 ≈ 0.333 \\
+p(C) = 1/6 ≈ 0.167
+\)</span></p>
+<p><span class="math notranslate nohighlight">\(
+H = Entropy(S) \\
+= -(0.5 * log_2(0.5) + 0.333 * log_2(0.333) + 0.167 * log_2(0.167)) \\
+≈ -(0.5 * (-1) + 0.333 * (-1.585) + 0.167 * (-2)) \\
+≈ 1.459 \\
+\)</span></p>
+<p>因此，该数据集的信息熵约为1.459。</p>
+<p>通过计算信息熵，我们可以衡量数据集中样本的不确定性程度。在决策树算法中，我们希望选择具有最低信息熵（或最大信息增益）的特征来进行划分，以使得子集的不确定性减少，并提高决策树模型的预测能力。</p>
+<p>越高 = 越混乱 = 越不纯 = 越不确定</p>
+<section id="id3-iterative-dichotomiser-3">
+<h3>ID3（Iterative Dichotomiser 3）<a class="headerlink" href="#id3-iterative-dichotomiser-3" title="Permalink to this heading">#</a></h3>
+<p>使用信息增益作为特征选择准则来构建决策树。适用于离散型特征和多类别问题。</p>
+<p><span class="math notranslate nohighlight">\(Gain(X, Y) = H(Y) - H(Y|X)\)</span></p>
+<p>比如上面实例中我选择纹理作为根节点，将根节点一分为三，则：</p>
+<p><span class="math notranslate nohighlight">\(Gain(X, 纹理) = 0.998 - 0.764 = 0.234\)</span></p>
+<p>意思是，没有选择纹理特征前，是否是好瓜的信息熵为0.998，在我选择了纹理这一特征之后，信息熵下降为0.764，信息熵下降了0.234，也就是信息增益为0.234。</p>
+<p>如果某个特征的信息增益较大，意味着使用该特征进行划分能够带来更多的信息量，因此该特征被认为是比较重要的。</p>
+</section>
+<section id="c4-5">
+<h3>C4.5<a class="headerlink" href="#c4-5" title="Permalink to this heading">#</a></h3>
+<p>C4.5是ID3算法的改进版，使用信息增益比作为特征选择准则。能够处理缺失值，并具有更好的鲁棒性。</p>
+</section>
+<section id="cart-classification-and-regression-trees">
+<h3>CART（Classification and Regression Trees）<a class="headerlink" href="#cart-classification-and-regression-trees" title="Permalink to this heading">#</a></h3>
+<p>通用的决策树算法，可以处理分类和回归问题。使用基尼系数作为特征选择准则，在每个节点上生成二叉树结构。</p>
+</section>
+<section id="chaid-chi-squared-automatic-interaction-detection">
+<h3>CHAID（Chi-squared Automatic Interaction Detection）<a class="headerlink" href="#chaid-chi-squared-automatic-interaction-detection" title="Permalink to this heading">#</a></h3>
+<p>一种基于卡方检验的决策树算法，适用于分类问题。能够处理离散型和连续型特征，并支持多类别问题。</p>
+</section>
+<section id="mars-multivariate-adaptive-regression-splines">
+<h3>MARS（Multivariate Adaptive Regression Splines）<a class="headerlink" href="#mars-multivariate-adaptive-regression-splines" title="Permalink to this heading">#</a></h3>
+<p>基于样条函数的非参数回归方法，通过构建多个分段线性的子模型构建决策树。适用于回归和分类任务。</p>
+</section>
+<section id="random-forest">
+<h3>Random Forest（随机森林）<a class="headerlink" href="#random-forest" title="Permalink to this heading">#</a></h3>
+<p>一种集成学习算法，基于决策树构建多个决策树，并通过投票或平均预测结果来做出最终的分类或回归决策。具有鲁棒性和泛化能力。</p>
+</section>
+<section id="gbdt-gradient-boosting-decision-trees">
+<h3>GBDT（Gradient Boosting Decision Trees）<a class="headerlink" href="#gbdt-gradient-boosting-decision-trees" title="Permalink to this heading">#</a></h3>
+<p>一种梯度提升决策树算法，通过连续训练多个决策树来提高预测性能。每棵树都是基于前一棵树的残差进行训练。</p>
+</section>
+<section id="xgboost-extreme-gradient-boosting">
+<h3>XGBoost（eXtreme Gradient Boosting）<a class="headerlink" href="#xgboost-extreme-gradient-boosting" title="Permalink to this heading">#</a></h3>
+<p>一种梯度提升决策树算法，结合了梯度提升和正则化技术，具有较高的准确性和泛化能力。</p>
+<p>[1] 信息熵 <a class="reference external" href="https://baike.baidu.com/item/%E4%BF%A1%E6%81%AF%E7%86%B5/7302318">https://baike.baidu.com/item/信息熵/7302318</a></p>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./docs/分类"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../%E9%99%8D%E7%BB%B4/LDA%E5%92%8CQDA.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">LDA和QDA</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">决策树算法流程</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">常见决策树算法</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3-iterative-dichotomiser-3">ID3（Iterative Dichotomiser 3）</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c4-5">C4.5</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cart-classification-and-regression-trees">CART（Classification and Regression Trees）</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#chaid-chi-squared-automatic-interaction-detection">CHAID（Chi-squared Automatic Interaction Detection）</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mars-multivariate-adaptive-regression-splines">MARS（Multivariate Adaptive Regression Splines）</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#random-forest">Random Forest（随机森林）</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gbdt-gradient-boosting-decision-trees">GBDT（Gradient Boosting Decision Trees）</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xgboost-extreme-gradient-boosting">XGBoost（eXtreme Gradient Boosting）</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By tianxuzhang
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
