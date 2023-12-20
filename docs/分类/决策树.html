@@ -67,7 +67,8 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/分类/决策树';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="prev" title="LDA和QDA" href="../%E9%99%8D%E7%BB%B4/LDA%E5%92%8CQDA.html" />
+    <link rel="next" title="集成学习" href="%E9%9B%86%E6%88%90%E6%96%B9%E6%B3%95.html" />
+    <link rel="prev" title="分位数回归" href="../%E5%9B%9E%E5%BD%92/%E5%88%86%E4%BD%8D%E6%95%B0%E5%9B%9E%E5%BD%92.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -170,7 +171,7 @@ const thebe_selector_output = ".output, .cell_output"
             </li>
         </ul>
         <p aria-level="2" class="caption" role="heading"><span class="caption-text">回归</span></p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E7%BA%BF%E6%80%A7%E5%9B%9E%E5%BD%92.html">线性回归</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E8%B7%9D%E7%A6%BB%E5%92%8C%E8%8C%83%E6%95%B0.html">距离和范数</a></li>
 
@@ -183,9 +184,16 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E8%A2%AB%E5%8A%A8%E6%94%BB%E5%87%BB%E7%AE%97%E6%B3%95.html">被动攻击算法</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E7%A8%B3%E5%81%A5%E5%9B%9E%E5%BD%92.html">稳健回归</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../%E5%9B%9E%E5%BD%92/%E5%88%86%E4%BD%8D%E6%95%B0%E5%9B%9E%E5%BD%92.html">分位数回归</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">分类</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">决策树</a></li>
+<li class="toctree-l1"><a class="reference internal" href="%E9%9B%86%E6%88%90%E6%96%B9%E6%B3%95.html">集成学习</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">降维</span></p>
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../%E9%99%8D%E7%BB%B4/%E7%BA%BF%E6%80%A7%E4%BB%A3%E6%95%B0.html">矩阵</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../%E9%99%8D%E7%BB%B4/LDA%E5%92%8CQDA.html">LDA和QDA</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">决策树</a></li>
 </ul>
 
     </div>
@@ -388,12 +396,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cart-classification-and-regression-trees">CART（Classification and Regression Trees）</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">集成学习</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#random-forest">Random Forest（随机森林）</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gbdt-gradient-boosting-decision-trees">GBDT（Gradient Boosting Decision Trees）</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xgboost-extreme-gradient-boosting">XGBoost（eXtreme Gradient Boosting）</a></li>
-</ul>
-</li>
 </ul>
             </nav>
         </div>
@@ -541,7 +543,10 @@ H = Entropy(S) \\
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="../../_images/ffee57543fcb9ba0788136ffb2b5969e658f2102b6011e1c4a014807f2f843b3.png" src="../../_images/ffee57543fcb9ba0788136ffb2b5969e658f2102b6011e1c4a014807f2f843b3.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Matplotlib is building the font cache; this may take a moment.
+</pre></div>
+</div>
+<img alt="../../_images/fb800126be3f789cbe93ec18b79074d01c8fe10faf3413d183da66748c0c05f0.png" src="../../_images/fb800126be3f789cbe93ec18b79074d01c8fe10faf3413d183da66748c0c05f0.png" />
 </div>
 </div>
 <section id="id3-iterative-dichotomiser-3">
@@ -567,150 +572,6 @@ H = Entropy(S) \\
 基尼系数越小，不纯度越低，特征越好。这和信息增益（率）正好相反。基尼指数可以用来度量任何不均匀分布，是介于0-1之间的数，0是完全相等，1是完全不相等。</p>
 <p><span class="math notranslate nohighlight">\(Gini(D) = 1 - \sum_{k=1}^{K} (p_k)^2\)</span></p>
 <p>ID3算法只能处理离散特征的分类问题，C4.5能够处理离散特征和连续特征的分类问题，CART算法可以处理离散和连续特征的分类与回归问题。</p>
-</section>
-</section>
-<section id="id4">
-<h2>集成学习<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
-<section id="random-forest">
-<h3>Random Forest（随机森林）<a class="headerlink" href="#random-forest" title="Permalink to this heading">#</a></h3>
-<p>通过构建多个决策树并集成它们来进行分类或回归的。</p>
-<ul class="simple">
-<li><p>自助采样（Bootstrap Sampling）：从原始数据集中有放回地随机抽取样本，构成子集。自助采样可以使用以下公式表示：
-<span class="math notranslate nohighlight">\( D’ = (x_i, y_i) \quad \text{其中} \quad x_i, y_i \in D \)</span></p></li>
-<li><p>特征子集选择：在每个决策树的节点划分时，随机选择一部分特征作为候选划分特征。</p></li>
-<li><p>决策树构建：决策树的构建过程包括选择最佳的划分特征和划分点。常用的划分准则包括基尼指数（Gini Index）和信息增益（Information Gain）等。</p></li>
-<li><p>集成投票：在分类任务中，随机森林通过投票表决的方式来确定最终的分类结果。在回归任务中，随机森林通过对每棵树的预测结果取平均值来得到最终的回归输出。</p></li>
-</ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">RandomForestClassifier</span>
-<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_iris</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">export_graphviz</span>
-<span class="kn">import</span> <span class="nn">pydotplus</span>
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
-<span class="c1"># 加载数据</span>
-<span class="n">data</span> <span class="o">=</span> <span class="n">load_iris</span><span class="p">()</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">data</span>
-<span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">target</span>
-
-<span class="c1"># 划分训练集和测试集</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-
-<span class="c1"># 创建随机森林分类器</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">()</span>
-
-<span class="c1"># 训练模型</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-
-<span class="c1"># 可视化决策树（第一棵树）</span>
-<span class="n">estimator</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">estimators_</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="n">dot_data</span> <span class="o">=</span> <span class="n">export_graphviz</span><span class="p">(</span><span class="n">estimator</span><span class="p">,</span> <span class="n">out_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">feature_names</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">feature_names</span><span class="p">,</span>
-                           <span class="n">class_names</span><span class="o">=</span><span class="n">data</span><span class="o">.</span><span class="n">target_names</span><span class="p">,</span> <span class="n">filled</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">rounded</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">graph</span> <span class="o">=</span> <span class="n">pydotplus</span><span class="o">.</span><span class="n">graph_from_dot_data</span><span class="p">(</span><span class="n">dot_data</span><span class="p">)</span>
-
-<span class="c1"># 保存为图像文件</span>
-<span class="n">graph</span><span class="o">.</span><span class="n">write_png</span><span class="p">(</span><span class="s1">&#39;random_forest_tree.png&#39;</span><span class="p">)</span>
-
-<span class="c1"># 使用matplotlib显示图像</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">plt</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s1">&#39;random_forest_tree.png&#39;</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s1">&#39;off&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">5</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">from</span> <span class="nn">sklearn.tree</span> <span class="kn">import</span> <span class="n">export_graphviz</span>
-<span class="ne">----&gt; </span><span class="mi">5</span> <span class="kn">import</span> <span class="nn">pydotplus</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="c1"># 加载数据</span>
-
-<span class="ne">ModuleNotFoundError</span>: No module named &#39;pydotplus&#39;
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="gbdt-gradient-boosting-decision-trees">
-<h3>GBDT（Gradient Boosting Decision Trees）<a class="headerlink" href="#gbdt-gradient-boosting-decision-trees" title="Permalink to this heading">#</a></h3>
-<p>一种梯度提升决策树算法，通过连续训练多个决策树来提高预测性能。每棵树都是基于前一棵树的残差进行训练。</p>
-<p>GBDT的基本公式可以分为两个部分：损失函数（Loss Function）和决策树更新规则。</p>
-<ul class="simple">
-<li><p>损失函数（Loss Function）：
-在GBDT中，常用的损失函数是平方误差损失函数（Squared Error Loss Function），定义为实际值与预测值之间的平方差。对于回归问题，损失函数的计算公式如下：</p></li>
-</ul>
-<p><span class="math notranslate nohighlight">\( L(y_i, \hat{y}_i) = (y_i - \hat{y}_i)^2 \)</span></p>
-<p>其中，<span class="math notranslate nohighlight">\( y_i \)</span> 是实际值，<span class="math notranslate nohighlight">\( \hat{y}_i \)</span> 是当前模型的预测值。</p>
-<p>对于分类问题，常用的损失函数有交叉熵损失函数（Cross Entropy Loss Function）等。具体的损失函数选择取决于任务的特性和需求。</p>
-<p>决策树更新规则：
-GBDT通过迭代地训练多个决策树，并使每棵树拟合残差来逐步减少损失。在每次迭代中，通过梯度下降的方式更新决策树的拟合结果。决策树的更新规则可以表示为：</p>
-<p><span class="math notranslate nohighlight">\( Tree_m = Tree_{m-1} + \eta \cdot learning_{rate} \cdot Residual \)</span></p>
-<p>其中，<span class="math notranslate nohighlight">\(Tree_m\)</span> 表示第 <span class="math notranslate nohighlight">\(m\)</span> 棵决策树，<span class="math notranslate nohighlight">\(Tree_{m-1}\)</span> 表示第 <span class="math notranslate nohighlight">\(m-1\)</span> 棵决策树的组合结果，<span class="math notranslate nohighlight">\(Residual\)</span> 表示当前模型的预测残差。</p>
-<p><span class="math notranslate nohighlight">\(\eta\)</span> 是学习率（learning rate），用于限制每棵树的贡献，防止过拟合。学习率越小，模型的更新幅度越小，对训练数据的拟合程度相对较低，但能提高泛化能力。</p>
-<p>以上是GBDT中的基本公式，损失函数和决策树更新规则是GBDT算法的核心部分。具体的实现可能会有一些变化，例如在XGBoost和LightGBM中，还引入了正则化项、特征子采样等策略来进一步优化模型性能。</p>
-</section>
-<section id="xgboost-extreme-gradient-boosting">
-<h3>XGBoost（eXtreme Gradient Boosting）<a class="headerlink" href="#xgboost-extreme-gradient-boosting" title="Permalink to this heading">#</a></h3>
-<p>一种梯度提升决策树算法，结合了梯度提升和正则化技术，具有较高的准确性和泛化能力。XGBoost的原理涉及多个细节。以下是一些关键：</p>
-<ul class="simple">
-<li><p>损失函数（Loss Function）：
-在XGBoost中，常用的损失函数包括平方损失函数（Squared Loss），对数损失函数（Logistic Loss）等。以平方损失函数为例，其计算公式如下：</p></li>
-</ul>
-<p><span class="math notranslate nohighlight">\( \mathcal{L}(\hat{y}, y) = \sum_{i=1}^{n} (y_i - \hat{y}_i)^2 \)</span></p>
-<p>其中，<span class="math notranslate nohighlight">\( \mathcal{L}(\hat{y} \)</span>, <span class="math notranslate nohighlight">\( y \)</span> 表示预测值 <span class="math notranslate nohighlight">\( \hat{y} \)</span> 与实际值 <span class="math notranslate nohighlight">\( y \)</span> 之间的平方误差，<span class="math notranslate nohighlight">\( n \)</span> 表示样本数量，<span class="math notranslate nohighlight">\( y_i )\)</span>和 <span class="math notranslate nohighlight">\( \hat{y}_i \)</span> 分别表示第 <span class="math notranslate nohighlight">\( i \)</span> 个样本的实际值和预测值。</p>
-<ul class="simple">
-<li><p>梯度提升（Gradient Boosting）：</p></li>
-</ul>
-<p>XGBoost使用梯度提升算法来迭代地构建多个弱学习器并加权组合。在每次迭代中，通过计算损失函数的负梯度来拟合当前模型的残差。具体而言，对于平方损失函数，残差的计算公式如下：</p>
-<p><span class="math notranslate nohighlight">\( r_{im} = - \frac{\partial \mathcal{L}(\hat{y}, y)}{\partial \hat{y}} \)</span></p>
-<p>其中，<span class="math notranslate nohighlight">\( r_{im} \)</span> 表示第 <span class="math notranslate nohighlight">\( m \)</span> 次迭代中的残差，<span class="math notranslate nohighlight">\( \hat{y} \)</span> 是当前模型对训练样本的预测值。</p>
-<ul class="simple">
-<li><p>决策树模型：</p></li>
-</ul>
-<p>XGBoost采用决策树作为基础学习器。在构建决策树时，通过拟合当前模型的残差来更新每个叶子节点的输出值。更新规则如下：</p>
-<p><span class="math notranslate nohighlight">\( \text{Output}{j} = \sum{i \in I_j} w_i \)</span></p>
-<p>其中，<span class="math notranslate nohighlight">\( \text{Output}_{j} \)</span> 表示第 <span class="math notranslate nohighlight">\( j \)</span> 个叶子节点的输出值，<span class="math notranslate nohighlight">\( I_j \)</span> 是属于叶子节点 <span class="math notranslate nohighlight">\( j \)</span> 的样本索引集合，<span class="math notranslate nohighlight">\( w_i \)</span> 表示样本 <span class="math notranslate nohighlight">\( i \)</span> 的权重。</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="kn">import</span> <span class="n">GradientBoostingClassifier</span>
-<span class="kn">from</span> <span class="nn">sklearn.datasets</span> <span class="kn">import</span> <span class="n">make_classification</span>
-<span class="kn">from</span> <span class="nn">sklearn.model_selection</span> <span class="kn">import</span> <span class="n">train_test_split</span>
-<span class="kn">from</span> <span class="nn">sklearn.metrics</span> <span class="kn">import</span> <span class="n">accuracy_score</span>
-
-<span class="c1"># 生成分类数据集</span>
-<span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_classification</span><span class="p">(</span><span class="n">n_samples</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">n_features</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-
-<span class="c1"># 划分训练集和测试集</span>
-<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
-
-<span class="c1"># 创建GBDT分类器</span>
-<span class="n">model</span> <span class="o">=</span> <span class="n">GradientBoostingClassifier</span><span class="p">()</span>
-
-<span class="c1"># 训练模型</span>
-<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
-
-<span class="c1"># 在测试集上进行预测</span>
-<span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
-
-<span class="c1"># 计算准确率</span>
-<span class="n">accuracy</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Accuracy:&quot;</span><span class="p">,</span> <span class="n">accuracy</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Accuracy: 0.9
-</pre></div>
-</div>
-</div>
-</div>
 <p>[1] 信息熵 <a class="reference external" href="https://baike.baidu.com/item/%E4%BF%A1%E6%81%AF%E7%86%B5/7302318">https://baike.baidu.com/item/信息熵/7302318</a></p>
 </section>
 </section>
@@ -747,13 +608,22 @@ GBDT通过迭代地训练多个决策树，并使每棵树拟合残差来逐步�
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../%E9%99%8D%E7%BB%B4/LDA%E5%92%8CQDA.html"
+       href="../%E5%9B%9E%E5%BD%92/%E5%88%86%E4%BD%8D%E6%95%B0%E5%9B%9E%E5%BD%92.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">LDA和QDA</p>
+        <p class="prev-next-title">分位数回归</p>
       </div>
+    </a>
+    <a class="right-next"
+       href="%E9%9B%86%E6%88%90%E6%96%B9%E6%B3%95.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">集成学习</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -775,12 +645,6 @@ GBDT通过迭代地训练多个决策树，并使每棵树拟合残差来逐步�
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id3-iterative-dichotomiser-3">ID3（Iterative Dichotomiser 3）</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#c4-5">C4.5</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cart-classification-and-regression-trees">CART（Classification and Regression Trees）</a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">集成学习</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#random-forest">Random Forest（随机森林）</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#gbdt-gradient-boosting-decision-trees">GBDT（Gradient Boosting Decision Trees）</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#xgboost-extreme-gradient-boosting">XGBoost（eXtreme Gradient Boosting）</a></li>
 </ul>
 </li>
 </ul>
