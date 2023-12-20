@@ -7,4 +7,3 @@ scikit-learn
 scipy
 pymc3
 graphviz
-python-graphviz
