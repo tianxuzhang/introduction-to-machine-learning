@@ -62,6 +62,8 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="../../_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'docs/分类/支持向量机';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -196,6 +198,7 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="%E5%86%B3%E7%AD%96%E6%A0%91.html">决策树</a></li>
 <li class="toctree-l1"><a class="reference internal" href="%E9%9B%86%E6%88%90%E6%96%B9%E6%B3%95.html">集成学习</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">支持向量机</a></li>
+
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">降维</span></p>
 <ul class="nav bd-sidenav">
@@ -396,11 +399,17 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">核函数</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">支持向量机</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">支持向量</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">核函数</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ovo-vs-ovr">多分类 OvO vs OvR</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#svcnusvclinearsvc">SVC、NuSVC和LinearSVC</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">非均衡问题</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">非均衡问题</a></li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">使用技巧</a></li>
+</ul>
+
             </nav>
         </div>
     </div>
@@ -414,14 +423,40 @@ document.write(`
   <section class="tex2jax_ignore mathjax_ignore" id="id1">
 <h1>支持向量机<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h1>
 <section id="id2">
-<h2>核函数<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<h2>支持向量<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<p>支持向量（Support Vectors）是支持向量机（SVM）算法中的重要概念。在二分类问题中，支持向量指的是位于类别边界或超平面上的训练样本。</p>
+<p>支持向量机的目标是找到一个最优超平面，将不同类别的样本分开。这个超平面由一组特征权重（W）和一个截距（b）定义。在训练过程中，SVM算法会选择一部分训练样本作为支持向量，并利用它们来确定最优超平面的位置和方向。</p>
+<p>支持向量具有以下特性：</p>
+<ul class="simple">
+<li><p>它们是离超平面最近的样本点，可以看作是决策边界的“边界点”。</p></li>
+<li><p>支持向量对于确定超平面的位置和方向非常关键，因为它们决定了超平面的间隔大小。</p></li>
+<li><p>只有支持向量对于模型的训练和预测起作用，其他样本点对于模型没有影响。</p></li>
+</ul>
+<p>在SVM算法中，通过最大化支持向量与超平面之间的间隔，以及根据支持向量的位置进行决策分类。在预测新的样本时，算法会将其与最近的支持向量进行比较，从而判断其所属类别。</p>
+<p>支持向量的数量通常比训练样本的数量少得多，因此SVM算法在处理大规模数据时也具有较高的效率。</p>
+<p><img alt="" src="../../_images/svm.jpg" /></p>
+</section>
+<section id="id3">
+<h2>核函数<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
 <p>在支持向量机（SVM）中，核函数（kernel function）是一种用于将数据映射到高维特征空间的函数。核函数的作用是在原始特征空间中隐式地计算样本之间的相似性或内积，从而使非线性问题可以通过线性分类器进行处理。</p>
 <p>核函数的关键思想是将低维空间中线性不可分的模式转换为高维空间中线性可分的模式。这种转换可以使SVM能够建立一个决策边界，将不同类别的样本正确地分开。通过引入核函数，我们无需直接计算高维特征空间，而只需计算低维空间中的核函数值。</p>
 <p>常见的核函数包括：</p>
-<p>线性核函数（linear kernel）：在原始特征空间中直接计算样本之间的内积，即K(x, y) = x·y。</p>
-<p>多项式核函数（polynomial kernel）：将样本映射到多项式特征空间，通过计算多项式函数来度量样本之间的相似性。</p>
-<p>高斯核函数（Gaussian kernel），也称为径向基函数（Radial Basis Function，RBF）核函数：将样本映射到无限维的特征空间，通过计算样本之间的欧氏距离来度量相似性。</p>
-<p>sigmoid核函数：将样本映射到双曲正切函数的特征空间，通过计算双曲正切函数来度量样本之间的相似性。</p>
+<ul class="simple">
+<li><p>线性核函数（linear kernel）：在原始特征空间中直接计算样本之间的内积。</p></li>
+</ul>
+<p><span class="math notranslate nohighlight">\( \langle x, x'\rangle. \)</span></p>
+<ul class="simple">
+<li><p>多项式核函数（polynomial kernel）：将样本映射到多项式特征空间，通过计算多项式函数来度量样本之间的相似性。</p></li>
+</ul>
+<p><span class="math notranslate nohighlight">\( (\gamma \langle x, x'\rangle + r)^d \)</span>. <span class="math notranslate nohighlight">\(d\)</span> 是关键词 <span class="math notranslate nohighlight">\(degree\)</span>, <span class="math notranslate nohighlight">\(r\)</span> 指定 <span class="math notranslate nohighlight">\( coef0 \)</span>。</p>
+<ul class="simple">
+<li><p>高斯核函数（Gaussian kernel），也称为径向基函数（Radial Basis Function，RBF）核函数：将样本映射到无限维的特征空间，通过计算样本之间的欧氏距离来度量相似性。</p></li>
+</ul>
+<p><span class="math notranslate nohighlight">\(\exp(-\gamma |x-x'|^2)\)</span>. <span class="math notranslate nohighlight">\(\gamma\)</span> 是关键词 <span class="math notranslate nohighlight">\(gamma\)</span>, 必须大于 0。</p>
+<ul class="simple">
+<li><p>sigmoid核函数：将样本映射到双曲正切函数的特征空间，通过计算双曲正切函数来度量样本之间的相似性。</p></li>
+</ul>
+<p><span class="math notranslate nohighlight">\((\tanh(\gamma \langle x,x'\rangle + r))\)</span>, 其中 <span class="math notranslate nohighlight">\(r\)</span> 指定 coef0。</p>
 <p>下面对比下几种方法：</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -471,6 +506,77 @@ document.write(`
 <img alt="../../_images/4b30f149f024beb2a0288bd5e28ccec4a586a86ec3d44bb5ce5da1b0a0e3488a.png" src="../../_images/4b30f149f024beb2a0288bd5e28ccec4a586a86ec3d44bb5ce5da1b0a0e3488a.png" />
 </div>
 </div>
+<p>核函数就是让线性不可分升维后可分。</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head text-left"><p>线性不可分</p></th>
+<th class="head text-left"><p>线性可分</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td class="text-left"><p><img alt="" src="../../_images/svm-linear-unseparable.jpg" /></p></td>
+<td class="text-left"><p><img alt="" src="../../_images/svm-linear-separable.jpg" /></p></td>
+</tr>
+</tbody>
+</table>
+<p>也可以自定义核函数</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">datasets</span><span class="p">,</span> <span class="n">svm</span>
+<span class="kn">from</span> <span class="nn">sklearn.inspection</span> <span class="kn">import</span> <span class="n">DecisionBoundaryDisplay</span>
+
+<span class="c1"># import some data to play with</span>
+<span class="n">iris</span> <span class="o">=</span> <span class="n">datasets</span><span class="o">.</span><span class="n">load_iris</span><span class="p">()</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">data</span><span class="p">[:,</span> <span class="p">:</span><span class="mi">2</span><span class="p">]</span>  <span class="c1"># we only take the first two features. We could</span>
+<span class="c1"># avoid this ugly slicing by using a two-dim dataset</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">iris</span><span class="o">.</span><span class="n">target</span>
+
+
+<span class="k">def</span> <span class="nf">my_kernel</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    We create a custom kernel:</span>
+
+<span class="sd">                 (2  0)</span>
+<span class="sd">    k(X, Y) = X  (    ) Y.T</span>
+<span class="sd">                 (0  1)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">M</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]])</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">M</span><span class="p">),</span> <span class="n">Y</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+
+<span class="n">h</span> <span class="o">=</span> <span class="mf">0.02</span>  <span class="c1"># step size in the mesh</span>
+
+<span class="c1"># we create an instance of SVM and fit out data.</span>
+<span class="n">clf</span> <span class="o">=</span> <span class="n">svm</span><span class="o">.</span><span class="n">SVC</span><span class="p">(</span><span class="n">kernel</span><span class="o">=</span><span class="n">my_kernel</span><span class="p">)</span>
+<span class="n">clf</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">DecisionBoundaryDisplay</span><span class="o">.</span><span class="n">from_estimator</span><span class="p">(</span>
+    <span class="n">clf</span><span class="p">,</span>
+    <span class="n">X</span><span class="p">,</span>
+    <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Paired</span><span class="p">,</span>
+    <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span>
+    <span class="n">response_method</span><span class="o">=</span><span class="s2">&quot;predict&quot;</span><span class="p">,</span>
+    <span class="n">plot_method</span><span class="o">=</span><span class="s2">&quot;pcolormesh&quot;</span><span class="p">,</span>
+    <span class="n">shading</span><span class="o">=</span><span class="s2">&quot;auto&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="c1"># Plot also the training points</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">X</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">X</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">],</span> <span class="n">c</span><span class="o">=</span><span class="n">Y</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">Paired</span><span class="p">,</span> <span class="n">edgecolors</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;3-Class classification using Support Vector Machine with custom kernel&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/8eb09cb6acfc472f4ca528b4560e38c0383afcc1ffa3e1f34f22855b64726853.png" src="../../_images/8eb09cb6acfc472f4ca528b4560e38c0383afcc1ffa3e1f34f22855b64726853.png" />
+</div>
+</div>
+<p>TODO 支持向量机的公式推导</p>
 </section>
 <section id="ovo-vs-ovr">
 <h2>多分类 OvO vs OvR<a class="headerlink" href="#ovo-vs-ovr" title="Permalink to this heading">#</a></h2>
@@ -667,8 +773,8 @@ LinearSVC 准确率: 1.0
 </div>
 </div>
 </section>
-<section id="id3">
-<h2>非均衡问题<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<section id="id4">
+<h2>非均衡问题<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
 <p>非均衡问题（Imbalanced problem）是指在分类问题中，不同类别的样本数量差异很大，其中一个类别的样本数量远远超过另一个类别。这种情况可能会导致模型对多数类别进行较好的预测，而对少数类别进行较差的预测。</p>
 <p>解决非均衡问题的方法有很多，以下是一些常用的方法：</p>
 <p>重采样（Resampling）：通过欠采样或过采样来平衡数据集中的类别数量。欠采样减少多数类别的样本数量，而过采样增加少数类别的样本数量。这些技术可以通过随机丢弃或复制样本来实现。</p>
@@ -747,6 +853,18 @@ LinearSVC 准确率: 1.0
 </div>
 </section>
 </section>
+<section class="tex2jax_ignore mathjax_ignore" id="id5">
+<h1>使用技巧<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h1>
+<ul class="simple">
+<li><p>避免数据复制：确保数据以行优先存储（C-order）的双精度数组形式传递给SVC、SVR、NuSVC和NuSVR，避免不必要的数据复制。</p></li>
+<li><p>内核缓存大小：对于大规模问题，增加内核缓存大小以提高性能，例如将其设置为500MB或1000MB。</p></li>
+<li><p>设置惩罚系数C：根据实际情况调整惩罚系数C。较小的C值可以更好地对估计进行正则化。</p></li>
+<li><p>数据标准化：对输入数据进行标准化，将其范围归一化到[0, 1]或[-1, +1]，或标准化为均值为0，方差为1的分布。确保相同的缩放标准应用于所有测试向量。</p></li>
+<li><p>处理非均衡问题：对于非均衡数据集，可以尝试设置class_weight为’balanced’或调整惩罚系数C来平衡预测结果。</p></li>
+<li><p>控制底层实现的随机性：通过设置random_state参数来控制SVC、NuSVC和LinearSVC底层实现中的随机性。</p></li>
+<li><p>使用L1惩罚生成稀疏解：使用LinearSVC的L1惩罚来生成稀疏解，即特征权重的子集非零。调整C的值可以控制模型复杂度。</p></li>
+</ul>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -812,11 +930,17 @@ LinearSVC 准确率: 1.0
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">核函数</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">支持向量机</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">支持向量</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">核函数</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ovo-vs-ovr">多分类 OvO vs OvR</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#svcnusvclinearsvc">SVC、NuSVC和LinearSVC</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">非均衡问题</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">非均衡问题</a></li>
 </ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">使用技巧</a></li>
+</ul>
+
   </nav></div>
 
 </div></div>
