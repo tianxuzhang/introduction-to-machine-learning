@@ -21,6 +21,7 @@ parts:
     chapters:
     - file: docs/分类/决策树
     - file: docs/分类/集成方法
+    - file: docs/分类/支持向量机
   - caption: 降维
     chapters:
     - file: docs/降维/线性代数
